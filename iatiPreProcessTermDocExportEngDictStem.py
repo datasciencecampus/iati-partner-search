@@ -51,14 +51,14 @@ def preprocessing(p_df, p_text):
     # lowercase
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
     
+    #Remove word if not in English dictionary
+    p_df[p_text] = p_df[p_text].apply(lambda x:" ".join(x for x in x.split() if x in wordstokeep))
+    
     # Remove empty string
     p_df = p_df[p_df[p_text]!='']
     
     #Remove entirely whitespace strings in description column
     p_df = p_df[~p_df[p_text].str.isspace()]
-    
-    #Remove word if not in English dictionary
-    p_df[p_text] = p_df[p_text].apply(lambda x:" ".join(x for x in x.split() if x in wordstokeep))
     
     #Remove english stop words
     stop = stopwords.words('english')
