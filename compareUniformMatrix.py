@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 17 10:14:17 2019
+Create a uniform matrix of same density as document -term matrix
+Run K-means on it incrementing K to generate elbow-curve
 
-@author: t-wilson
 """
 
 import pickle

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 17 16:49:31 2019
+Top tf-idf word per IATI record grouped by K-means cluster
 
-@author: t-wilson
 """
 import pandas as pd
 import pickle
