@@ -29,34 +29,52 @@ X = pickle.load(open(filename,'rb'))
  
 from sklearn.cluster import KMeans
 #Test with n clusters (n_jobs -1 means max processes spawned)
-n_clust_list =[10,20,30,40,50,60]
-for n_clust in n_clust_list:
+
+sofSquares = []
+
+clusterCentroids = {}
+
+for n_clust in range(5, 105, 5):
     km = KMeans(n_clusters=n_clust, n_jobs=-1)
     start = time.time()
     clusters = km.fit(X)
     end = time.time()
     print("{0} clusters: time elapsed: {1} seconds".format(n_clust, end - start))
+    
     #within cluster sum of squares
+    sofSquares.append([n_clust, clusters.inertia_]) 
     print("{0} clusters: within cluster ss: {1}".format(n_clust, clusters.inertia_))
 
-#Show counts per cluster number
-#print(np.unique(clusters.labels_, return_counts=True))
-
-#Check same number of documents returned
-#print(np.unique(clusters.labels_, return_counts=True)[1].sum())
-
-#Show number of iterations of K-means
-#print("number of iterations: {0}".format(clusters.n_iter_))
+    #Show counts per cluster number
+    #print(np.unique(clusters.labels_, return_counts=True))
     
+    #Check same number of documents returned
+    #print(np.unique(clusters.labels_, return_counts=True)[1].sum())
+    
+    #Show number of iterations of K-means
+    #print("number of iterations: {0}".format(clusters.n_iter_))
+    
+    #add the cluster centroids to dict
+    clusterCentroids[n_clust] = clusters.cluster_centers_
     
     #add the cluster number to each input iati record
     df1.insert(df1.shape[1], 'cluster{0}'.format(n_clust), clusters.labels_)
     
-#Show number of records by organisation by cluster
-#print(df1.groupby(['participating.org..Implementing.','cluster{0}'.format(n_clust)]).size())
+    #Show number of records by organisation by cluster
+    #print(df1.groupby(['participating.org..Implementing.','cluster{0}'.format(n_clust)]).size())
     
     #Write cluster assigned to each iati.identifier out to csv
     df1[['iati.identifier', 'cluster{0}'.format(n_clust)]].to_csv(os.path.join(wd,'iati{0}Clusters.csv'.format(n_clust)), encoding='iso-8859-1', index=False)
+
+
+#write ss list to .csv
+ssDF = pd.DataFrame(sofSquares, columns = ['n_clust', 'within_ss'])
+ssDF.to_csv(os.path.join(wd, 'ssResults.csv'), index=False)
+
+#write cluster centroids to pickle file
+out = open(os.path.join(wd, 'clusterCentroidsDict.pkl'), 'wb')
+pickle.dump(clusterCentroids, out)
+out.close()
 
 #####################################################################################################
 #Elbow curve...
