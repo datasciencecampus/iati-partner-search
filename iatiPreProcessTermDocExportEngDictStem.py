@@ -43,7 +43,7 @@ def preprocessing(p_df, p_text):
     p_df[p_text] = p_df[p_text].str.replace('[^\w\s]','')
     
     # remove underscores not picked up as punctuation above
-    p_df[p_text] = p_df[p_text].str.replace('_','')
+    p_df[p_text] = p_df[p_text].str.replace('_',' ')
     
     # remove  numbers
     p_df[p_text] = p_df[p_text].str.replace('[\d+]','')
@@ -54,11 +54,6 @@ def preprocessing(p_df, p_text):
     #Remove word if not in English dictionary
     p_df[p_text] = p_df[p_text].apply(lambda x:" ".join(x for x in x.split() if x in wordstokeep))
     
-    # Remove empty string
-    p_df = p_df[p_df[p_text]!='']
-    
-    #Remove entirely whitespace strings in description column
-    p_df = p_df[~p_df[p_text].str.isspace()]
     
     #Remove english stop words
     stop = stopwords.words('english')
@@ -67,6 +62,12 @@ def preprocessing(p_df, p_text):
     #Porter stemmer
     st = PorterStemmer()
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
+    
+    # Remove empty string
+    p_df = p_df[p_df[p_text]!='']
+    
+    #Remove entirely whitespace strings in description column
+    p_df = p_df[~p_df[p_text].str.isspace()]
 
     return (p_df)
   
