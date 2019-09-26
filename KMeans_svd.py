@@ -25,7 +25,6 @@ df1 = df1[['iati.identifier']]
 import pickle
 pklfile = os.path.join(wd, 'iatiFullTDMstemEngDict.pkl')
 X = pickle.load(open(pklfile,'rb'))
-X.close()
 
 #Apply SVD. n_components = 100 is recommended for LSA according to scikit help doc:
 # https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html

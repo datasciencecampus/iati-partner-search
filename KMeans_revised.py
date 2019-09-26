@@ -21,7 +21,6 @@ df1 = df1[['iati.identifier']]
 import pickle
 filename = os.path.join(wd,'iatiFullTDMstemEngDict.pkl')
 X = pickle.load(open(filename,'rb'))
-filename.close()
 
 #if want to look at X
 #pd.DataFrame(X.toarray(), columns = vectorizer.get_feature_names()).head()
