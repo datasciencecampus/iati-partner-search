@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import os
+import pickle
 
 wd = ''
 
@@ -18,9 +19,8 @@ df1 = df1[['iati.identifier']]
 
 
 #Import Pickle file (need both IATI dataframe and term document matrix to be read in for this script)
-import pickle
-filename = os.path.join(wd,'iatiFullTDMstemEngDict.pkl')
-X = pickle.load(open(filename,'rb'))
+with open(os.path.join(wd,'iatiFullTDMstemEngDict.pkl'), "rb") as f:
+    X = pickle.load(f)
 
 #if want to look at X
 #pd.DataFrame(X.toarray(), columns = vectorizer.get_feature_names()).head()

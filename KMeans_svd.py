@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import time
 import os
 from sklearn.cluster import KMeans
+import pickle
 
 wd = ''
 
@@ -22,9 +23,8 @@ df1 = df1[['iati.identifier']]
 
 
 #Import pickle file of full document-term matrix
-import pickle
-pklfile = os.path.join(wd, 'iatiFullTDMstemEngDict.pkl')
-X = pickle.load(open(pklfile,'rb'))
+with open(os.path.join(wd,'iatiFullTDMstemEngDict.pkl'), "rb") as f:
+    X = pickle.load(f)
 
 #Apply SVD. n_components = 100 is recommended for LSA according to scikit help doc:
 # https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html

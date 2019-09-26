@@ -11,8 +11,8 @@ import numpy as np
 wd =r'C:\Users\t-wilson\Documents\IATI_partner_search\download_stemEngDict'
 
 #1 Read the pickle file for document term matrix into X
-filename = os.path.join(wd,'iatiFullTDMstemEngDict.pkl')
-X = pickle.load(open(filename,'rb'))
+with open(os.path.join(wd,'iatiFullTDMstemEngDict.pkl'), "rb") as f:
+    X = pickle.load(f)
 
 #2 Get the word list
 words_df = pd.read_csv(os.path.join(wd,'wordsListStemEngDict.csv'), names=['word'])
