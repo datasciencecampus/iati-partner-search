@@ -18,6 +18,7 @@ wd =r'C:\Users\t-wilson\Documents\IATI_partner_search\download_stemEngDict'
 #Read in pickle file of doc-term matrix
 filename = os.path.join(wd,'iatiFullTDMstemEngDict.pkl')
 X = pickle.load(open(filename,'rb'))
+filename.close()
 
 #SVD to 100 components
 from sklearn.decomposition import TruncatedSVD
