@@ -105,7 +105,7 @@ df1= preprocessing(df1, 'description')
 
 #write out df with reduced records
 dfout = df1[['iati.identifier','description']]
-dfout.to_csv(os.path.join(wd,'all_used_records_stemEngDict.csv'))
+dfout.to_csv(os.path.join(wd,'all_used_records_lemEngDict.csv'))
 
 #words occuring in only one document will not be included?  
 #min_proportion = 2*1/df1.shape[0]
