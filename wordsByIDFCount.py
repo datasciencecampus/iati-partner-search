@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-1) Take the mean tf-idf per word stored in the document-term matrix calculated by sklearn
-2) Add this mean to the word list and write to csv
+1) Take the idf per word stored in the document-term matrix calculated by sklearn
+2) Count words with tf-idf > 0 as word count
+3) Out put IDF and count list
 """
 
 import pandas as pd
