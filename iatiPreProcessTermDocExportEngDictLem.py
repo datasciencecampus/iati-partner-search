@@ -120,7 +120,7 @@ with open(os.path.join(wd, 'wordList.pkl'), 'wb') as outW:
     pickle.dump(word_list, outW)
 
 #Write X to pickle file
-with open(os.path.join(wd, 'iatiFullTDM.pkl'), 'wb') as out:
+with open(os.path.join(wd, 'iatiFullTDMlemEngDict.pkl'), 'wb') as out:
     pickle.dump(X, out)
     
 #Write out the IDF array to pickle file (one IDF value per unique word)
