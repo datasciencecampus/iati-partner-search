@@ -58,6 +58,7 @@ def get_wordnet_pos(word):
 def append_to_stop(stoplist, inputfile):
     with open(inputfile, 'r') as r:
         new_words = r.read().splitlines()
+        new_words = [w.lower() for w in new_words]
     return stoplist + new_words
 
 def preprocessing(p_df, p_text):
