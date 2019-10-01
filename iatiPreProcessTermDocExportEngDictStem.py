@@ -80,6 +80,8 @@ def preprocessing(p_df, p_text):
     #Porter stemmer
     st = PorterStemmer()
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
+    #Remove stop again as some in stop list are stemmed
+    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
     
     # Remove empty string
     p_df = p_df[p_df[p_text]!='']
