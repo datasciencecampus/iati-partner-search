@@ -23,7 +23,7 @@ wd = ''
 
 #To import full dataset
 df1 = pd.read_csv(os.path.join(wd,'all_downloaded_records.csv'), encoding='iso-8859-1') 
-df1 = df1[['iati.identifier','description','participating.org..Implementing.']]
+df1 = df1[['iati.identifier','description','title']]
 
 #Remove empty string iati identifiers
 df1 = df1[df1['iati.identifier']!= '']
