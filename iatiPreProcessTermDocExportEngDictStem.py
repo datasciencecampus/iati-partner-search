@@ -104,15 +104,15 @@ X = vectorizer.fit_transform(df1['description'])
 
 #write out the list of words to pickle file
 word_list = vectorizer.get_feature_names()
-with open(os.path.join(wd, 'wordList.pkl'), 'wb') as outW:
+with open(os.path.join(wd, 'wordListstemEngDict.pkl'), 'wb') as outW:
     pickle.dump(word_list, outW)
 
 #Write X to pickle file
-with open(os.path.join(wd, 'iatiFullTDM.pkl'), 'wb') as out:
+with open(os.path.join(wd, 'iatiFullTDMstemEngDict.pkl'), 'wb') as out:
     pickle.dump(X, out)
     
 #Write out the IDF array to pickle file (one IDF value per unique word)
-with open(os.path.join(wd, 'iatiTDM_IDF.pkl'), 'wb') as out:
+with open(os.path.join(wd, 'iatiTDM_IDFstemEngDict.pkl'), 'wb') as out:
     pickle.dump(vectorizer.idf_, out)
 
 end = time.time()

@@ -116,7 +116,7 @@ X = vectorizer.fit_transform(df1['description'])
 
 #write out the list of words to pickle file
 word_list = vectorizer.get_feature_names()
-with open(os.path.join(wd, 'wordList.pkl'), 'wb') as outW:
+with open(os.path.join(wd, 'wordListlemEngDict.pkl'), 'wb') as outW:
     pickle.dump(word_list, outW)
 
 #Write X to pickle file
