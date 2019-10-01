@@ -124,7 +124,7 @@ with open(os.path.join(wd, 'iatiFullTDM.pkl'), 'wb') as out:
     pickle.dump(X, out)
     
 #Write out the IDF array to pickle file (one IDF value per unique word)
-with open(os.path.join(wd, 'iatiTDM_IDF.pkl'), 'wb') as out:
+with open(os.path.join(wd, 'iatilemEngDict_IDF.pkl'), 'wb') as out:
     pickle.dump(vectorizer.idf_, out)
 
 end = time.time()
