@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 IATI Partner Search 
-1) Pre-process data - check word is in Eng Dict, then stem
+1) Pre-process data - check word is in Eng Dict, then lemmatise
 2) Create term document matrix
 3) Write term document matrix to Pickle file
 
@@ -13,7 +13,8 @@ import nltk
 import pickle
 import os
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer 
+from nltk.corpus import wordnet
 import time
 
 start = time.time()
@@ -23,7 +24,7 @@ wd = ''
 
 #To import full dataset
 df1 = pd.read_csv(os.path.join(wd,'all_downloaded_records.csv'), encoding='iso-8859-1') 
-df1 = df1[['iati.identifier','description','participating.org..Implementing.']]
+df1 = df1[['iati.identifier','description','title']]
 
 #Remove empty string iati identifiers
 df1 = df1[df1['iati.identifier']!= '']
@@ -36,11 +37,23 @@ df1.loc[~df1['description'].isna() & ~df1['title'].isna(), ['description']] =df1
 #If description is NA replace with title
 df1.loc[df1['description'].isna(), ['description']]=df1['title']
 
+
 #To import 10K
 #data = pd.read_csv(r"C:\Users\t-wilson\Documents\IATI_partner_search\test10k.csv") 
 #df1 = data[['iati-identifier','description','participating-org (Implementing)','reporting-org']]
 
 wordstokeep = set(nltk.corpus.words.words())
+
+def get_wordnet_pos(word):
+    """Map POS tag to first character lemmatize() accepts"""
+    tag = nltk.pos_tag([word])[0][1][0].upper()
+    tag_dict = {"J": wordnet.ADJ,
+                "N": wordnet.NOUN,
+                "V": wordnet.VERB,
+                "R": wordnet.ADV}
+   
+    return tag_dict.get(tag, wordnet.NOUN)
+
 
 def append_to_stop(stoplist, inputfile):
     with open(inputfile, 'r') as r:
@@ -70,16 +83,15 @@ def preprocessing(p_df, p_text):
     #Remove word if not in English dictionary
     p_df[p_text] = p_df[p_text].apply(lambda x:" ".join(x for x in x.split() if x in wordstokeep))
     
-    
     #Remove english stop words
     stop = stopwords.words('english')
     #add custom stop words
     stop = append_to_stop(stop, os.path.join(wd, 'stopwords.txt'))
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
     
-    #Porter stemmer
-    st = PorterStemmer()
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
+    #lemmatise text
+    lemmatizer = WordNetLemmatizer() 
+    p_df[p_text] = p_df[p_text].apply(lambda x:" ".join([lemmatizer.lemmatize(x, get_wordnet_pos(x)) for x in x.split()]))
     
     # Remove empty string
     p_df = p_df[p_df[p_text]!='']

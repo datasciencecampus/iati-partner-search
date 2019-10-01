@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 IATI Partner Search 
-1) Pre-process data 
+1) Pre-process data - lang detect of sentence (slow), keep if English, then stem
 2) Create term document matrix
 3) Write term document matrix to Pickle file
 
@@ -13,7 +13,6 @@ import nltk
 import pickle
 import os
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer 
 from nltk.corpus import wordnet
 from langdetect import detect
@@ -28,6 +27,16 @@ wd = r''
 df1 = pd.read_csv(os.path.join(wd,'all_downloaded_records.csv'), encoding='iso-8859-1') 
 df1 = df1[['iati.identifier','description','participating.org..Implementing.']]
 
+#Remove empty string iati identifiers
+df1 = df1[df1['iati.identifier']!= '']
+df1 = df1[~df1['iati.identifier'].str.isspace()]
+df1 = df1.reset_index(drop=True)
+
+#If both description and title not NA concatenate them into description column
+df1.loc[~df1['description'].isna() & ~df1['title'].isna(), ['description']] =df1['title'] +" "+df1['description'] 
+
+#If description is NA replace with title
+df1.loc[df1['description'].isna(), ['description']]=df1['title']
 
 #To import 10K
 #data = pd.read_csv(os.path.join(wd,"test10k.csv"), encoding='iso-8859-1') 
