@@ -162,3 +162,4 @@ vignettes/*.pdf
 *.knit.md
 
 .DS_Store
+.~lock.*#
