@@ -1,5 +1,3 @@
-## loop to request and download the data from the API
-# last updated 27.09.2019
 # This code makes an API request to the IATI data. It downloads the data in chunks, then saves them as .RData objects on the computer (which seems to be more efficient than .csv)
 # It then loads the .RData objects and stitches them togeather. 
 library(RCurl) # edit with http://www.rpubs.com/Mentors_Ubiqum/list_packages
