@@ -163,3 +163,5 @@ vignettes/*.pdf
 
 .DS_Store
 .~lock.*#
+
+data/*
