@@ -1,13 +1,11 @@
-from utils import get_timestamp_string_prefix
-
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk
-import pickle
-import os
+from os.path import join
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import time
+
+from utils import get_data_path
 
 
 def preprocess_example(file_path_to_data):
@@ -21,152 +19,171 @@ def preprocess_example(file_path_to_data):
 
     """
     print("I am doing something")
-    
+
     return None
 
 
 def get_wordnet_pos(word):
     """Map POS tag to first character lemmatize() accepts"""
     tag = nltk.pos_tag([word])[0][1][0].upper()
-    tag_dict = {"J": wordnet.ADJ,
-                "N": wordnet.NOUN,
-                "V": wordnet.VERB,
-                "R": wordnet.ADV}
+    tag_dict = {
+        "J": wordnet.ADJ,
+        "N": wordnet.NOUN,
+        "V": wordnet.VERB,
+        "R": wordnet.ADV,
+    }
 
     return tag_dict.get(tag, wordnet.NOUN)
 
 
 def preprocessing_language_detection(p_df, p_text):
 
-    #remove na description values
+    # remove na description values
     p_df = p_df.dropna(subset=[p_text])
 
-    #convert to string:
+    # convert to string:
     p_df = p_df.astype(str)
 
     # remove punctuation
-    p_df[p_text] = p_df[p_text].str.replace('[^\w\s]','')
+    p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
 
     # remove underscores not picked up as punctuation above
-    p_df[p_text] = p_df[p_text].str.replace('_','')
+    p_df[p_text] = p_df[p_text].str.replace("_", "")
 
     # remove  numbers
-    p_df[p_text] = p_df[p_text].str.replace('[\d+]','')
+    p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
 
     # lowercase
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
 
     # Remove empty string
-    p_df = p_df[p_df[p_text]!='']
+    p_df = p_df[p_df[p_text] != ""]
 
-    #Remove entirely whitespace strings in description column
+    # Remove entirely whitespace strings in description column
     p_df = p_df[~p_df[p_text].str.isspace()]
 
-#    # only English language please
+    # only English language please
     for index, row in p_df.iterrows():
         try:
-            if detect(row[p_text]) != 'en':
+            if detect(row[p_text]) != "en":
                 p_df = p_df.drop(index)
-        except:
-            #get rid of any garbage
+        except Exception:
+            # get rid of any garbage
             p_df = p_df.drop(index)
 
-    #remove stopwords English
-    stop = stopwords.words('english')
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+    # remove stopwords English
+    stop = stopwords.words("english")
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(x for x in x.split() if x not in stop)
+    )
 
-    #lemmatise text
+    # lemmatise text
     lemmatizer = WordNetLemmatizer()
-    p_df[p_text] = p_df[p_text].apply(lambda x:" ".join([lemmatizer.lemmatize(x, get_wordnet_pos(x)) for x in x.split()]))
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(
+            [lemmatizer.lemmatize(x, get_wordnet_pos(x)) for x in x.split()]
+        )
+    )
 
-    return (p_df)
+    return p_df
 
 
 def preprocessing_eng_only(p_df, p_text):
-    wordstokeep = set(nltk.corpus.words.words())
+    start_time = time.time()
 
-    #remove na description values
+    wordstokeep = set(nltk.corpus.words.words())
+    stop_words = stopwords.words("english")
+
+    print("completed setup in {0} seconds".format(time.time() - start_time))
+
+    # remove na description values
     p_df = p_df.dropna(subset=[p_text])
 
-    #convert to string:
+    print("completed SETUP in {0} seconds".format(time.time() - start_time))
+
+    # convert to string:
     p_df = p_df.astype(str)
 
     # remove punctuation
-    p_df[p_text] = p_df[p_text].str.replace('[^\w\s]','')
+    p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
+
+    print("completed REMOVE PUNCTUATION in {0} seconds".format(time.time() - start_time))
 
     # remove underscores not picked up as punctuation above
-    p_df[p_text] = p_df[p_text].str.replace('_',' ')
+    p_df[p_text] = p_df[p_text].str.replace("_", " ")
+
+    print("completed REMOVE UNDERSCORES in {0} seconds".format(time.time() - start_time))
 
     # remove  numbers
-    p_df[p_text] = p_df[p_text].str.replace('[\d+]','')
+    p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
+
+    print("completed REMOVE NUMBERS in {0} seconds".format(time.time() - start_time))
 
     # lowercase
     p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
 
-    #Remove word if not in English dictionary
-    p_df[p_text] = p_df[p_text].apply(lambda x:" ".join(x for x in x.split() if x in wordstokeep))
+    print("completed MAKE LOWERCASE in {0} seconds".format(time.time() - start_time))
 
+    # Remove word if not in English dictionary
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(x for x in x.split() if x in wordstokeep)
+    )
 
-    #Remove english stop words
-    stop = stopwords.words('english')
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+    print(
+        "completed REMOVE NON-ENGLISH WORDS in {0} seconds".format(time.time() - start_time)
+    )
 
-    #Porter stemmer
+    # Remove english stop words
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(x for x in x.split() if x not in stop_words)
+    )
+
+    print(
+        "completed REMOVE ENGLISH STOP WORDS in {0} seconds".format(time.time() - start_time)
+    )
+
+    # Porter stemmer
     st = PorterStemmer()
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join([st.stem(word) for word in x.split()])
+    )
+
+    print("completed STEMMING in {0} seconds".format(time.time() - start_time))
 
     # Remove empty string
-    p_df = p_df[p_df[p_text]!='']
+    p_df = p_df[p_df[p_text] != ""]
 
-    #Remove entirely whitespace strings in description column
+    print("completed REMOVE EMPTY STRINGS in {0} seconds".format(time.time() - start_time))
+
+    # Remove entirely whitespace strings in description column
     p_df = p_df[~p_df[p_text].str.isspace()]
 
-    return (p_df)
+    print("completed REMOVE WHITESPACE in {0} seconds".format(time.time() - start_time))
+
+    return p_df
+
 
 if __name__ == "__main__":
 
     start = time.time()
 
-    #set working_directory to path to input files and where outputs will be written (leave blank if same directory as this script)
-    working_directory = ''
+    # set working_directory to path to input files and where outputs will be written (leave blank if same directory as this script)
+    INPUT_DATA_FILENAME = "all_downloaded_records.csv"
 
-    INPUT_DATA_DIRECTORY = "data"
-    INPUT_DATA_FILENAME = 'all_downloaded_records.csv'
+    INTERIM_DATA_TERM_DOCUMENT_MATRIX = "iatiFullTDM.pkl"
+    INTERIM_DATA_USED_RECORDS = "all_used_records_stemEngDict.csv"
 
-    INTERIM_DATA_DIRECTORY = 'interim_data'
-    INTERIM_DATA_WORD_LIST = 'wordList.pkl'
-    INTERIM_DATA_TERM_DOCUMENT_MATRIX = 'iatiFullTDM.pkl'
-    INTERIM_DATA_USED_RECORDS = 'all_used_records_stemEngDict.csv'
+    # To import full dataset
+    df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
 
-    #To import full dataset
-    df1 = pd.read_csv(os.path.join(working_directory, INPUT_DATA_DIRECTORY, INPUT_DATA_FILENAME), encoding='iso-8859-1')
-    df1 = df1[['iati.identifier','description','participating.org..Implementing.']]
+    df1 = df1[["iati.identifier", "description"]]
 
-    #To import 10K
-    #data = pd.read_csv(r"C:\Users\t-wilson\Documents\IATI_partner_search\test10k.csv")
-    #df1 = data[['iati-identifier','description','participating-org (Implementing)','reporting-org']]
+    # preprocessing
+    df1 = preprocessing_eng_only(df1, "description")
 
-    df1= preprocessing_eng_only(df1, 'description')
-
-    #write out df with reduced records
-    dfout = df1[['iati.identifier','description']]
-    dfout.to_csv(os.path.join(working_directory, INTERIM_DATA_DIRECTORY, INTERIM_DATA_USED_RECORDS))
-
-    #words occuring in only one document will not be included?
-    #min_proportion = 2*1/df1.shape[0]
-
-    #Build document-term matrix
-    vectorizer = TfidfVectorizer(min_df = 0) #replace with min_proportion variable if wish
-    X = vectorizer.fit_transform(df1['description'])
-
-    #write out the list of words to pickle file
-    word_list = vectorizer.get_feature_names()
-    with open(os.path.join(working_directory, INPUT_DATA_DIRECTORY, INTERIM_DATA_WORD_LIST), 'wb') as output_file:
-        pickle.dump(word_list, output_file)
-
-    #Write X to pickle file
-    with open(os.path.join(working_directory, INPUT_DATA_DIRECTORY, INTERIM_DATA_TERM_DOCUMENT_MATRIX), 'wb') as output_file:
-        pickle.dump(X, output_file)
+    # write out df with reduced records
+    dfout = df1[["iati.identifier", "description"]]
+    dfout.to_csv(join(join(get_data_path(), INTERIM_DATA_USED_RECORDS)))
 
     end = time.time()
 
