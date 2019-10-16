@@ -6,6 +6,7 @@ from nltk.stem.porter import PorterStemmer
 import time
 
 from utils import get_data_path
+from constants import PROCESSED_RECORDS_FILENAME, INPUT_DATA_FILENAME
 
 
 def preprocess_example(file_path_to_data):
@@ -107,12 +108,16 @@ def preprocessing_eng_only(p_df, p_text):
     # remove punctuation
     p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
 
-    print("completed REMOVE PUNCTUATION in {0} seconds".format(time.time() - start_time))
+    print(
+        "completed REMOVE PUNCTUATION in {0} seconds".format(time.time() - start_time)
+    )
 
     # remove underscores not picked up as punctuation above
     p_df[p_text] = p_df[p_text].str.replace("_", " ")
 
-    print("completed REMOVE UNDERSCORES in {0} seconds".format(time.time() - start_time))
+    print(
+        "completed REMOVE UNDERSCORES in {0} seconds".format(time.time() - start_time)
+    )
 
     # remove  numbers
     p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
@@ -130,7 +135,9 @@ def preprocessing_eng_only(p_df, p_text):
     )
 
     print(
-        "completed REMOVE NON-ENGLISH WORDS in {0} seconds".format(time.time() - start_time)
+        "completed REMOVE NON-ENGLISH WORDS in {0} seconds".format(
+            time.time() - start_time
+        )
     )
 
     # Remove english stop words
@@ -139,7 +146,9 @@ def preprocessing_eng_only(p_df, p_text):
     )
 
     print(
-        "completed REMOVE ENGLISH STOP WORDS in {0} seconds".format(time.time() - start_time)
+        "completed REMOVE ENGLISH STOP WORDS in {0} seconds".format(
+            time.time() - start_time
+        )
     )
 
     # Porter stemmer
@@ -153,7 +162,9 @@ def preprocessing_eng_only(p_df, p_text):
     # Remove empty string
     p_df = p_df[p_df[p_text] != ""]
 
-    print("completed REMOVE EMPTY STRINGS in {0} seconds".format(time.time() - start_time))
+    print(
+        "completed REMOVE EMPTY STRINGS in {0} seconds".format(time.time() - start_time)
+    )
 
     # Remove entirely whitespace strings in description column
     p_df = p_df[~p_df[p_text].str.isspace()]
@@ -167,11 +178,6 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    INPUT_DATA_FILENAME = "all_downloaded_records.csv"
-
-    INTERIM_DATA_TERM_DOCUMENT_MATRIX = "iatiFullTDM.pkl"
-    INTERIM_DATA_USED_RECORDS = "all_used_records_stemEngDict.csv"
-
     # To import full dataset
     df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
 
@@ -182,7 +188,7 @@ if __name__ == "__main__":
 
     # write out df with reduced records
     dfout = df1[["iati.identifier", "description"]]
-    dfout.to_csv(join(join(get_data_path(), INTERIM_DATA_USED_RECORDS)))
+    dfout.to_csv(join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)))
 
     end = time.time()
 
