@@ -1,8 +1,10 @@
 import pandas as pd
 import nltk
 from os.path import join
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, wordnet
 from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+from langdetect import detect
 import time
 
 from utils import get_data_path
@@ -172,6 +174,12 @@ def preprocessing_eng_only(p_df, p_text):
     print("completed REMOVE WHITESPACE in {0} seconds".format(time.time() - start_time))
 
     return p_df
+
+
+def preprocessing_eng_only_query_text(query_text):
+    # transform into dataframe
+    df = pd.DataFrame([query_text], columns=["description"])
+    return preprocessing_eng_only(df, "description")
 
 
 if __name__ == "__main__":

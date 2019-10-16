@@ -1,6 +1,6 @@
 from utils import get_timestamp_string_prefix, get_data_path
 from preprocessing import preprocessing_eng_only
-from vectorize import vectorize
+from vectorize import create_tfidf_term_document_matrix
 
 
 def download_data():
@@ -13,11 +13,14 @@ def download_data():
 def main():
     download_data()
     preprocessing_eng_only()
-    vectorize()
+    create_tfidf_term_document_matrix()
 
 
 def process_query(query_text):
-    pass
+    processed_df = preprocessing_eng_only_query_text(query_text)
+    vectorized_query = vectorize_input_text(
+        processed_query_dataframe, vectorizer_filename
+    )
 
 
 if __name__ == "__main__":
