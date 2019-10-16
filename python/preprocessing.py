@@ -167,7 +167,6 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    # set working_directory to path to input files and where outputs will be written (leave blank if same directory as this script)
     INPUT_DATA_FILENAME = "all_downloaded_records.csv"
 
     INTERIM_DATA_TERM_DOCUMENT_MATRIX = "iatiFullTDM.pkl"
