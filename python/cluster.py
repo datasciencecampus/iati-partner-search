@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-IATI Partner Search K-means
-
-"""
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,6 +5,19 @@ import time
 import os
 import pickle
 from sklearn.cluster import KMeans
+
+
+def plot_kmean_results(result_dict):
+    """
+    plot the results of kmeans clustering
+
+    input:
+        result_dict: with mapping of 'number of clusters':'within cluster ss'
+    """
+    #Plot the elbow curve
+    plt.plot(list(result_dict.keys()), list(result_dict.values()), 'bx-')
+    plt.xlabel('k')
+    plt.ylabel('within cluster ss')
 
 
 def kmeans_original():
@@ -88,9 +95,7 @@ def kmeans_original():
     #print("time elapsed: {0} seconds".format(end - start))
 
     #Plot the elbow curve
-    #plt.plot(list(result_dict.keys()), list(result_dict.values()), 'bx-')
-    #plt.xlabel('k')
-    #plt.ylabel('within cluster ss')
+    plot_kmean_results(result_dict)
 
 
 def kmeans_svd():
@@ -162,10 +167,11 @@ def kmeans_svd():
         end = time.time()
         print("{0} clusters - time elapsed: {1} seconds".format(i, end - start))
 
-    #Plot the elbow curve
-    plt.plot(list(result_dict.keys()), list(result_dict.values()), 'bx-')
-    plt.xlabel('k')
-    plt.ylabel('within cluster ss')
+    plot_kmean_results(result_dict)
 
     with open(os.path.join(wd, 'clusterElbowResSVD.pkl'), 'wb') as out:
         pickle.dump(result_dict, out)
+
+
+if __name__ = "__main__":
+    pass
