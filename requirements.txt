@@ -1,0 +1,6 @@
+sklearn
+scipy
+nltk
+langdetect
+numpy
+pandas
