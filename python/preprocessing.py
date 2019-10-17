@@ -7,8 +7,8 @@ from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 import time
 
-from utils import get_data_path
-from constants import PROCESSED_RECORDS_FILENAME, INPUT_DATA_FILENAME
+from utils import get_data_path, get_stop_path
+from constants import PROCESSED_RECORDS_FILENAME, INPUT_DATA_FILENAME, STOPWORDS_FILENAME
 
 
 def preprocess_example(file_path_to_data):
@@ -37,6 +37,12 @@ def get_wordnet_pos(word):
     }
 
     return tag_dict.get(tag, wordnet.NOUN)
+
+def append_to_stop(stoplist, inputfile):
+    with open(inputfile, 'r') as r:
+        new_words = r.read().splitlines()
+        new_words = [w.lower() for w in new_words]
+    return stoplist + new_words
 
 
 def preprocessing_language_detection(p_df, p_text):
@@ -76,6 +82,7 @@ def preprocessing_language_detection(p_df, p_text):
 
     # remove stopwords English
     stop = stopwords.words("english")
+    stop = append_to_stop(stop, join(get_stop_path(), STOPWORDS_FILENAME))
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x not in stop)
     )
@@ -95,7 +102,6 @@ def preprocessing_eng_only(p_df, p_text):
     start_time = time.time()
 
     wordstokeep = set(nltk.corpus.words.words())
-    stop_words = stopwords.words("english")
 
     print("completed setup in {0} seconds".format(time.time() - start_time))
 
@@ -143,8 +149,10 @@ def preprocessing_eng_only(p_df, p_text):
     )
 
     # Remove english stop words
+    stop = stopwords.words("english")
+    stop = append_to_stop(stop, join(get_stop_path(), STOPWORDS_FILENAME))
     p_df[p_text] = p_df[p_text].apply(
-        lambda x: " ".join(x for x in x.split() if x not in stop_words)
+        lambda x: " ".join(x for x in x.split() if x not in stop)
     )
 
     print(
@@ -179,7 +187,7 @@ def preprocessing_eng_only(p_df, p_text):
 def preprocessing_eng_only_query_text(query_text):
     # transform into dataframe
     df = pd.DataFrame([query_text], columns=["description"])
-    return preprocessing_eng_only(df, "description")
+    return preprocessing_language_detection(df, "description")
 
 
 if __name__ == "__main__":

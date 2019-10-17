@@ -4,43 +4,56 @@ from utils import get_data_path
 import pandas as pd
 import time
 
+
 def process_results(initial_result_df, full_iati_df, number_of_results=100):
-    
+
     start_time = time.time()
-    keep_columns = ['iati.identifier','sector','reporting.org','participating.org..Implementing.','title', 'description']
+    keep_columns = [
+        "iati.identifier",
+        "sector",
+        "reporting.org",
+        "participating.org..Implementing.",
+        "title",
+        "description",
+    ]
     full_iati_df = full_iati_df[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
-    
-    #Select unique record on all fields but iati.identifier, include iati.identifer of 1st record in duplicate set (!!!)
-    make_unique = [f for f in keep_columns if f !='iati.identifier']
+
+    # Select unique record on all fields but iati.identifier, include iati.identifer of 1st record in duplicate set (!!!)
+    make_unique = [f for f in keep_columns if f != "iati.identifier"]
     full_iati_df.drop_duplicates(subset=make_unique, keep="first")
     print("duplicates dropped after {} seconds".format(time.time() - start_time))
-    
-    
-    full_iati_df = full_iati_df.merge(initial_result_df, on='iati.identifier', how='inner')
+
+    full_iati_df = full_iati_df.merge(
+        initial_result_df, on="iati.identifier", how="inner"
+    )
     print("joined cosine res after {} seconds".format(time.time() - start_time))
-    
-    full_iati_df.sort_values(by='cosine_sim', ascending=False, inplace=True)
+
+    full_iati_df.sort_values(by="cosine_sim", ascending=False, inplace=True)
     print("sorted by res after {} seconds".format(time.time() - start_time))
-    
+
     full_iati_df = full_iati_df.head(number_of_results)
     print("limited after {} seconds".format(time.time() - start_time))
-    
+
     """further filtering ideas remove results with null description e.g. matched on title alone"""
-    
+
     return full_iati_df
 
 
 if __name__ == "__main__":
-    
-    full_df = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
-    
-    cosine_res_df = pd.read_csv(join(get_data_path(), COSINE_FILENAME), encoding="iso-8859-1")
-    
+
+    full_df = pd.read_csv(
+        join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+    )
+
+    cosine_res_df = pd.read_csv(
+        join(get_data_path(), COSINE_FILENAME), encoding="iso-8859-1"
+    )
+
     refined_res = process_results(cosine_res_df, full_df, 100)
-    
-    
-#column names in the provisional larger IATI dataset
+
+
+# column names in the provisional larger IATI dataset
 
 """
 iati.identifier
