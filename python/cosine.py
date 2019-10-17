@@ -41,7 +41,7 @@ if __name__ == "__main__":
     barriers to healthier behaviors."""
     
     #Or uncomment below if wish to test input text at runtime
-    #query = input("Please enter search text")
+    #query = input("Please enter search text:\n")
     
     query_df = preprocessing_eng_only_query_text(query)
     

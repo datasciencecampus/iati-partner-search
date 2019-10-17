@@ -2,7 +2,6 @@ from constants import INPUT_DATA_FILENAME, COSINE_FILENAME
 from os.path import join
 from utils import get_data_path
 import pandas as pd
-
 import time
 
 def process_results(init_res_df, full_iati_df, limit_res):
@@ -23,7 +22,7 @@ def process_results(init_res_df, full_iati_df, limit_res):
     
     full_iati_df.sort_values(by='cosine_sim', ascending=False, inplace=True)
     print("sorted by res after {} seconds".format(time.time() - start_time))
-   
+    
     full_iati_df = full_iati_df.head(limit_res)
     print("limited after {} seconds".format(time.time() - start_time))
     
@@ -39,7 +38,6 @@ if __name__ == "__main__":
     cosine_res_df = pd.read_csv(join(get_data_path(), COSINE_FILENAME), encoding="iso-8859-1")
     
     refined_res = process_results(cosine_res_df, full_df, 100)
-    
     
     
 #column names in the provisional larger IATI dataset
