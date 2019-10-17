@@ -7,7 +7,7 @@ from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 import time
 
-from utils import get_data_path, get_stop_path
+from utils import get_data_path, get_input_path
 from constants import PROCESSED_RECORDS_FILENAME, INPUT_DATA_FILENAME, STOPWORDS_FILENAME
 
 
@@ -82,7 +82,7 @@ def preprocessing_language_detection(p_df, p_text):
 
     # remove stopwords English
     stop = stopwords.words("english")
-    stop = append_to_stop(stop, join(get_stop_path(), STOPWORDS_FILENAME))
+    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x not in stop)
     )
@@ -150,7 +150,7 @@ def preprocessing_eng_only(p_df, p_text):
 
     # Remove english stop words
     stop = stopwords.words("english")
-    stop = append_to_stop(stop, join(get_stop_path(), STOPWORDS_FILENAME))
+    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x not in stop)
     )

@@ -15,7 +15,7 @@ def get_data_path():
     """
     return join(dirname(dirname(abspath(__file__))), "data")
 
-def get_stop_path():
+def get_input_path():
     """
     Return the absolute filepath of the data directory
 
