@@ -8,7 +8,7 @@ from os.path import join
 from constants import PROCESSED_RECORDS_FILENAME, TERM_DOCUMENT_MATRIX_FILENAME, VECTORIZER_FILENAME, COSINE_FILENAME
 import time
 
-def get_cosine_similarity(TDM_filename, IATI_records, processed_user_query_vector):
+def get_cosine_similarity(tdm_filename, iati_records, processed_user_query_vector):
     """
     input:
         TDM
@@ -20,12 +20,12 @@ def get_cosine_similarity(TDM_filename, IATI_records, processed_user_query_vecto
     """
     cosine_array = cosine_similarity(TDM_filename, processed_user_query_vector)
     
-    IATI_records['cosine_sim'] = cosine_array
+    iati_records['cosine_sim'] = cosine_array
     
     #Remove all non-zero results?
-    IATI_records = IATI_records[IATI_records['cosine_sim']>0]
+   iati_records = iati_records[iati_records['cosine_sim']>0]
     
-    return IATI_records
+    return iati_records
 
 if __name__ == "__main__":
     

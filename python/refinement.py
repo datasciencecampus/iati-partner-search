@@ -4,7 +4,7 @@ from utils import get_data_path
 import pandas as pd
 import time
 
-def process_results(init_res_df, full_iati_df, limit_res):
+def process_results(initial_result_df, full_iati_df, number_of_results=100):
     
     start_time = time.time()
     keep_columns = ['iati.identifier','sector','reporting.org','participating.org..Implementing.','title', 'description']
@@ -17,13 +17,13 @@ def process_results(init_res_df, full_iati_df, limit_res):
     print("duplicates dropped after {} seconds".format(time.time() - start_time))
     
     
-    full_iati_df = full_iati_df.merge(init_res_df, on='iati.identifier', how='inner')
+    full_iati_df = full_iati_df.merge(initial_result_df, on='iati.identifier', how='inner')
     print("joined cosine res after {} seconds".format(time.time() - start_time))
     
     full_iati_df.sort_values(by='cosine_sim', ascending=False, inplace=True)
     print("sorted by res after {} seconds".format(time.time() - start_time))
     
-    full_iati_df = full_iati_df.head(limit_res)
+    full_iati_df = full_iati_df.head(number_of_results)
     print("limited after {} seconds".format(time.time() - start_time))
     
     """further filtering ideas remove results with null description e.g. matched on title alone"""
