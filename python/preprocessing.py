@@ -187,7 +187,7 @@ def preprocessing_eng_only(p_df, p_text):
 def preprocessing_eng_only_query_text(query_text):
     # transform into dataframe
     df = pd.DataFrame([query_text], columns=["description"])
-    return preprocessing_language_detection(df, "description")
+    return preprocessing_eng_only(df, "description")
 
 
 if __name__ == "__main__":
