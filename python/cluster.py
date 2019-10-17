@@ -2,9 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-import os
+from os.path import join
 import pickle
 from sklearn.cluster import KMeans
+from constants import PROCESSED_RECORDS_FILENAME, TERM_DOCUMENT_MATRIX_FILENAME
+from utils import get_data_path
+from sklearn.decomposition import TruncatedSVD
 
 
 def plot_kmean_results(result_dict):
@@ -20,29 +23,28 @@ def plot_kmean_results(result_dict):
     plt.ylabel('within cluster ss')
 
 
-def kmeans_original():
-    wd = ''
+def append_to_csv(filename, l):
+        with open(filename, 'a') as f:
+            f.write(','.join(str(a) for a in l)+'\n')
 
+
+def kmeans_original():
     #Import iati.identifier csv for records included in doc-term matrix
-    df1 = pd.read_csv(os.path.join(wd,'all_used_records_stemEngDict.csv'), encoding='iso-8859-1') 
+    df1 = pd.read_csv(join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding='iso-8859-1') 
     df1 = df1[['iati.identifier']]
 
 
     #Import Pickle file (need both IATI dataframe and term document matrix to be read in for this script)
-    with open(os.path.join(wd,'iatiFullTDMstemEngDict.pkl'), "rb") as f:
-        X = pickle.load(f)
+    with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
+        X = pickle.load(_file)
 
     #if want to look at X
     #pd.DataFrame(X.toarray(), columns = vectorizer.get_feature_names()).head()
     #shape of term-document matrix
     #X.toarray().shape
     
-    from sklearn.cluster import KMeans
+    
     #Test with n clusters (n_jobs -1 means max processes spawned)
-
-    def append_to_csv(filename, l):
-        with open(filename, 'a') as f:
-            f.write(','.join(str(a) for a in l)+'\n')
 
     for n_clust in range(5, 105, 5):
         km = KMeans(n_clusters=n_clust, n_jobs=-1)
@@ -99,22 +101,19 @@ def kmeans_original():
 
 
 def kmeans_svd():
-    wd = ''
-
     #Import iati.identifier csv for records included in doc-term matrix
-
-    df1 = pd.read_csv(os.path.join(wd,'all_used_records_stemEngDict.csv'), encoding='iso-8859-1') 
+    df1 = pd.read_csv(join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding='iso-8859-1') 
     df1 = df1[['iati.identifier']]
 
 
-    #Import pickle file of full document-term matrix
-    with open(os.path.join(wd,'iatiFullTDMstemEngDict.pkl'), "rb") as f:
-        X = pickle.load(f)
+    #Import Pickle file (need both IATI dataframe and term document matrix to be read in for this script)
+    with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
+        X = pickle.load(_file)
 
     #Apply SVD. n_components = 100 is recommended for LSA according to scikit help doc:
     # https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html
     start = time.time()
-    from sklearn.decomposition import TruncatedSVD
+    
     svd = TruncatedSVD(n_components=100, n_iter=5, random_state=42)
     X = svd.fit_transform(X)
     end = time.time()
