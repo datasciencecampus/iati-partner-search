@@ -35,6 +35,7 @@ def append_to_csv(filename, l):
 
 
 def apply_svd(term_document_matrix_dataframe):
+    start = time.time()
     svd = TruncatedSVD(n_components=100, n_iter=5, random_state=42)
     svd_term_document_matrix_dataframe = svd.fit_transform(
         term_document_matrix_dataframe
@@ -68,7 +69,7 @@ def kmeans_clustering(
         km = KMeans(n_clusters=n_clust, n_jobs=-1)
         start = time.time()
         clusters = km.fit(term_document_matrix_dataframe)
-        result_dict[i] = clusters.inertia_
+        result_dict[n_clust] = clusters.inertia_
         end = time.time()
         print("{0} clusters: time elapsed: {1} seconds".format(n_clust, end - start))
 
@@ -79,6 +80,7 @@ def kmeans_clustering(
             [n_clust, clusters.inertia_],
         )
 
+        term_dataframe.insert(term_dataframe.shape[1], 'cluster{0}'.format(n_clust), clusters.labels_)
         # Write cluster assigned to each iati.identifier out to csv
         term_dataframe[["iati.identifier", "cluster{0}".format(n_clust)]].to_csv(
             join(
@@ -100,10 +102,6 @@ def kmeans_clustering(
 
 # these functions can be used to explore specific clustering attributes
 # can be removed if desired
-
-
-def get_tdm_head():
-    return pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names()).head()
 
 
 def get_term_document_matrix_shape(tdm):
@@ -139,14 +137,12 @@ if __name__ == "__main__":
     with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
         term_document_matrix_dataframe = pickle.load(_file)
 
-    minimum_number_of_clusters = 6
-    maximum_number_of_clusters = 8
-    increment = 1
+    minimum_number_of_clusters = 10
+    maximum_number_of_clusters = 15
+    increment = 2
 
     # Apply SVD to TDM
-    svd_term_document_matrix_dataframe = svd.fit_transform(
-        term_document_matrix_dataframe
-    )
+    svd_term_document_matrix_dataframe = apply_svd(term_document_matrix_dataframe)
 
     # cluster over range of clusters
     kmeans_clustering(
