@@ -71,22 +71,26 @@ def kmeans_clustering(term_document_matrix_dataframe, term_dataframe, minimum_nu
         with open(join(get_data_path(), CLUSTER_CENTROIDS_FILENAME_CONVENTION.format(n_clust)), 'wb') as out:
             pickle.dump(clusters.cluster_centers_, out)
 
-    #if want to look at X
-    #pd.DataFrame(X.toarray(), columns = vectorizer.get_feature_names()).head()
-    #shape of term-document matrix
-    #X.toarray().shape
+# these functions can be used to explore specific clustering attributes
+# can be removed if desired
 
-    #Show counts per cluster number
-    #print(np.unique(clusters.labels_, return_counts=True))
+def get_tdm_head():
+    return pd.DataFrame(X.toarray(), columns = vectorizer.get_feature_names()).head()
 
-    #Check same number of documents returned
-    #print(np.unique(clusters.labels_, return_counts=True)[1].sum())
+def get_term_document_matrix_shape(tdm):
+    return tdm.toarray().shape
 
-    #Show number of iterations of K-means
-    #print("number of iterations: {0}".format(clusters.n_iter_))
+def show_counts_per_cluster_number(clusters):
+    return np.unique(clusters.labels_, return_counts=True)
 
-    #Show number of records by organisation by cluster
-    #print(term_dataframe.groupby(['participating.org..Implementing.','cluster{0}'.format(n_clust)]).size())
+def check_same_number_of_documents_returned(clusters):
+    return np.unique(clusters.labels_, return_counts=True)[1].sum()
+
+def get_number_of_iterations_of_kmeans(clusters):
+    return clusters.n_iter_
+
+def get_number_of_records_by_organisation_by_cluster(term_dataframe, n_clust):
+    return term_dataframe.groupby(['participating.org..Implementing.','cluster{0}'.format(n_clust)]).size()
         
         
 if __name__ == "__main__":
