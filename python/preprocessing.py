@@ -94,7 +94,13 @@ def preprocessing_language_detection(p_df, p_text):
             [lemmatizer.lemmatize(x, get_wordnet_pos(x)) for x in x.split()]
         )
     )
+        
+    # Remove empty string
+    p_df = p_df[p_df[p_text] != ""]
 
+    # Remove entirely whitespace strings in description column
+    p_df = p_df[~p_df[p_text].str.isspace()]
+    
     return p_df
 
 
@@ -196,6 +202,17 @@ if __name__ == "__main__":
 
     # To import full dataset
     df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
+    
+    df1 = df1[["iati.identifier", "description", "title"]]
+    
+    #Remove record in current full dataset with null iati.identifer
+    df1 = df1[~df1['iati.identifier'].str.isspace()]
+    
+    #If both description and title not NA concatenate them into description column
+    df1.loc[~df1['description'].isna() & ~df1['title'].isna(), ['description']] =df1['title'] +" "+df1['description'] 
+
+    #If description is NA replace with title
+    df1.loc[df1['description'].isna(), ['description']]=df1['title']
 
     df1 = df1[["iati.identifier", "description"]]
 
@@ -203,8 +220,7 @@ if __name__ == "__main__":
     df1 = preprocessing_eng_only(df1, "description")
 
     # write out df with reduced records
-    dfout = df1[["iati.identifier", "description"]]
-    dfout.to_csv(join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)))
+    df1.to_csv(join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)))
 
     end = time.time()
 
