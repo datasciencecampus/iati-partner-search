@@ -4,3 +4,4 @@ nltk
 langdetect
 numpy
 pandas
+matplotlib
