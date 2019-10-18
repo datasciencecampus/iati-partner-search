@@ -203,6 +203,8 @@ if __name__ == "__main__":
     # To import full dataset
     df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
     
+    df1 = df1[["iati.identifier", "description", "title"]]
+    
     #Remove record in current full dataset with null iati.identifer
     df1 = df1[~df1['iati.identifier'].str.isspace()]
     
