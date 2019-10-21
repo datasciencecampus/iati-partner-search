@@ -105,7 +105,7 @@ def kmeans_clustering(
 
 
 def get_term_document_matrix_shape(tdm):
-    return tdm.toarray().shape
+    return tdm.shape
 
 
 def show_counts_per_cluster_number(clusters):
