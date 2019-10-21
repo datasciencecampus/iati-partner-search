@@ -34,9 +34,9 @@ def append_to_csv(filename, l):
         _file.write(",".join(str(a) for a in l) + "\n")
 
 
-def apply_svd(term_document_matrix_dataframe):
+def apply_svd(term_document_matrix_dataframe, number_of_components=100):
     start = time.time()
-    svd = TruncatedSVD(n_components=100, n_iter=5, random_state=42)
+    svd = TruncatedSVD(n_components=number_of_components, n_iter=5, random_state=42)
     svd_term_document_matrix_dataframe = svd.fit_transform(
         term_document_matrix_dataframe
     )
