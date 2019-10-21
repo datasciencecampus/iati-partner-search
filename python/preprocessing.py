@@ -100,7 +100,7 @@ def preprocessing_empty_text_remove(p_df, p_text):
     return p_df
 
 
-def preprocessing_eng_only_query_text(query_text):
+def preprocess_query_text(query_text):
     # transform into dataframe
     df = pd.DataFrame([query_text], columns=["description"])
     #Apply specific preprocessing functions
