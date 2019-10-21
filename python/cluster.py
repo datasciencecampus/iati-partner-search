@@ -62,6 +62,9 @@ def kmeans_clustering(
         minimum_number_of_clusters: minimum number of clusters 
         maximum_number_of_clusters: maximum number of clusters
         increment: int of value increments between minimum_number_of_clusters and maximum_number_of_clusters
+    
+    Returns:
+        A dictionary mapping 'number of clusters':'within cluster sum of squares'
    """
     start = time.time()
 
@@ -106,6 +109,8 @@ def kmeans_clustering(
             "wb",
         ) as out:
             pickle.dump(clusters.cluster_centers_, out)
+    
+    return result_dict
 
 
 # these functions can be used to explore specific clustering attributes
