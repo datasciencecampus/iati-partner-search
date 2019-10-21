@@ -51,14 +51,14 @@ if __name__ == "__main__":
     # query = input("Please enter search text:\n")
 
     query_df = preprocess_query_text(query)
-    
+
     if not query_df.empty:
 
         query_vector = vectorize_input_text(query_df, VECTORIZER_FILENAME)
-    
+
         with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as f:
             X = pickle.load(f)
-    
+
         df1 = pd.read_csv(
             join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
         )
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         print("cosine match in {0} seconds".format(time.time() - start_time))
         # example calling of function for script
         # cosine_similar("tdm.pkl", "vec.pkl", "iati_records", "")
-    
+
         outDF.to_csv(
             join(get_data_path(), COSINE_FILENAME), index=False, encoding="iso-8859-1"
         )
