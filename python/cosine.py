@@ -1,7 +1,7 @@
 import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from preprocessing import preprocessing_eng_only_query_text
+from preprocessing import preprocess_query_text
 from vectorize import vectorize_input_text
 from utils import get_data_path
 from os.path import join
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # Or uncomment below if wish to test input text at runtime
     # query = input("Please enter search text:\n")
 
-    query_df = preprocessing_eng_only_query_text(query)
+    query_df = preprocess_query_text(query)
     
     if not query_df.empty:
 
