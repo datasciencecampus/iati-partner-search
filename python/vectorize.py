@@ -20,10 +20,10 @@ def create_tfidf_term_document_matrix(
 ):
     # read in the csv
     df1 = pd.read_csv(
-        join(join(get_data_path(), preprocessed_file_name)), encoding="iso-8859-1"
+        join(get_data_path(), preprocessed_file_name), encoding="iso-8859-1"
     )
-    df1 = df1[["iati.identifier", "description"]]
 
+    df1 = df1[["iati.identifier", "description"]]
     # Build document-term matrix
     # replace with min_proportion variable if wish
     vectorizer = TfidfVectorizer(min_df=0)
@@ -39,7 +39,7 @@ def create_tfidf_term_document_matrix(
         join(get_data_path(), term_document_matrix_filename), "wb"
     ) as output_file:
         pickle.dump(X, output_file)
-
+    # Write vectorizer to pickle file
     with open(join(get_data_path(), vectorizer_filename), "wb") as output_file:
         pickle.dump(vectorizer, output_file)
 

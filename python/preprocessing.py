@@ -8,22 +8,65 @@ from langdetect import detect
 import time
 
 from utils import get_data_path, get_input_path
-from constants import PROCESSED_RECORDS_FILENAME, INPUT_DATA_FILENAME, STOPWORDS_FILENAME
+from constants import (
+    PROCESSED_RECORDS_FILENAME,
+    INPUT_DATA_FILENAME,
+    STOPWORDS_FILENAME,
+)
 
 
-def preprocess_example(file_path_to_data):
-    """preprocessing function.
+def preprocessing_initial_text_clean(p_df, p_text):
+    # remove na description values
+    p_df = p_df.dropna(subset=[p_text])
+    # convert to string:
+    p_df = p_df.astype(str)
+    # remove punctuation
+    p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
+    # remove underscores not picked up as punctuation above
+    p_df[p_text] = p_df[p_text].str.replace("_", " ")
+    # remove  numbers
+    p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
+    # lowercase
+    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
+    return p_df
 
-    Args:
-        file_path_to_data: The first parameter.
 
-    Returns:
-        A list of strings that have been processed
+def preprocessing_nonenglish_paragraph_remove(p_df, p_text):
+    # only English language please
+    for index, row in p_df.iterrows():
+        try:
+            if detect(row[p_text]) != "en":
+                p_df = p_df.drop(index)
+        except Exception:
+            # get rid of any garbage
+            p_df = p_df.drop(index)
+    return p_df
 
-    """
-    print("I am doing something")
 
-    return None
+def preprocessing_nonenglish_words_remove(p_df, p_text):
+    wordstokeep = set(nltk.corpus.words.words())
+    # Remove word if not in English dictionary
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(x for x in x.split() if x in wordstokeep)
+    )
+    return p_df
+
+
+def append_to_stop(stoplist, inputfile):
+    with open(inputfile, "r") as r:
+        new_words = r.read().splitlines()
+        new_words = [w.lower() for w in new_words]
+    return stoplist + new_words
+
+
+def preprocessing_stopwords_remove(p_df, p_text):
+    # Remove english stop words
+    stop = stopwords.words("english")
+    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
+    p_df[p_text] = p_df[p_text].apply(
+        lambda x: " ".join(x for x in x.split() if x not in stop)
+    )
+    return p_df
 
 
 def get_wordnet_pos(word):
@@ -38,162 +81,46 @@ def get_wordnet_pos(word):
 
     return tag_dict.get(tag, wordnet.NOUN)
 
-def append_to_stop(stoplist, inputfile):
-    with open(inputfile, 'r') as r:
-        new_words = r.read().splitlines()
-        new_words = [w.lower() for w in new_words]
-    return stoplist + new_words
 
-
-def preprocessing_language_detection(p_df, p_text):
-
-    # remove na description values
-    p_df = p_df.dropna(subset=[p_text])
-
-    # convert to string:
-    p_df = p_df.astype(str)
-
-    # remove punctuation
-    p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
-
-    # remove underscores not picked up as punctuation above
-    p_df[p_text] = p_df[p_text].str.replace("_", "")
-
-    # remove  numbers
-    p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
-
-    # lowercase
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
-
-    # Remove empty string
-    p_df = p_df[p_df[p_text] != ""]
-
-    # Remove entirely whitespace strings in description column
-    p_df = p_df[~p_df[p_text].str.isspace()]
-
-    # only English language please
-    for index, row in p_df.iterrows():
-        try:
-            if detect(row[p_text]) != "en":
-                p_df = p_df.drop(index)
-        except Exception:
-            # get rid of any garbage
-            p_df = p_df.drop(index)
-
-    # remove stopwords English
-    stop = stopwords.words("english")
-    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
-    p_df[p_text] = p_df[p_text].apply(
-        lambda x: " ".join(x for x in x.split() if x not in stop)
-    )
-
-    # lemmatise text
+def preprocessing_lemmatise(p_df, p_text):
     lemmatizer = WordNetLemmatizer()
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(
             [lemmatizer.lemmatize(x, get_wordnet_pos(x)) for x in x.split()]
         )
     )
-        
-    # Remove empty string
-    p_df = p_df[p_df[p_text] != ""]
-
-    # Remove entirely whitespace strings in description column
-    p_df = p_df[~p_df[p_text].str.isspace()]
-    
     return p_df
 
 
-def preprocessing_eng_only(p_df, p_text):
-    start_time = time.time()
-
-    wordstokeep = set(nltk.corpus.words.words())
-
-    print("completed setup in {0} seconds".format(time.time() - start_time))
-
-    # remove na description values
-    p_df = p_df.dropna(subset=[p_text])
-
-    print("completed SETUP in {0} seconds".format(time.time() - start_time))
-
-    # convert to string:
-    p_df = p_df.astype(str)
-
-    # remove punctuation
-    p_df[p_text] = p_df[p_text].str.replace(r"[^\w\s]", "")
-
-    print(
-        "completed REMOVE PUNCTUATION in {0} seconds".format(time.time() - start_time)
-    )
-
-    # remove underscores not picked up as punctuation above
-    p_df[p_text] = p_df[p_text].str.replace("_", " ")
-
-    print(
-        "completed REMOVE UNDERSCORES in {0} seconds".format(time.time() - start_time)
-    )
-
-    # remove  numbers
-    p_df[p_text] = p_df[p_text].str.replace(r"[\d+]", "")
-
-    print("completed REMOVE NUMBERS in {0} seconds".format(time.time() - start_time))
-
-    # lowercase
-    p_df[p_text] = p_df[p_text].apply(lambda x: " ".join(x.lower() for x in x.split()))
-
-    print("completed MAKE LOWERCASE in {0} seconds".format(time.time() - start_time))
-
-    # Remove word if not in English dictionary
-    p_df[p_text] = p_df[p_text].apply(
-        lambda x: " ".join(x for x in x.split() if x in wordstokeep)
-    )
-
-    print(
-        "completed REMOVE NON-ENGLISH WORDS in {0} seconds".format(
-            time.time() - start_time
-        )
-    )
-
-    # Remove english stop words
-    stop = stopwords.words("english")
-    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
-    p_df[p_text] = p_df[p_text].apply(
-        lambda x: " ".join(x for x in x.split() if x not in stop)
-    )
-
-    print(
-        "completed REMOVE ENGLISH STOP WORDS in {0} seconds".format(
-            time.time() - start_time
-        )
-    )
-
-    # Porter stemmer
+def preprocessing_stem(p_df, p_text):
     st = PorterStemmer()
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join([st.stem(word) for word in x.split()])
     )
-
-    print("completed STEMMING in {0} seconds".format(time.time() - start_time))
-
-    # Remove empty string
-    p_df = p_df[p_df[p_text] != ""]
-
-    print(
-        "completed REMOVE EMPTY STRINGS in {0} seconds".format(time.time() - start_time)
-    )
-
-    # Remove entirely whitespace strings in description column
-    p_df = p_df[~p_df[p_text].str.isspace()]
-
-    print("completed REMOVE WHITESPACE in {0} seconds".format(time.time() - start_time))
-
     return p_df
 
 
-def preprocessing_eng_only_query_text(query_text):
+def preprocessing_empty_text_remove(p_df, p_text):
+    # Remove na string
+    p_df = p_df[~p_df[p_text].isna()]
+    # Remove empty string
+    p_df = p_df[p_df[p_text] != ""]
+    # Remove entirely whitespace strings in description column
+    p_df = p_df[~p_df[p_text].str.isspace()]
+    # Remove nan stored as string
+    p_df = p_df[p_df[p_text] != "nan"]
+    return p_df
+
+
+def preprocess_query_text(query_text):
     # transform into dataframe
     df = pd.DataFrame([query_text], columns=["description"])
-    return preprocessing_eng_only(df, "description")
+    # Apply specific preprocessing functions
+    df = preprocessing_initial_text_clean(df, "description")
+    df = preprocessing_nonenglish_words_remove(df, "description")
+    df = preprocessing_stopwords_remove(df, "description")
+    df = preprocessing_stem(df, "description")
+    return preprocessing_empty_text_remove(df, "description")
 
 
 if __name__ == "__main__":
@@ -202,25 +129,35 @@ if __name__ == "__main__":
 
     # To import full dataset
     df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
-    
-    df1 = df1[["iati.identifier", "description", "title"]]
-    
-    #Remove record in current full dataset with null iati.identifer
-    df1 = df1[~df1['iati.identifier'].str.isspace()]
-    
-    #If both description and title not NA concatenate them into description column
-    df1.loc[~df1['description'].isna() & ~df1['title'].isna(), ['description']] =df1['title'] +" "+df1['description'] 
 
-    #If description is NA replace with title
-    df1.loc[df1['description'].isna(), ['description']]=df1['title']
+    df1 = df1[["iati.identifier", "description", "title"]]
+
+    # Remove record in current full dataset with null iati.identifer
+    df1 = df1[~df1["iati.identifier"].str.isspace()]
+
+    # If both description and title not NA concatenate them into description column
+    df1.loc[~df1["description"].isna() & ~df1["title"].isna(), ["description"]] = (
+        df1["title"] + " " + df1["description"]
+    )
+
+    # If description is NA replace with title
+    df1.loc[df1["description"].isna(), ["description"]] = df1["title"]
 
     df1 = df1[["iati.identifier", "description"]]
 
     # preprocessing
-    df1 = preprocessing_eng_only(df1, "description")
+    df1 = preprocessing_initial_text_clean(df1, "description")
+    df1 = preprocessing_nonenglish_words_remove(df1, "description")
+    df1 = preprocessing_stopwords_remove(df1, "description")
+    df1 = preprocessing_stem(df1, "description")
+    df1 = preprocessing_empty_text_remove(df1, "description")
 
     # write out df with reduced records
-    df1.to_csv(join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)))
+    df1.to_csv(
+        join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)),
+        index=False,
+        encoding="iso-8859-1",
+    )
 
     end = time.time()
 
