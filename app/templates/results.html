@@ -1,6 +1,9 @@
-<!doctype html>
-<title>IATI Partner Search</title>
-<h2>Here are your results</h2>
-<p>
-    {{results}}
-</p>
+{% extends "base.html" %} {% block content %}
+<div class="results">
+  <h1>Organisations</h1>
+  {% for result in results %}
+  <a href="#">{{ result }}</a>
+  {% endfor %}
+  <a href="/">Search again</a>
+</div>
+{% endblock %}

@@ -1,9 +1,16 @@
-<!doctype html>
-<title>IATI Partner Search</title>
-<form action="/search" method="POST">
-  <div>
-    <label for="search">Enter your project details:</label>
-    <input type="text" id="search" name="search" />
+{% extends "base.html" %} {% block content %}
+<div class="index">
+  <h1>
+    Find organisations who can help implement your project
+  </h1>
+  <form action="/search" method="POST">
+    <textarea
+      type="text"
+      id="search"
+      name="search"
+      placeholder="Enter a project description"
+    ></textarea>
     <button type="submit">Search</button>
-  </div>
-</form>
+  </form>
+</div>
+{% endblock %}
