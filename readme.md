@@ -1,17 +1,43 @@
 # IATI Partner Search
  Description of the project goes here
 
- ## Installation
- To install the python packages, make sure that you have your virtual environment activated and run the following:
+## Installation
+To install the python packages, make sure that you have your virtual environment activated and run the following:
 
- ```{bash}
- pip install -r requirements.txt
- ```
+```{powershell}
+pip install -r requirements.txt
+```
+
+## Using Docker
+This repo proveds a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.
+
+### Python Pipeline Development
+We do not currently publish our images to a registry. You must build them on your machine. Make sure that the Docker VM is running, then run:
+```{powershell}
+docker build -t iati_partner_search .
+```
+The `-t iati_partner_search` means that we're telling Docker that we want the image to be called `iati_partner_search`.
+
+Once the image has been built, we can run a container:
+```{powershell}
+docker run --name=ips -it -v ${pwd}:/iati-partner-search iati_partner_search bash
+```
+to break this down:
+
+- `--name=ips`: tells what we will call this container when we want to start and stop it again.
+- `-it`: 
+- `-v ${pwd}:/iati-partner-search`: tells Docker to share the files on your machine, with the Docker container.
+- `iati_partner_search`: refers to the image that we want to build the container from.
+- `bash`: is the process that want the container to run. In this case we're asking it to start the CLI
+
+You can then stop and start the container by running `docker stop ips` and `docker start ips` respectively.
+
+You can read more about Docker containers and this process [here](https://docs.docker.com/).
 
 ## Get the Data
 Currently (and temporarily) we copy in the data manually. Copy the file named `all_downloaded_records.csv` in to the `/data/` directory.
 
-You will also need to download the nltk data. We're working on making this more contained, but in the mean time, open your python shell and execute the following:
+If you're not working from within the Docker container, you will also need to download the nltk data. Open your python shell and execute the following:
 
 ```{python}
 >>> import nltk
