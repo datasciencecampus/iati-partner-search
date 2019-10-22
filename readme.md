@@ -9,7 +9,7 @@ pip install -r requirements.txt
 ```
 
 ## Using Docker
-This repo proveds a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.
+This repo provides a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.
 
 ### Python Pipeline Development
 We do not currently publish our images to a registry. You must build them on your machine. Make sure that the Docker VM is running, then run:
