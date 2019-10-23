@@ -10,11 +10,13 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
     start_time = time.time()
     keep_columns = [
         "iati.identifier",
-        "sector",
         "reporting.org",
         "participating.org..Implementing.",
         "title",
         "description",
+        "start.actual",
+        "recipient.country",
+        "total.Expenditure"
     ]
     full_iati_df = full_iati_records[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
@@ -53,6 +55,30 @@ if __name__ == "__main__":
     refined_res = process_results(cosine_res_df, full_df, 100)
 
 
+# getting the top 3 results for unique reporting.org
+    
+    #preprocess the reporting organisations
+    
+    
+
+    # remove duplicate entries
+    refined_res_no_duplicates = refined_res.drop_duplicates(subset = ["reporting.org", "title", "description"])
+    
+    # set order for top reporting organisations
+    myorder = pd.Series(refined_res_no_duplicates["reporting.org"], name = 'A').unique()  
+    sorterIndex = dict(zip(myorder, range(len(myorder))))
+    
+    refined_res_no_duplicates['myorder'] = refined_res_no_duplicates['reporting.org'].map(sorterIndex)
+    
+    # group entries by reporting.org, taking top three entries
+    refined_res_grouped = refined_res_no_duplicates.groupby('myorder').head(2)
+    
+    # group                     
+    refined_res_grouped = refined_res_grouped.sort_values(['myorder', 'cosine_sim'], ascending = [True, False])
+    refined_res_grouped.get_group('AidData')
+    
+    refined_res_no_duplicates = refined_res.drop_duplicates(subset = ["reporting.org"])
+    # "title", "description"
 # column names in the provisional larger IATI dataset
 
 """
