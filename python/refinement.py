@@ -3,7 +3,9 @@ from os.path import join
 from utils import get_data_path
 import pandas as pd
 import time
-
+from fuzzywuzzy import fuzz
+import re
+from preprocessing import preprocessing_initial_text_clean
 
 def process_results(initial_result_df, full_iati_records, number_of_results=100):
 
@@ -41,6 +43,39 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
 
     return full_iati_df
 
+def results_postprocessing(refined_res, p_text):
+    
+    # remove extra spaces and spaces at the end of string from reporting.org column
+    
+    refined_res[p_text] = (refined_res[p_text].str.split()).str.join(' ')
+        
+    refined_res[p_text] = refined_res[p_text].str.rstrip()
+ 
+    return refined_res
+
+def top_results(post_processed_results, org_name, number_of_results_per_org):
+    
+    start_time = time.time()
+    # remove duplicate entries
+    post_processed_results = post_processed_results.drop_duplicates(subset = [org_name, "title", "description"])
+    
+    # set order for top reporting organisations
+    myorder = pd.Series(post_processed_results[org_name], name = 'A').unique()  
+    sorterIndex = dict(zip(myorder, range(len(myorder))))
+    
+    post_processed_results['myorder'] = post_processed_results[org_name].map(sorterIndex)
+    
+    # group entries by reporting.org, taking top entries
+    top_project_results = post_processed_results.groupby('myorder').head(number_of_results_per_org)
+    
+    # Order by top organisation and within each top organisation the top projects                   
+    top_project_results = top_project_results.sort_values(['myorder', 'cosine_sim'], ascending = [True, False])
+
+    return top_project_results
+
+    print("limited after {} seconds".format(time.time() - start_time))
+
+
 
 if __name__ == "__main__":
 
@@ -53,33 +88,28 @@ if __name__ == "__main__":
     )
 
     refined_res = process_results(cosine_res_df, full_df, 100)
+        
+    refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
+    
+    refined_res = results_postprocessing(refined_res, "reporting.org")
+    refined_res = results_postprocessing(refined_res, "description")
+    
+    #top results per reporting organisation
+    top_project_results = top_results(refined_res, "reporting.org", 3)
+    
+    
 
+    
 
 # getting the top 3 results for unique reporting.org
     
-    #preprocess the reporting organisations
+    # preprocess the reporting organisations
+
     
+# column names in the provisional larger IATI dataset
+
     
 
-    # remove duplicate entries
-    refined_res_no_duplicates = refined_res.drop_duplicates(subset = ["reporting.org", "title", "description"])
-    
-    # set order for top reporting organisations
-    myorder = pd.Series(refined_res_no_duplicates["reporting.org"], name = 'A').unique()  
-    sorterIndex = dict(zip(myorder, range(len(myorder))))
-    
-    refined_res_no_duplicates['myorder'] = refined_res_no_duplicates['reporting.org'].map(sorterIndex)
-    
-    # group entries by reporting.org, taking top three entries
-    refined_res_grouped = refined_res_no_duplicates.groupby('myorder').head(2)
-    
-    # group                     
-    refined_res_grouped = refined_res_grouped.sort_values(['myorder', 'cosine_sim'], ascending = [True, False])
-    refined_res_grouped.get_group('AidData')
-    
-    refined_res_no_duplicates = refined_res.drop_duplicates(subset = ["reporting.org"])
-    # "title", "description"
-# column names in the provisional larger IATI dataset
 
 """
 iati.identifier
