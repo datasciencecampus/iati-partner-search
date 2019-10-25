@@ -44,19 +44,17 @@ def create_tfidf_term_document_matrix(
         pickle.dump(vectorizer, output_file)
 
 
-def vectorize_input_text(processed_query_dataframe, vectorizer_filename):
+def vectorize_input_text(processed_query_dataframe, vectorizer):
     """
     input:
         processed_query_text: dataframe of processed user text
+        vectorizer: #fixme
 
     output:
         numpy array of vectorized user input
     """
-    # get vectorized object from pickle file
-    with open(join(get_data_path(), vectorizer_filename), "rb") as f:
-        vectorizer = pickle.load(f)
-
     # use the transform method from the vectorizer
+    print(type(vectorizer))
     return vectorizer.transform(processed_query_dataframe["description"])
 
 

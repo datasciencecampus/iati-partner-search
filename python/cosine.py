@@ -14,7 +14,7 @@ from constants import (
 import time
 
 
-def get_cosine_similarity(tdm_filename, iati_records, processed_user_query_vector):
+def get_cosine_similarity(processed_user_query_vector, term_document_matrix, iati_records):
     """
     input:
         TDM
@@ -24,7 +24,10 @@ def get_cosine_similarity(tdm_filename, iati_records, processed_user_query_vecto
     output:
         cosine similarity > 0 per iati.identifier
     """
-    cosine_array = cosine_similarity(tdm_filename, processed_user_query_vector)
+    
+    cosine_array = cosine_similarity(term_document_matrix, processed_user_query_vector)
+
+    iati_records = iati_records[["iati.identifier"]]
 
     iati_records["cosine_sim"] = cosine_array
 
@@ -32,7 +35,6 @@ def get_cosine_similarity(tdm_filename, iati_records, processed_user_query_vecto
     iati_records = iati_records[iati_records["cosine_sim"] > 0]
 
     return iati_records
-
 
 if __name__ == "__main__":
 
@@ -56,15 +58,16 @@ if __name__ == "__main__":
 
         query_vector = vectorize_input_text(query_df, VECTORIZER_FILENAME)
 
-        with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as f:
-            X = pickle.load(f)
+        with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
+            term_document_matrix = pickle.load(_file)
 
-        df1 = pd.read_csv(
+        iati_records = pd.read_csv(
             join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
         )
-        df1 = df1[["iati.identifier"]]
+        
+        iati_records = iati_records[["iati.identifier"]]
         start_time = time.time()
-        outDF = get_cosine_similarity(X, df1, query_vector)
+        outDF = get_cosine_similarity(query_vector, term_document_matrix, iati_records)
         print("cosine match in {0} seconds".format(time.time() - start_time))
         # example calling of function for script
         # cosine_similar("tdm.pkl", "vec.pkl", "iati_records", "")

@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 
-def process_results(initial_result_df, full_iati_df, number_of_results=100):
+def process_results(initial_result_df, full_iati_records, number_of_results=100):
 
     start_time = time.time()
     keep_columns = [
@@ -16,7 +16,7 @@ def process_results(initial_result_df, full_iati_df, number_of_results=100):
         "title",
         "description",
     ]
-    full_iati_df = full_iati_df[keep_columns]
+    full_iati_df = full_iati_records[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
 
     # Select unique record on all fields but iati.identifier, include iati.identifer of 1st record in duplicate set (!!!)
