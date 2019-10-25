@@ -48,7 +48,7 @@ def vectorize_input_text(processed_query_dataframe, vectorizer):
     """
     input:
         processed_query_text: dataframe of processed user text
-        vectorizer: #fixme
+        vectorizer: TfidfVectorizer object
 
     output:
         numpy array of vectorized user input
