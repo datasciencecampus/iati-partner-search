@@ -43,7 +43,7 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
 
     return full_iati_df
 
-def results_postprocessing(refined_res, p_text):
+def remove_white_space(refined_res, p_text):
     
     # remove extra spaces and spaces at the end of string from reporting.org column
     
@@ -53,7 +53,7 @@ def results_postprocessing(refined_res, p_text):
  
     return refined_res
 
-def top_results(post_processed_results, org_name, number_of_results_per_org):
+def gather_top_results(post_processed_results, org_name, number_of_results_per_org):
     
     start_time = time.time()
     # remove duplicate entries
@@ -71,9 +71,10 @@ def top_results(post_processed_results, org_name, number_of_results_per_org):
     # Order by top organisation and within each top organisation the top projects                   
     top_project_results = top_project_results.sort_values(['myorder', 'cosine_sim'], ascending = [True, False])
 
+    print("limited after {} seconds".format(time.time() - start_time))
+
     return top_project_results
 
-    print("limited after {} seconds".format(time.time() - start_time))
 
 
 
@@ -91,21 +92,13 @@ if __name__ == "__main__":
         
     refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
     
-    refined_res = results_postprocessing(refined_res, "reporting.org")
-    refined_res = results_postprocessing(refined_res, "description")
+    refined_res = remove_whitespace(refined_res, "reporting.org")
+    refined_res = remove_whitespace(refined_res, "description")
     
     #top results per reporting organisation
     top_project_results = top_results(refined_res, "reporting.org", 3)
     
-    
 
-    
-
-# getting the top 3 results for unique reporting.org
-    
-    # preprocess the reporting organisations
-
-    
 # column names in the provisional larger IATI dataset
 
     
