@@ -18,10 +18,18 @@ def main():
     create_tfidf_term_document_matrix()
 
 
-def process_query(query_text, vectorizer, term_document_matrix, processed_iati_records, full_iati_records):
+def process_query(
+    query_text,
+    vectorizer,
+    term_document_matrix,
+    processed_iati_records,
+    full_iati_records,
+):
     processed_query_dataframe = preprocess_query_text(query_text)
     vectorized_query = vectorize_input_text(processed_query_dataframe, vectorizer)
-    df_result = get_cosine_similarity(vectorized_query, term_document_matrix, processed_iati_records)
+    df_result = get_cosine_similarity(
+        vectorized_query, term_document_matrix, processed_iati_records
+    )
     smart_results = process_results(df_result, full_iati_records)
     return smart_results
 

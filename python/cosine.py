@@ -14,7 +14,9 @@ from constants import (
 import time
 
 
-def get_cosine_similarity(processed_user_query_vector, term_document_matrix, iati_records):
+def get_cosine_similarity(
+    processed_user_query_vector, term_document_matrix, iati_records
+):
     """
     input:
         TDM
@@ -24,7 +26,7 @@ def get_cosine_similarity(processed_user_query_vector, term_document_matrix, iat
     output:
         cosine similarity > 0 per iati.identifier
     """
-    
+
     cosine_array = cosine_similarity(term_document_matrix, processed_user_query_vector)
 
     iati_records = iati_records[["iati.identifier"]]
@@ -35,6 +37,7 @@ def get_cosine_similarity(processed_user_query_vector, term_document_matrix, iat
     iati_records = iati_records[iati_records["cosine_sim"] > 0]
 
     return iati_records
+
 
 if __name__ == "__main__":
 
@@ -64,7 +67,7 @@ if __name__ == "__main__":
         iati_records = pd.read_csv(
             join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
         )
-        
+
         iati_records = iati_records[["iati.identifier"]]
         start_time = time.time()
         outDF = get_cosine_similarity(query_vector, term_document_matrix, iati_records)
