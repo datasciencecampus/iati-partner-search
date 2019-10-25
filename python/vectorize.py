@@ -54,7 +54,6 @@ def vectorize_input_text(processed_query_dataframe, vectorizer):
         numpy array of vectorized user input
     """
     # use the transform method from the vectorizer
-    print(type(vectorizer))
     return vectorizer.transform(processed_query_dataframe["description"])
 
 
