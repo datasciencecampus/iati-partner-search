@@ -7,6 +7,7 @@ from fuzzywuzzy import fuzz
 import re
 from preprocessing import preprocessing_initial_text_clean
 
+
 def process_results(initial_result_df, full_iati_records, number_of_results=100):
 
     start_time = time.time()
@@ -18,7 +19,7 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
         "description",
         "start.actual",
         "recipient.country",
-        "total.Expenditure"
+        "total.Expenditure",
     ]
     full_iati_df = full_iati_records[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
@@ -43,39 +44,47 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
 
     return full_iati_df
 
+
 def remove_white_space(refined_res, p_text):
-    
+
     # remove extra spaces and spaces at the end of string from reporting.org column
-    
-    refined_res[p_text] = (refined_res[p_text].str.split()).str.join(' ')
-        
+
+    refined_res[p_text] = (refined_res[p_text].str.split()).str.join(" ")
+
     refined_res[p_text] = refined_res[p_text].str.rstrip()
- 
+
     return refined_res
 
+
 def gather_top_results(post_processed_results, org_name, number_of_results_per_org):
-    
+
     start_time = time.time()
     # remove duplicate entries
-    post_processed_results = post_processed_results.drop_duplicates(subset = [org_name, "title", "description"])
-    
+    post_processed_results = post_processed_results.drop_duplicates(
+        subset=[org_name, "title", "description"]
+    )
+
     # set order for top reporting organisations
-    myorder = pd.Series(post_processed_results[org_name], name = 'A').unique()  
+    myorder = pd.Series(post_processed_results[org_name], name="A").unique()
     sorterIndex = dict(zip(myorder, range(len(myorder))))
-    
-    post_processed_results['myorder'] = post_processed_results[org_name].map(sorterIndex)
-    
+
+    post_processed_results["myorder"] = post_processed_results[org_name].map(
+        sorterIndex
+    )
+
     # group entries by reporting.org, taking top entries
-    top_project_results = post_processed_results.groupby('myorder').head(number_of_results_per_org)
-    
-    # Order by top organisation and within each top organisation the top projects                   
-    top_project_results = top_project_results.sort_values(['myorder', 'cosine_sim'], ascending = [True, False])
+    top_project_results = post_processed_results.groupby("myorder").head(
+        number_of_results_per_org
+    )
+
+    # Order by top organisation and within each top organisation the top projects
+    top_project_results = top_project_results.sort_values(
+        ["myorder", "cosine_sim"], ascending=[True, False]
+    )
 
     print("limited after {} seconds".format(time.time() - start_time))
 
     return top_project_results
-
-
 
 
 if __name__ == "__main__":
@@ -89,19 +98,17 @@ if __name__ == "__main__":
     )
 
     refined_res = process_results(cosine_res_df, full_df, 100)
-        
+
     refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
-    
+
     refined_res = remove_whitespace(refined_res, "reporting.org")
     refined_res = remove_whitespace(refined_res, "description")
-    
-    #top results per reporting organisation
+
+    # top results per reporting organisation
     top_project_results = top_results(refined_res, "reporting.org", 3)
-    
+
 
 # column names in the provisional larger IATI dataset
-
-    
 
 
 """
