@@ -5,3 +5,4 @@ langdetect
 numpy
 pandas
 matplotlib
+Flask
