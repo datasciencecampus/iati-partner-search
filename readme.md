@@ -44,3 +44,15 @@ If you're not working from within the Docker container, you will also need to do
 >>> nltk.download('words')
 >>> nltk.download('stopwords')
 ```
+
+## Run the Flask application
+After adding the required data and installing the required packages you will be able to run the Flask app locally.
+
+In the `/data` directory make sure you have
+
+    - all_downloaded_records.csv
+    - processed_records.csv
+    - term_document_matrix.pkl
+    - vectorizer.pkl
+
+Then, from the root directory of the project, run `python app/main.py` to start the Flask server. After a few seconds of start up time it should be running on `localhost:5000`
