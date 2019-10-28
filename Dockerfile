@@ -11,4 +11,8 @@ RUN pip install --upgrade pip && \
 # download the data we need from NLTK
 RUN python -c "import nltk; nltk.download('stopwords'); nltk.download('words')"
 
+ENV FLASK_APP app/main.py 
+
+EXPOSE 5000
+
 CMD ["bash"]
