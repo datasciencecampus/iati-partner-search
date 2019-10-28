@@ -56,7 +56,7 @@ In the `/data` directory make sure you have
     - term_document_matrix.pkl
     - vectorizer.pkl
 
-The easiest way is to run the application inside the docker container. Build and run the container using the instructions in the [Python Pipeline Development](#python-pipeline-pevelopment) section.
+The easiest way is to run the application inside the docker container. Build and run the container using the instructions in the [Python Pipeline Development](#python-pipeline-development) section.
 
 Then, from within the running container, run 
 
