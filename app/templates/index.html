@@ -1,29 +1,34 @@
 {% extends "base.html" %} {% block content %}
 <div class="index">
-  <h1>
-    Find organisations who can help implement your project
-  </h1>
-  <form action="/search" method="POST">
-    <textarea
-      type="text"
-      id="search"
-      name="search"
-      placeholder="Enter a project description"
-    ></textarea>
-    <button type="submit">Search</button>
-  </form>
+  <div class="main">
+    <h1>
+      Find organisations who can help implement your project
+    </h1>
+    <form action="/search" method="POST">
+      <textarea
+        type="text"
+        id="search"
+        name="search"
+        placeholder="Enter your project description"
+      ></textarea>
+      <button type="submit">Search</button>
+    </form>
+  </div>
 
-  <p>
-    Despite impressive improvements in Vietnam's development and health status
-    over the past decade, gains have not been equitable and significant unmet
-    health needs remain. Poor and marginalized populations continue to
-    disproportionally suffer from preventable illnesses while those in wealthier
-    socioeconomic groups continue to enjoy greater health and longer life
-    expectancy. Social Marketing for Improved Rural Health will include 3 main
-    components: i) social marketing of SafeWat household water treatment
-    solution and promotion of safer hygiene behaviors; ii) Good health, Great
-    life and iii) behavior change communication to address non-supply side
-    barriers to healthier behaviors
-  </p>
+  <div class="example">
+    <h2>Here's an example to try out</h2>
+    <p>
+      Despite impressive improvements in Vietnam's development and health status
+      over the past decade, gains have not been equitable and significant unmet
+      health needs remain. Poor and marginalized populations continue to
+      disproportionally suffer from preventable illnesses while those in
+      wealthier socioeconomic groups continue to enjoy greater health and longer
+      life expectancy. Social Marketing for Improved Rural Health will include 3
+      main components: i) social marketing of SafeWat household water treatment
+      solution and promotion of safer hygiene behaviors; ii) Good health, Great
+      life and iii) behavior change communication to address non-supply side
+      barriers to healthier behaviors
+    </p>
+  </div>
 </div>
 {% endblock %}

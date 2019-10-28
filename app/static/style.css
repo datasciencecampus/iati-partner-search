@@ -6,7 +6,7 @@ body {
 }
 
 nav {
-  background-color: #eeeeee;
+  background-color: #90a4ae;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: space-between;
@@ -31,6 +31,24 @@ nav span {
   align-items: center;
 }
 
+.index > .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #cfd8dc;
+  padding: 24px 0px;
+  width: 100%;
+}
+
+.example {
+  max-width: 600px;
+}
+
+.example > p {
+  color: #666;
+}
+
 #search {
   height: 175px;
   width: 500px;
@@ -43,7 +61,7 @@ form {
 }
 
 button {
-  background: #c4c4c4;
+  background: #fcfcfc;
   box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
     0px 1px 3px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
