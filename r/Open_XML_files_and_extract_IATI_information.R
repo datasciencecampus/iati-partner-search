@@ -61,5 +61,5 @@ results_file <- paste0("C:\\data\\results",this_file,".csv")
 errors_file <-  paste0("C:\\data\\errors",this_file,".csv")
 
 write.csv(results_df, results_file, row.names=FALSE)
-write.csv
+write.csv(errors_df, errors_file, row.names=FALSE)
 
