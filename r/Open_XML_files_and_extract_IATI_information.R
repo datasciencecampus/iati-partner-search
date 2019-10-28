@@ -1,9 +1,6 @@
 library(xml2)
 
-root_folder = "C:/data/iati_data/data" 
 root_folder <- "C:/Users/k-carolan/DFID/EXTERNAL - ONS-DFID Data Science Hub - iatikitcache/registry/data"
-results_file <- 'C:\\data\\results.csv'
-errors_file <- 'C:/data/errors.csv'
 
 files <- list.files(path=root_folder, pattern="*.xml", full.names=TRUE, recursive=TRUE)
 
