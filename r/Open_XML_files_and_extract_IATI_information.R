@@ -57,6 +57,6 @@ for (this_file in 1:length(files)){
 results_file <- paste0("C:\\data\\results",this_file,".csv")
 errors_file <-  paste0("C:\\data\\errors",this_file,".csv")
 
-write.csv(results_df, results_file, row.names=FALSE, fileEncoding = 'ISO-8859-1')
-write.csv(errors_df, errors_file, row.names=FALSE, fileEncoding = 'ISO-8859-1')
+write.csv(results_df, results_file, row.names=FALSE, fileEncoding = 'UTF-8')
+write.csv(errors_df, errors_file, row.names=FALSE, fileEncoding = 'UTF-8')
 
