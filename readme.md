@@ -65,3 +65,20 @@ python -m flask run --host=0.0.0.0
 ```
 
 After a few seconds of start up time it should be up and running. Navigate to `localhost:5000` in your web browser to view the page.
+
+There is also the docker container which is used for running the application in production which is described by `app.Dockerfile`. To use this one instead it is necessary to remove `data/` from the `.dockerignore` first. 
+
+Then run 
+
+```bash 
+docker build -t iati-partner-search-app -f .\app.Dockerfile .
+```
+
+to build the image and
+
+```bash
+docker run --name=ipsapp -p 5000:5000 iati-partner-search-app
+```
+to run it.
+
+After a few seconds of start up time it should be up and running. Navigate to `localhost:5000` in your web browser to view the page.
