@@ -1,4 +1,5 @@
 from invoke import task
+import os
 
 @task
 def install_dependencies(c):
@@ -20,6 +21,11 @@ def run_docker(c):
 def push_docker(c):
     c.run("docker push rabshab/iati-partner-search-app:latest")
 
-@task(install_dependencies, check_python_formatting, build_docker, push_docker)
+@task
 def ci(c):
     print("Running CI scripts")
+    install_dependencies(c)
+    check_python_formatting(c)
+    if(os.environ("TRAVIS_PULL_REQUEST")):
+        build_docker(c)
+        push_docker(c)
