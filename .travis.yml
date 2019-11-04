@@ -4,8 +4,7 @@ python:
   - "3.8"
 
 install:
-  - pip install black flake8
+  - pip install invoke
 
 script:
-  - black --check python/*.py
-  - flake8 .
+  - invoke ci
