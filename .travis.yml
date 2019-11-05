@@ -4,7 +4,8 @@ python:
   - "3.8"
 
 install:
-  - pip install black
+  - pip install black flake8
 
 script:
   - black --check python/*.py
+  - flake8 .
