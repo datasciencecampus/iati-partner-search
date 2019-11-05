@@ -19,7 +19,8 @@ def check_python_linting(c):
 
 @task
 def build_docker(c):
-    c.run("docker build -t rabshab/iati-partner-search-app -f app.Dockerfile .")
+    travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
+    c.run(f"docker build -t rabshab/iati-partner-search-app:{travis_build_number} -f app.Dockerfile .")
 
 
 @task
