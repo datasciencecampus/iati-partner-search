@@ -3,8 +3,6 @@ from os.path import join
 from utils import get_data_path
 import pandas as pd
 import time
-from fuzzywuzzy import fuzz
-import re
 from preprocessing import preprocessing_initial_text_clean
 
 
@@ -101,11 +99,11 @@ if __name__ == "__main__":
 
     refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
 
-    refined_res = remove_whitespace(refined_res, "reporting.org")
-    refined_res = remove_whitespace(refined_res, "description")
+    refined_res = remove_white_space(refined_res, "reporting.org")
+    refined_res = remove_white_space(refined_res, "description")
 
     # top results per reporting organisation
-    top_project_results = top_results(refined_res, "reporting.org", 3)
+    top_project_results = gather_top_results(refined_res, "reporting.org", 3)
 
 
 # column names in the provisional larger IATI dataset

@@ -57,7 +57,7 @@ def kmeans_clustering(
     Args:
         term_document_matrix: scipy sparse matrix of term document matrix
         term_dataframe: mapping between terms and iati records
-        minimum_number_of_clusters: minimum number of clusters 
+        minimum_number_of_clusters: minimum number of clusters
         maximum_number_of_clusters: maximum number of clusters
         increment: int of value increments between minimum_number_of_clusters and maximum_number_of_clusters
 
