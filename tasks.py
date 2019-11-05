@@ -10,6 +10,10 @@ def check_python_formatting(c):
     c.run("black --check python/*.py")
 
 @task
+def check_python_linting(c):
+    c.run("flake8 .")
+
+@task
 def build_docker(c):
     c.run("docker build -t rabshab/iati-partner-search-app -f .\app.Dockerfile .")
 
@@ -24,8 +28,8 @@ def push_docker(c):
 @task
 def ci(c):
     print("Running CI scripts")
-    install_dependencies(c)
     check_python_formatting(c)
+    check_python_linting(c)
     if(os.environ("TRAVIS_PULL_REQUEST")):
         build_docker(c)
         push_docker(c)
