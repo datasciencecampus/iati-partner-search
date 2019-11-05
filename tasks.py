@@ -29,7 +29,7 @@ def run_docker(c):
 
 @task
 def push_docker(c):
-    travis_build_number = os.environ("TRAVIS_BUILD_NUMBER")
+    travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
     c.run(f"docker push rabshab/iati-partner-search-app:{travis_build_number}")
 
 
@@ -38,6 +38,6 @@ def ci(c):
     print("Running CI scripts")
     check_python_formatting(c)
     check_python_linting(c)
-    if(os.environ("TRAVIS_PULL_REQUEST")):
+    if "TRAVIS_PULL_REQUEST" in os.environ:
         build_docker(c)
         push_docker(c)
