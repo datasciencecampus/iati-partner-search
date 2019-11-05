@@ -7,7 +7,7 @@ services:
   - docker
 
 install:
-  - pip install invoke
+  - pip install invoke black flake8
 
 script:
   - invoke ci
