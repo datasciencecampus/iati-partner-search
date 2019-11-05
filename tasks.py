@@ -19,7 +19,7 @@ def check_python_linting(c):
 
 @task
 def build_docker(c):
-    c.run("docker build -t rabshab/iati-partner-search-app -f .\app.Dockerfile .")
+    c.run("docker build -t rabshab/iati-partner-search-app -f app.Dockerfile .")
 
 
 @task
