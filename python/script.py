@@ -1,7 +1,7 @@
 from preprocessing import preprocess_query_text
 from vectorize import create_tfidf_term_document_matrix, vectorize_input_text
 from cosine import get_cosine_similarity
-from refinement import process_results
+from refinement import process_results, gather_top_results
 
 
 def download_data():
@@ -29,6 +29,7 @@ def process_query(
         vectorized_query, term_document_matrix, processed_iati_records
     )
     smart_results = process_results(df_result, full_iati_records)
+    smart_results = gather_top_results(smart_results, "reporting.org", 3)
     return smart_results
 
 
