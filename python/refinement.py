@@ -58,7 +58,7 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
 
     start_time = time.time()
     # remove duplicate entries
-    post_processed_results = post_processed_results.drop_duplicates(
+    post_processed_results.drop_duplicates(
         subset=[org_name, "title", "description"]
     )
 
@@ -79,6 +79,8 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
     top_project_results = top_project_results.sort_values(
         ["myorder", "cosine_sim"], ascending=[True, False]
     )
+    
+    top_project_results = top_project_results.drop(['myorder'], axis=1)
 
     print("limited after {} seconds".format(time.time() - start_time))
 
