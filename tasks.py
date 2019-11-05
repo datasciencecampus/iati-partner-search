@@ -23,7 +23,8 @@ def run_docker(c):
 
 @task
 def push_docker(c):
-    c.run("docker push rabshab/iati-partner-search-app:latest")
+    travis_build_number = os.environ("TRAVIS_BUILD_NUMBER")
+    c.run("docker push rabshab/iati-partner-search-app:{travis_build_number}")
 
 @task
 def ci(c):
