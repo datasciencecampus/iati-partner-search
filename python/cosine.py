@@ -58,8 +58,9 @@ if __name__ == "__main__":
     query_df = preprocess_query_text(query)
 
     if not query_df.empty:
-
-        query_vector = vectorize_input_text(query_df, VECTORIZER_FILENAME)
+        with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
+            vectorizer = pickle.load(_file)
+        query_vector = vectorize_input_text(query_df, vectorizer)
 
         with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
             term_document_matrix = pickle.load(_file)
