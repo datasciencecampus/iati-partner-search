@@ -3,16 +3,15 @@ line-length = 88
 include = '\.pyi?$'
 exclude = '''
 /(
-    \.git
+    \.eggs
+  | \.git
   | \.hg
   | \.mypy_cache
   | \.tox
   | \.venv
-  | \.ve
   | _build
   | buck-out
   | build
   | dist
-  | migrations
 )/
 '''
