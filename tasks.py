@@ -31,7 +31,6 @@ def run_docker(c):
 @task
 def push_docker(c):
     travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
-    c.run("docker login docker.io")
     c.run(f"docker push rabshab/iati-partner-search-app:{travis_build_number}")
 
 
