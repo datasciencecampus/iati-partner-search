@@ -165,3 +165,4 @@ vignettes/*.pdf
 .~lock.*#
 
 data/*
+*.html
