@@ -29,8 +29,8 @@ def process_query(
         vectorized_query, term_document_matrix, processed_iati_records
     )
     smart_results = process_results(df_result, full_iati_records)
-    smart_results = gather_top_results(smart_results, "reporting.org", 3)
-    return smart_results
+    top_results = gather_top_results(smart_results, "reporting.org", 3)
+    return top_results
 
 
 if __name__ == "__main__":
