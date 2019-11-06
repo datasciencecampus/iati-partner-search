@@ -24,7 +24,7 @@ def build_dev_docker(c):
 
 @task
 def build_docker(c):
-    tag = os.environ["TRAVIS_BUILD_NUMBER"] if "TRAVIS_PULL_REQUEST" in os.environ else "latest"
+    tag = os.environ["TRAVIS_BUILD_NUMBER"] if "TRAVIS_BUILD_NUMBER" in os.environ else "latest"
     c.run(f"docker build -t rabshab/iati-partner-search-app:{tag} -f app.Dockerfile .")
 
 
