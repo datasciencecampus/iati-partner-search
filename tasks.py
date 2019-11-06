@@ -38,6 +38,7 @@ def push_docker(c):
     travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
     c.run(f"docker push rabshab/iati-partner-search-app:{travis_build_number}")
 
+
 @task
 def ci(c):
     print("Running CI scripts")
