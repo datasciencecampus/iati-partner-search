@@ -8,12 +8,12 @@ def install_dependencies(c):
 
 
 @task
-def check_python_formatting(c):
+def check_format(c):
     c.run("black --check python/*.py")
 
 
 @task
-def check_python_linting(c):
+def lint(c):
     c.run("flake8 .")
 
 
@@ -38,12 +38,11 @@ def push_docker(c):
     travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
     c.run(f"docker push rabshab/iati-partner-search-app:{travis_build_number}")
 
-
 @task
 def ci(c):
     print("Running CI scripts")
-    check_python_formatting(c)
-    check_python_linting(c)
+    check_format(c)
+    lint(c)
     if "TRAVIS_PULL_REQUEST" in os.environ:
         build_docker(c)
         push_docker(c)
