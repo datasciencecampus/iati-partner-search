@@ -19,8 +19,8 @@ def check_python_linting(c):
 
 @task
 def build_docker(c):
-    travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
-    c.run(f"docker build -t rabshab/iati-partner-search-app:{travis_build_number} -f app.Dockerfile .")
+    tag = os.environ["TRAVIS_BUILD_NUMBER"] if "TRAVIS_PULL_REQUEST" in os.environ else "latest"
+    c.run(f"docker build -t rabshab/iati-partner-search-app:{tag} -f app.Dockerfile .")
 
 
 @task
