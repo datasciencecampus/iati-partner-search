@@ -9,7 +9,7 @@ def install_dependencies(c):
 
 @task
 def check_format(c):
-    c.run("black --check python/*.py")
+    c.run("black --check .")
 
 
 @task
