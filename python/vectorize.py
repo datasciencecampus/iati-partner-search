@@ -9,6 +9,7 @@ from constants import (
     WORD_LIST_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
     VECTORIZER_FILENAME,
+    IATI_IDENTIFIERS_FILENAME,
 )
 
 
@@ -24,6 +25,10 @@ def create_tfidf_term_document_matrix(
     )
 
     df1 = df1[["iati.identifier", "description"]]
+    
+   
+    iati_list =list(df1["iati.identifier"])
+    
     # Build document-term matrix
     # replace with min_proportion variable if wish
     vectorizer = TfidfVectorizer(min_df=0)
@@ -34,11 +39,24 @@ def create_tfidf_term_document_matrix(
     with open(join(get_data_path(), word_list_file_name), "wb") as output_file:
         pickle.dump(word_list, output_file)
 
+    
+     # Write iati identifiers to pickle file
+    with open(
+        join(get_data_path(), iati_identifiers_filename), "wb"
+    ) as output_file:
+        pickle.dump(iati_list, output_file)
+    
+    
+    
+    
+    
     # Write X to pickle file
     with open(
         join(get_data_path(), term_document_matrix_filename), "wb"
     ) as output_file:
         pickle.dump(X, output_file)
+        
+        
     # Write vectorizer to pickle file
     with open(join(get_data_path(), vectorizer_filename), "wb") as output_file:
         pickle.dump(vectorizer, output_file)
