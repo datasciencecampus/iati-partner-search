@@ -56,28 +56,15 @@ In the `/data` directory make sure you have
     - term_document_matrix.pkl
     - vectorizer.pkl
 
-The easiest way is to run the application inside the docker container. Build and run the container using the instructions in the [Python Pipeline Development](#python-pipeline-development) section.
-
-Then, from within the running container, run 
+Then, using invoke, run
 
 ```bash
-python -m flask run --host=0.0.0.0
+invoke build-docker
 ```
-
-After a few seconds of start up time it should be up and running. Navigate to `localhost:5000` in your web browser to view the page.
-
-There is also the docker container which is used for running the application in production which is described by `app.Dockerfile`. To use this one instead it is necessary to remove `data/` from the `.dockerignore` first. 
-
-Then run 
-
-```bash 
-docker build -t iati-partner-search-app -f .\app.Dockerfile .
-```
-
-to build the image and
+to build the docker and then
 
 ```bash
-docker run --name=ipsapp -p 5000:5000 iati-partner-search-app
+invoke run-docker
 ```
 to run it.
 

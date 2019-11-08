@@ -3,9 +3,12 @@ language: python
 python:
   - "3.8"
 
+services:
+  - docker
+
 install:
-  - pip install black flake8
+  - pip install invoke black flake8
 
 script:
-  - black --check python/*.py
-  - flake8 .
+  - echo "$DOCKER_PASSWORD" | docker login docker.io -u "$DOCKER_USERNAME" --password-stdin
+  - invoke ci
