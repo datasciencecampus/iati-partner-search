@@ -21,7 +21,7 @@ def average_per_doc(description_text, w2v_model, dim_size):
     return mean_array
 
 
-def results_per_corpus_df(input_df, dim_size, w2v_model, avg_filename):
+def results_per_corpus_df(input_df, dim_size=300, w2v_model, avg_filename):
     results_arr = np.empty([0, dim_size])
     for index, row in df1.iterrows():
         results_arr = np.vstack(
@@ -38,6 +38,7 @@ if __name__ == "__main__":
         join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
     
+    df1 = df1[['description']]
 
 
     model = Word2Vec.load(join(get_data_path(), WORD2VECMODEL_FILENAME))
