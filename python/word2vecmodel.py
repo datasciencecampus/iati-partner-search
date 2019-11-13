@@ -1,12 +1,9 @@
 from utils import get_data_path
-from preprocessing import preprocess_query_text
-from cosine import get_cosine_similarity
 import pandas as pd
-import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
 
-from constants import PROCESSED_RECORDS_FILENAME, COSINE_FILENAME
+from constants import PROCESSED_RECORDS_FILENAME
 
 def build_w2v_model(input_df, dim_size):
     vectorlist = [row["description"].split(" ") for index, row in input_df.iterrows()]
