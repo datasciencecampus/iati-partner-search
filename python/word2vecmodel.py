@@ -1,0 +1,25 @@
+from utils import get_data_path
+from preprocessing import preprocess_query_text
+from cosine import get_cosine_similarity
+import pandas as pd
+import numpy as np
+from os.path import join
+from gensim.models import Word2Vec
+
+from constants import PROCESSED_RECORDS_FILENAME, COSINE_FILENAME
+
+def build_w2v_model(input_df, dim_size):
+    vectorlist = [row["description"].split(" ") for index, row in input_df.iterrows()]
+    return Word2Vec(vectorlist, min_count=20, size=dim_size, workers=4)
+
+
+if __name__ == "__main__":
+
+
+    df1 = pd.read_csv(
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+    )
+
+    model = build_w2v_model(df1, 50)
+    
+    model.save(join(get_data_path(), "word2vec.model"))
