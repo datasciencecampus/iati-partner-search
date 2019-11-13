@@ -23,7 +23,7 @@ def average_per_doc(description_text, w2v_model, dim_size=300):
 
 def results_per_corpus_df(input_df, dim_size=300, w2v_model, avg_filename):
     results_arr = np.empty([0, dim_size])
-    for index, row in df1.iterrows():
+    for index, row in input_df.iterrows():
         results_arr = np.vstack(
             (results_arr, average_per_doc(row["description"], w2v_model, dim_size))
         )
