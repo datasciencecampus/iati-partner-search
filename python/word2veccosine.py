@@ -6,7 +6,7 @@ import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
 
-from constants import PROCESSED_RECORDS_FILENAME, COSINE_FILENAME
+from constants import PROCESSED_RECORDS_FILENAME, COSINE_FILENAME, WORD2VECMODEL_FILENAME
 
 
 def build_w2v_model(input_df, dim_size):
@@ -53,10 +53,8 @@ if __name__ == "__main__":
         join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
 
-    # On laptop need to limit DF for reasonable performance
-    df1 = df1.head(10000)
 
-    model = build_w2v_model(df1, 50)
+    model = Word2Vec.load(join(get_data_path, WORD2VECMODEL_FILENAME))
 
     # This takes a while
     full_arr_average = results_per_corpus_df(df1, 50, model)
