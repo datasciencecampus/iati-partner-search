@@ -21,7 +21,7 @@ def average_per_doc(description_text, w2v_model, dim_size=300):
     return mean_array
 
 
-def results_per_corpus_df(input_df, dim_size=300, w2v_model, avg_filename):
+def results_per_corpus_df(input_df, w2v_model, avg_filename, dim_size=300):
     results_arr = np.empty([0, dim_size])
     for index, row in input_df.iterrows():
         results_arr = np.vstack(
@@ -45,5 +45,5 @@ if __name__ == "__main__":
 
     # This takes a while
     start = time.time()
-    results_per_corpus_df(df1, 50, model, WORD2VECAVG_FILENAME)
+    results_per_corpus_df(df1, model, WORD2VECAVG_FILENAME, 50)
     print("average array created in {0}".format(time.time()- start))
