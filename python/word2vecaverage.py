@@ -7,7 +7,7 @@ import pickle
 from constants import WORD2VECMODEL_FILENAME, PROCESSED_RECORDS_FILENAME, WORD2VECAVG_FILENAME
 import time
 
-def average_per_doc(description_text, w2v_model, dim_size):
+def average_per_doc(description_text, w2v_model, dim_size=300):
     description_list = description_text.split(" ")
     mean_array = np.zeros((dim_size,), dtype="float32")
     all_words = set(w2v_model.wv.vocab)
