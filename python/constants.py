@@ -12,3 +12,5 @@ CLUSTER_CENTROIDS_FILENAME_CONVENTION = "clusterCentroidsDict_{0}_clusters.pkl"
 ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION = (
     "activity_cluster_assignment_{0}_clusters.csv"
 )
+WORD2VECMODEL_FILENAME = "word2vec.model"
+WORD2VECAVG_FILENAME = "word2vecdocavg.pkl"

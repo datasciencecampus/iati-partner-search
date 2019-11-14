@@ -1,40 +1,18 @@
 from utils import get_data_path
 from preprocessing import preprocess_query_text
 from cosine import get_cosine_similarity
+from word2vecaverage import average_per_doc
 import pandas as pd
-import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
+import pickle
 
-from constants import PROCESSED_RECORDS_FILENAME, COSINE_FILENAME
-
-
-def build_w2v_model(input_df, dim_size):
-    vectorlist = [row["description"].split(" ") for index, row in input_df.iterrows()]
-    return Word2Vec(vectorlist, min_count=20, size=dim_size, workers=4)
-
-
-def average_per_doc(description_text, w2v_model):
-    description_list = description_text.split(" ")
-    mean_array = np.zeros((50,), dtype="float32")
-    all_words = set(w2v_model.wv.vocab)
-    n_words = 0
-    for w in description_list:
-        if w in all_words:
-            mean_array = np.add(mean_array, w2v_model.wv.get_vector(w))
-            n_words += 1
-    if n_words > 0:
-        mean_array = np.divide(mean_array, n_words)
-    return mean_array
-
-
-def results_per_corpus_df(input_df, dim_size, w2v_model):
-    results_arr = np.empty([0, dim_size])
-    for index, row in df1.iterrows():
-        results_arr = np.vstack(
-            (results_arr, average_per_doc(row["description"], w2v_model))
-        )
-    return results_arr
+from constants import (
+    PROCESSED_RECORDS_FILENAME,
+    COSINE_FILENAME,
+    WORD2VECMODEL_FILENAME,
+    WORD2VECAVG_FILENAME,
+)
 
 
 if __name__ == "__main__":
@@ -49,24 +27,26 @@ if __name__ == "__main__":
         health, Great life and iii) behavior change communication to address non-supply side
         barriers to healthier behaviors."""
 
-    df1 = pd.read_csv(
+    model = Word2Vec.load(join(get_data_path(), WORD2VECMODEL_FILENAME))
+
+    iati_records = pd.read_csv(
         join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
 
-    # On laptop need to limit DF for reasonable performance
-    df1 = df1.head(10000)
-
-    model = build_w2v_model(df1, 50)
-
-    # This takes a while
-    full_arr_average = results_per_corpus_df(df1, 50, model)
-
     query_df = preprocess_query_text(query)
-    query_average = average_per_doc(str(query_df["description"]), model).reshape(1, -1)
 
-    # Using get_cosine_similarity from our cosine.py script, it removes cosine < 0 results
-    out_df = get_cosine_similarity(query_average, full_arr_average, df1)
+    if not query_df.empty:
 
-    out_df.to_csv(
-        join(get_data_path(), COSINE_FILENAME), index=False, encoding="iso-8859-1"
-    )
+        with open(join(get_data_path(), WORD2VECAVG_FILENAME), "rb") as _file:
+            full_arr = pickle.load(_file)
+
+        query_average = average_per_doc(
+            str(query_df["description"]), model, 300
+        ).reshape(1, -1)
+
+        # Using get_cosine_similarity from our cosine.py script, it removes cosine < 0 results
+        out_df = get_cosine_similarity(query_average, full_arr, iati_records)
+
+        out_df.to_csv(
+            join(get_data_path(), COSINE_FILENAME), index=False, encoding="iso-8859-1"
+        )
