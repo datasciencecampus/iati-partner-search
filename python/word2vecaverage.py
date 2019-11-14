@@ -4,8 +4,13 @@ import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
 import pickle
-from constants import WORD2VECMODEL_FILENAME, PROCESSED_RECORDS_FILENAME, WORD2VECAVG_FILENAME
+from constants import (
+    WORD2VECMODEL_FILENAME,
+    PROCESSED_RECORDS_FILENAME,
+    WORD2VECAVG_FILENAME,
+)
 import time
+
 
 def average_per_doc(description_text, w2v_model, dim_size=300):
     description_list = description_text.split(" ")
@@ -28,22 +33,22 @@ def results_per_corpus_df(input_df, w2v_model, avg_filename, dim_size=300):
         results_arr.append(average_per_doc(row["description"], w2v_model, dim_size))
         if index in progress:
             print("processed {0} records".format(index))
-    results_arr = np.array(results_arr)    
+    results_arr = np.array(results_arr)
     with open(join(get_data_path(), avg_filename), "wb") as output_file:
         pickle.dump(results_arr, output_file)
-    
+
 
 if __name__ == "__main__":
-    
+
     df1 = pd.read_csv(
         join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
-    
-    df1 = df1[['description']]
+
+    df1 = df1[["description"]]
 
     model = Word2Vec.load(join(get_data_path(), WORD2VECMODEL_FILENAME))
 
     # This takes a while
     start = time.time()
     results_per_corpus_df(df1, model, WORD2VECAVG_FILENAME, 300)
-    print("average array created in {0} seconds".format(time.time()- start))
+    print("average array created in {0} seconds".format(time.time() - start))
