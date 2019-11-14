@@ -26,16 +26,15 @@ def average_per_doc(description_text, w2v_model, dim_size=300):
     return mean_array
 
 
-def results_per_corpus_df(input_df, w2v_model, avg_filename, dim_size=300):
+def results_per_corpus_df(input_df, w2v_model, dim_size=300):
     results_arr = []
     progress = set([i for i in range(10 ** 5, 10 ** 6, 10 ** 5)])
     for index, row in input_df.iterrows():
         results_arr.append(average_per_doc(row["description"], w2v_model, dim_size))
         if index in progress:
             print("processed {0} records".format(index))
-    results_arr = np.array(results_arr)
-    with open(join(get_data_path(), avg_filename), "wb") as output_file:
-        pickle.dump(results_arr, output_file)
+    return np.array(results_arr)
+    
 
 
 if __name__ == "__main__":
@@ -50,5 +49,9 @@ if __name__ == "__main__":
 
     # This takes a while
     start = time.time()
-    results_per_corpus_df(df1, model, WORD2VECAVG_FILENAME, 300)
-    print("average array created in {0} seconds".format(time.time() - start))
+    results = results_per_corpus_df(df1, model, 300)
+    
+    with open(join(get_data_path(), WORD2VECAVG_FILENAME), "wb") as output_file:
+        pickle.dump(results, output_file)
+        
+    print("average array created and saved in {0} seconds".format(time.time() - start))
