@@ -45,5 +45,5 @@ if __name__ == "__main__":
 
     # This takes a while
     start = time.time()
-    results_per_corpus_df(df1, model, WORD2VECAVG_FILENAME, 50)
+    results_per_corpus_df(df1, model, WORD2VECAVG_FILENAME, 300)
     print("average array created in {0} seconds".format(time.time()- start))

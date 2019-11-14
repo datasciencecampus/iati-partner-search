@@ -19,7 +19,7 @@ if __name__ == "__main__":
     )
     
     start = time.time()
-    model = build_w2v_model(df1, 50)
+    model = build_w2v_model(df1, 300)
     
     model.save(join(get_data_path(), WORD2VECMODEL_FILENAME))
     

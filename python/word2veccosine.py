@@ -38,7 +38,7 @@ if __name__ == "__main__":
         with open(join(get_data_path(), WORD2VECAVG_FILENAME), "rb") as _file:
             full_arr = pickle.load(_file)
 
-        query_average = average_per_doc(str(query_df["description"]), model, 50).reshape(1, -1)
+        query_average = average_per_doc(str(query_df["description"]), model, 300).reshape(1, -1)
         
         
 
