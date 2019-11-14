@@ -8,8 +8,24 @@ def install_dependencies(c):
 
 
 @task
+def install_dev_dependencies(c):
+    c.run("pip install -r requirements-dev.txt")
+
+
+@task
+def install_all(c):
+    install_dependencies(c)
+    install_dev_dependencies(c)
+
+
+@task
 def check_format(c):
     c.run("black --check .")
+
+
+@task
+def format(c):
+    c.run("black .")
 
 
 @task
@@ -44,10 +60,12 @@ def push_docker(c):
 
 
 @task
-def ci(c):
-    print("Running CI scripts")
-    check_format(c)
-    lint(c)
-    if "TRAVIS_PULL_REQUEST" in os.environ:
-        build_docker(c)
-        push_docker(c)
+def build_and_deploy_flask_docker(c):
+    build_docker(c)
+    push_docker(c)
+
+
+@task
+def test(c):
+    # update pyproject.toml for py.test defaults
+    c.run("py.test")

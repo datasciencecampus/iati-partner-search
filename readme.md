@@ -5,9 +5,23 @@
 To install the python packages, make sure that you have your virtual environment activated and run the following:
 
 ```powershell
-pip install -r requirements.txt
+pip install invoke
+invoke install-all
+```
+This will install all of the development and testing packages as well
+
+## Testing
+To run tests:
+
+```powershell
+invoke test
 ```
 
+To run linting, formatting and tests:
+
+```powershell
+invoke ci
+```
 ## Using Docker
 This repo provides a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.
 
@@ -25,7 +39,7 @@ docker run --name=ips -it -v ${pwd}:/iati-partner-search -p 5000:5000 iati_partn
 to break this down:
 
 - `--name=ips`: tells what we will call this container when we want to start and stop it again.
-- `-it`: 
+- `-it`:
 - `-v ${pwd}:/iati-partner-search`: tells Docker to share the files on your machine, with the Docker container.
 - `-p 5000:5000`: tells Docker that we want to map port 5000 on our machine to port 5000 of the container
 - `iati_partner_search`: refers to the image that we want to build the container from.
