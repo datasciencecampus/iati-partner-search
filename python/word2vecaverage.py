@@ -28,7 +28,7 @@ def average_per_doc(description_text, w2v_model, dim_size=300):
 
 def results_per_corpus_df(input_df, w2v_model, avg_filename, dim_size=300):
     results_arr = []
-    progress = set([i for i in range(100000, 1000000, 100000)])
+    progress = set([i for i in range(10 ** 5, 10 ** 6, 10 ** 5)])
     for index, row in input_df.iterrows():
         results_arr.append(average_per_doc(row["description"], w2v_model, dim_size))
         if index in progress:
