@@ -34,7 +34,6 @@ def results_per_corpus_df(input_df, w2v_model, dim_size=300):
         if index in progress:
             print("processed {0} records".format(index))
     return np.array(results_arr)
-    
 
 
 if __name__ == "__main__":
@@ -50,8 +49,8 @@ if __name__ == "__main__":
     # This takes a while
     start = time.time()
     results = results_per_corpus_df(df1, model, 300)
-    
+
     with open(join(get_data_path(), WORD2VECAVG_FILENAME), "wb") as output_file:
         pickle.dump(results, output_file)
-        
+
     print("average array created and saved in {0} seconds".format(time.time() - start))
