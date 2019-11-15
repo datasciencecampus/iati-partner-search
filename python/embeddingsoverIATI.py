@@ -66,49 +66,57 @@ if __name__ == "__main__":
                 
 #put tdm into df
 xd = pd.DataFrame(term_document_matrix .toarray(), columns = vectorizer.get_feature_names())
-
 xd.index = iati_identifiers_list
-
 wordsintdm = list(xd.columns)
                 
  
 # get data ready into lists
-
 def list_for_wordtovec(cdf,qdf):    
-    f_vectorlist = []
-    for index, row in cdf.iterrows():
-            f_vectorlist.append(row['description'].split(" ")) 
-    #append query
+    f_vectorlist = [row['description'].split(" ") for index, row in cdf.iterrows()]
+     #append query
     f_vectorlist.append(str(qdf['description']).split(" "))
     return f_vectorlist
 
 vectorlist = list_for_wordtovec(clean_df,query_df)
 
-#run the word to vec over data
-model = Word2Vec(vectorlist, min_count=20,size=50,workers=4)
-# summarize vocabulary
-words = list(model.wv.vocab)
-#save the stuff
-model.save('model.bin')
+#set up embeddings model
+def getwordmodel(pdata, psize, pwindow, pmin):
+    return Word2Vec(pdata, size= psize, window = pwindow, min_count = pmin)
+    
+
+#get word vectors
+def getwordvectors(pmodel):
+    return list(pmodel.wv.vocab)
 
 
-def embeddings_in_df (pmodel):
+###test of all functions
+model = getwordmodel(vectorlist, 50, 5, 20)
+##save embeddings model
+model.wv.save_word2vec_format(MODEL_NAME)
+#loaded_model = Word2Vec.load(MODEL_NAME)
+words = getwordvectors(model)
+
+
+# put embeddings into a df with words as rownames
+def embeddings_in_df (pmodel, pwords):
          #empty df ready to populate
-        f_dfvectors = pd.DataFrame(np.zeros((len(words),50)))
+        f_dfvectors = pd.DataFrame(np.zeros((len(pwords),50)))
         #put embeddings into df
-        for row in range(len(words)):
-            f_dfvectors.loc[row] = np.array([list(model.wv[words[row]])])
+        for row in range(len(pwords)):
+            f_dfvectors.loc[row] = np.array([list(pmodel.wv[pwords[row]])])
         #add in the words as rownames
-        f_dfvectors.index = words
+        f_dfvectors.index = pwords
         return f_dfvectors
 
-dfvectors = embeddings_in_df (model)
+
+dfvectors = embeddings_in_df (model, getwordvectors(model))
 
 def embeddings_for_qry(pvectorlist, pvectors, pwords):    
+        
         f_qryvector = []
         f_wordsinqry = []
         f_qry = []
-        
+       
         for i in pvectorlist[-1]:
             if i in pwords:
                 f_qryvector.append(pvectors.loc[i])
@@ -123,6 +131,8 @@ r_qry = embeddings_for_qry(vectorlist, dfvectors, words)
 qryvector= r_qry[0]
 wordsinqry= r_qry[1]    
 
+
+#for every vector in qryvector is compared to every value in word vectors
 def cosine_res(pdfvector, pqryvector):
     f_similarwords={}   
     for index, value in enumerate(pqryvector):

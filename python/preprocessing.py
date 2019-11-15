@@ -8,6 +8,7 @@ from langdetect import detect
 import time
 
 from utils import get_data_path, get_input_path
+
 from constants import (
     PROCESSED_RECORDS_FILENAME,
     INPUT_DATA_FILENAME,

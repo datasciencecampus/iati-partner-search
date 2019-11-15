@@ -6,6 +6,11 @@ VECTORIZER_FILENAME = "vectorizer.pkl"
 COSINE_FILENAME = "cosine_df.csv"
 STOPWORDS_FILENAME = "stopwords.txt"
 IATI_IDENTIFIERS_FILENAME = "iati_identifiers_list.pkl"
+MODEL_NAME = "model.bin"
+
+
+
+
 
 CLUSTERING_SUM_OF_SQUARE_COMPARISON_FILENAME = "ssResults.csv"
 CLUSTER_CENTROIDS_FILENAME_CONVENTION = "clusterCentroidsDict_{0}_clusters.pkl"
