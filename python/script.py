@@ -1,7 +1,7 @@
-from preprocessing import preprocess_query_text
-from vectorize import create_tfidf_term_document_matrix, vectorize_input_text
-from cosine import get_cosine_similarity
-from refinement import process_results, gather_top_results
+from .preprocessing import preprocess_query_text
+from .vectorize import create_tfidf_term_document_matrix, vectorize_input_text
+from .cosine import get_cosine_similarity
+from .refinement import process_results, gather_top_results
 
 
 def download_data():
