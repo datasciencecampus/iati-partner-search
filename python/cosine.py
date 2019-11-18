@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-from utils import get_data_path
+from .utils import get_data_path
 from os.path import join
 
 from .preprocessing import preprocess_query_text
