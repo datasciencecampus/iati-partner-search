@@ -52,12 +52,10 @@ You can read more about Docker containers and this process [here](https://docs.d
 ## Get the Data
 Currently (and temporarily) we copy in the data manually. Copy the file named `all_downloaded_records.csv` in to the `/data/` directory.
 
-If you're not working from within the Docker container, you will also need to download the nltk data. Open your python shell and execute the following:
+If you're not working from within the Docker container, you will also need to download the nltk data.Execute the following:
 
-```python
->>> import nltk
->>> nltk.download('words')
->>> nltk.download('stopwords')
+```powershell
+invoke download-nltk-data
 ```
 
 ## Run the Flask application

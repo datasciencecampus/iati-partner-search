@@ -9,6 +9,7 @@ services:
 install:
   - pip install invoke codecov
   - invoke install-all
+  - invoke download-nltk-data
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login docker.io -u "$DOCKER_USERNAME" --password-stdin

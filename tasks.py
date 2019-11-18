@@ -1,8 +1,9 @@
 import os
 from os.path import isfile, join
+from invoke import task
+
 from python.utils import get_data_path
 from python.constants import INPUT_DATA_FILENAME
-from invoke import task
 
 
 @task
@@ -87,3 +88,11 @@ def clear_data(c):
     for file_name, file_path in files_to_be_deleted:
         print(f"DELETING {file_name}")
         os.remove(file_path)
+
+
+@task
+def download_nltk_data(c):
+    import nltk
+
+    nltk.download("stopwords")
+    nltk.download("words")
