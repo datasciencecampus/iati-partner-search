@@ -1,10 +1,10 @@
 import pickle
 from os.path import join
 import pandas as pd
-from utils import get_data_path
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from constants import (
+from .utils import get_data_path
+from .constants import (
     PROCESSED_RECORDS_FILENAME,
     WORD_LIST_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
