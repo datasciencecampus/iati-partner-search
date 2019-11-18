@@ -12,34 +12,47 @@ from constants import (
 )
 
 
-def create_tfidf_term_document_matrix(
+def create_tfidf_term_document_matrix(preprocessed_text_dataframe):
+    """
+    return a vectorizer object, TFIDF term document matrix and list of words
+
+    input:
+        preprocessed_text_dataframe: dataframe of preprocessed text with 'description' column
+
+    output:
+        tuple: vectorizer, term_document_matrix, word_list
+    """
+    vectorizer = TfidfVectorizer(min_df=0)
+    term_document_matrix = vectorizer.fit_transform(
+        preprocessed_text_dataframe["description"]
+    )
+
+    word_list = vectorizer.get_feature_names()
+
+    return (vectorizer, term_document_matrix, word_list)
+
+
+def write_tfidf_term_document_matrix_to_file(
     preprocessed_file_name,
     word_list_file_name,
     term_document_matrix_filename,
     vectorizer_filename,
 ):
-    # read in the csv
     df1 = pd.read_csv(
         join(get_data_path(), preprocessed_file_name), encoding="iso-8859-1"
     )
-
     df1 = df1[["iati.identifier", "description"]]
-    # Build document-term matrix
-    # replace with min_proportion variable if wish
-    vectorizer = TfidfVectorizer(min_df=0)
-    X = vectorizer.fit_transform(df1["description"])
 
-    # write out the list of words to pickle file
-    word_list = vectorizer.get_feature_names()
-    with open(join(get_data_path(), word_list_file_name), "wb") as output_file:
-        pickle.dump(word_list, output_file)
+    vectorizer, term_document_matrix, word_list = create_tfidf_term_document_matrix(df1)
 
-    # Write X to pickle file
     with open(
         join(get_data_path(), term_document_matrix_filename), "wb"
     ) as output_file:
-        pickle.dump(X, output_file)
-    # Write vectorizer to pickle file
+        pickle.dump(term_document_matrix, output_file)
+
+    with open(join(get_data_path(), word_list_file_name), "wb") as output_file:
+        pickle.dump(word_list, output_file)
+
     with open(join(get_data_path(), vectorizer_filename), "wb") as output_file:
         pickle.dump(vectorizer, output_file)
 
@@ -58,7 +71,7 @@ def vectorize_input_text(processed_query_dataframe, vectorizer):
 
 
 if __name__ == "__main__":
-    create_tfidf_term_document_matrix(
+    write_tfidf_term_document_matrix_to_file(
         PROCESSED_RECORDS_FILENAME,
         WORD_LIST_FILENAME,
         TERM_DOCUMENT_MATRIX_FILENAME,
