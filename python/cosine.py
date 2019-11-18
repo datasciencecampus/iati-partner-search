@@ -1,17 +1,19 @@
+import time
 import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from preprocessing import preprocess_query_text
-from vectorize import vectorize_input_text
+
 from utils import get_data_path
 from os.path import join
-from constants import (
+
+from .preprocessing import preprocess_query_text
+from .vectorize import vectorize_input_text
+from .constants import (
     PROCESSED_RECORDS_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
     VECTORIZER_FILENAME,
     COSINE_FILENAME,
 )
-import time
 
 
 def get_cosine_similarity(
