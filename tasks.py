@@ -4,6 +4,7 @@ from python.utils import get_data_path
 from python.constants import INPUT_DATA_FILENAME
 from invoke import task
 
+
 @task
 def install_dependencies(c):
     c.run("pip install -r requirements.txt")
@@ -70,14 +71,18 @@ def build_and_deploy_flask_docker(c):
 @task
 def test(c):
     # update pyproject.toml for py.test defaults
-    c.run("py.test")
+    c.run("py.test --cov=./")
 
 
 @task
 def clear_data(c):
     protected_files = [".gitkeep", INPUT_DATA_FILENAME]
     data_path = get_data_path()
-    files_to_be_deleted = [(f, join(data_path, f)) for f in os.listdir(data_path) if isfile(join(data_path, f)) and f not in protected_files]
+    files_to_be_deleted = [
+        (f, join(data_path, f))
+        for f in os.listdir(data_path)
+        if isfile(join(data_path, f)) and f not in protected_files
+    ]
 
     for file_name, file_path in files_to_be_deleted:
         print(f"DELETING {file_name}")

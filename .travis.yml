@@ -7,7 +7,7 @@ services:
   - docker
 
 install:
-  - pip install invoke
+  - pip install invoke codecov
   - invoke install-all
 
 script:
@@ -16,6 +16,9 @@ script:
   - invoke check-format
   - invoke lint
   - invoke test
+
+after_success:
+  - codecov
 
 deploy:
   provider: script
