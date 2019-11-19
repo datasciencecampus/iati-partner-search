@@ -72,9 +72,9 @@ def search():
         }
         headers = {"Content-Type": "application/json"}
 
-        response = requests.get(url, data=json.dumps(payload), headers=headers)
-
-        return response.json()
+        response = requests.get(url, data=json.dumps(payload), headers=headers).json()
+        results = response['hits']['hits']
+        return render_template("elastic-results.html", results=results)
 
     else:
         return "sorry, you need to specify a search method"
