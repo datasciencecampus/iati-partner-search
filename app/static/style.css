@@ -23,12 +23,17 @@ nav span {
   padding: 0 3rem 0 0;
 }
 
-.index,
-.results {
+.index {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
 }
 
 .index > .main {
