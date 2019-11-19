@@ -2,6 +2,7 @@ import sys
 
 sys.path.append("./python/")
 
+import os, json
 from flask import Flask, request, render_template
 from script import process_query
 from constants import (
@@ -14,6 +15,10 @@ import pickle
 from os.path import join
 from utils import get_data_path
 import pandas as pd
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -41,14 +46,38 @@ def home():
 @app.route("/search", methods=["POST"])
 def search():
     search_term = request.form["search"]
-    results = process_query(
-        search_term,
-        vectorizer,
-        term_document_matrix,
-        processed_iati_records,
-        full_iati_records,
-    ).to_html()
-    return render_template("results.html", results=results)
+    search_method = request.form["search-method"]
+
+    if search_method == "cosine":
+        results = process_query(
+            search_term,
+            vectorizer,
+            term_document_matrix,
+            processed_iati_records,
+            full_iati_records,
+        ).to_html()
+        return render_template("results.html", results=results)
+
+    elif search_method == "elastic":
+        url = os.getenv('ELASTICSEARCH_URL') + "/_search"
+        payload = {
+            "query": {
+                "more_like_this": {
+                    "fields": ["title", "description"],
+                    "like": search_term,
+                    "min_term_freq": 1,
+                    "max_query_terms": 30,
+                }
+            }
+        }
+        headers = {"Content-Type": "application/json"}
+
+        response = requests.get(url, data=json.dumps(payload), headers=headers)
+
+        return response.json()
+
+    else:
+        return "sorry, you need to specify a search method"
 
 
 if __name__ == "__main__":

@@ -5,6 +5,21 @@
       Find organisations who can help implement your project
     </h1>
     <form action="/search" method="POST">
+      <p>Select search method:</p>
+      <div>
+        <input
+          type="radio"
+          id="cosine"
+          name="search-method"
+          value="cosine"
+          checked
+        />
+        <label for="cosine">Cosine Similarity</label>
+      </div>
+      <div>
+        <input type="radio" id="elastic" name="search-method" value="elastic" />
+        <label for="elastic">ElasticSearch</label>
+      </div>
       <textarea
         type="text"
         id="search"
