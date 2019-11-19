@@ -55,7 +55,8 @@ def search():
             term_document_matrix,
             processed_iati_records,
             full_iati_records,
-        ).to_html()
+        ).to_dict('records')
+
         return render_template("results.html", results=results)
 
     elif search_method == "elastic":

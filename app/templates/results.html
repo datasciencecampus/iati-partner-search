@@ -1,7 +1,13 @@
 {% extends "base.html" %} {% block content %}
 <div class="results">
   <h1>Organisations</h1>
-  {{ results | safe }}
   <a href="/">Search again</a>
+  {% for result in results %}
+  <h2>{{ result['reporting.org'] }}</h2>
+  <p>
+    <em>{{ result['title'] }}</em><br />
+    {{ result['description']}}
+  </p>
+  {% endfor %}
 </div>
 {% endblock %}
