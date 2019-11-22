@@ -56,7 +56,7 @@ nav span {
   color: #666;
 }
 
-#search {
+textarea {
   height: 175px;
   width: 500px;
 }
@@ -66,7 +66,7 @@ form {
   flex-direction: column;
 }
 
-form > button {
+form > input {
   align-self: flex-end;
 }
 
@@ -74,7 +74,7 @@ form > p {
   margin-bottom: 0px;
 }
 
-button {
+input {
   background: #fcfcfc;
   box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
     0px 1px 3px rgba(0, 0, 0, 0.08);

@@ -4,30 +4,56 @@
     <h1>
       Find organisations who can help implement your project
     </h1>
-    <form action="/search" method="POST">
+    <form action="/" method="POST">
       <p>Select search method:</p>
+      {% for error in form.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+      {% endfor %}
       <div>
-        <input
-          type="radio"
-          id="cosine"
-          name="search-method"
-          value="cosine"
-          checked
-        />
-        <label for="cosine">Cosine Similarity</label>
-        <input type="radio" id="elastic" name="search-method" value="elastic" />
-        <label for="elastic">ElasticSearch</label>
+      {% for subfield in form.search_method %}
+        {{ subfield }}
+        {{ subfield.label }}
+      {% endfor %}
       </div>
-      <textarea
-        type="text"
-        id="search"
-        name="search"
-        placeholder="Enter your project description"
-      ></textarea>
-      <button type="submit">Search</button>
+      {{ form.search(placeholder="Enter your project description") }}
+      {{ form.submit }}
     </form>
   </div>
 
+  
+  {% if result_type == "cosine" %}
+  <div class="results">
+    <h1>Organisations</h1>
+    <a href="/">Search again</a>
+    {% for result in results %}
+    <div>
+      <h2>{{ result['reporting.org'] }}</h2>
+      <p>
+        <em>{{ result['title'] }}</em><br />
+        {{ result['description']}}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% elif result_type == "elastic" %}
+
+  <div class="results">
+    <h1>Organisations</h1>
+    <a href="/">Search again</a>
+    {% for result in results %}
+    <div>
+      <h2>{{ result['_source']['reportingOrg'] }}</h2>
+      <p>
+        <em>{{ result['_source']['title'] }}</em><br />
+        {{ result['_source']['description']}}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <!-- fallback if nothing defined -->
   <div class="example">
     <h2>Here's an example to try out</h2>
     <p>
@@ -43,5 +69,7 @@
       barriers to healthier behaviors
     </p>
   </div>
+  {% endif %}  
+
 </div>
 {% endblock %}
