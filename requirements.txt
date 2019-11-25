@@ -6,5 +6,10 @@ numpy
 pandas
 matplotlib
 Flask
+flask_wtf
 fuzzywuzzy
 invoke
+requests
+python-dotenv
+wtforms
+requests
