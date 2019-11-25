@@ -5,7 +5,6 @@ COPY /python /iati-partner-search/python
 COPY /data /iati-partner-search/data
 COPY /input /iati-partner-search/input
 COPY requirements.txt /iati-partner-search
-COPY .env /iati-partner-search
 
 WORKDIR /iati-partner-search
 
