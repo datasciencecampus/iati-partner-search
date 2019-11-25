@@ -24,7 +24,7 @@ It was agreed that this data would be published as XML, but that it would also a
 Identifiers are a string of letters and numbers that uniquely identify something.
 They are used for both activities and organisations.
 They allow us to identify and connect disparate bits of information across documents.
-Note that in some cases, widentifiers might not be included in the  
+Note that in some cases, identifiers might not be included in the  
 There are norms that govern identifiers. The way to think about is
 This may not always be the case, as some organisations will use only the organisations name and possibly
 
@@ -70,7 +70,7 @@ It may be pragmatic to ignore the Version 1 data in some cases.
 ## Validation
 When we ask the question 'is this information valid?', there are a number of levels to consider;
 XML - does the document itself valid XML? There are plenty of tools that can do this.
-TATI Schema - there are certain required elements and structure in the document, as well as how they should be added to the document.
+IATI Schema - there are certain required elements and structure in the document, as well as how they should be added to the document.
 Semantically Valid - something might be completely valid from a technical viewpoint, but doesn't helpfully communicate 
     certain details about an activity. For example, an organisation that was included in the description or 
 
@@ -185,7 +185,7 @@ Takes a bunch of internal databases that DFID has and pushes the data in to XML 
 > checks to ensure data is both available and compliant with the IATI schema. 
 If there’s a problem, you’ll be notified by email [^ canarysource]
 
-Note that thhis tool is opt-in.
+Note that this tool is opt-in.
 
 ### [iati-decipher](https://iati-decipher.publishwhatyoufund.org/)
 > Browser plugins for deciphering IATI organisation files.
