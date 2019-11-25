@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "rabshab/iati-partner-search-app",
+    "Name": "datasciencecampus/iati-partner-search-app",
     "Update": "true"
   },
   "Ports": [
