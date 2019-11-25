@@ -39,9 +39,7 @@ def apply_svd(term_document_matrix, number_of_components=100):
     # https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html
     start = time.time()
     svd = TruncatedSVD(n_components=number_of_components, n_iter=5, random_state=42)
-    svd_term_document_matrix = svd.fit_transform(
-        term_document_matrix
-    )
+    svd_term_document_matrix = svd.fit_transform(term_document_matrix)
     end = time.time()
     print("SVD time elapsed: {0} seconds".format(end - start))
 
@@ -55,17 +53,17 @@ def kmeans_clustering(
     maximum_number_of_clusters,
     increment,
 ):
-   """
-   Args:
+    """
+    Args:
         term_document_matrix: scipy sparse matrix of term document matrix
         term_dataframe: mapping between terms and iati records
-        minimum_number_of_clusters: minimum number of clusters 
+        minimum_number_of_clusters: minimum number of clusters
         maximum_number_of_clusters: maximum number of clusters
         increment: int of value increments between minimum_number_of_clusters and maximum_number_of_clusters
-    
+
     Returns:
         A dictionary mapping 'number of clusters':'within cluster sum of squares'
-   """
+    """
     start = time.time()
 
     # Check dimensions reduced to n_components
@@ -91,7 +89,9 @@ def kmeans_clustering(
             [n_clust, clusters.inertia_],
         )
 
-        term_dataframe.insert(term_dataframe.shape[1], 'cluster{0}'.format(n_clust), clusters.labels_)
+        term_dataframe.insert(
+            term_dataframe.shape[1], "cluster{0}".format(n_clust), clusters.labels_
+        )
         # Write cluster assigned to each iati.identifier out to csv
         term_dataframe[["iati.identifier", "cluster{0}".format(n_clust)]].to_csv(
             join(
@@ -109,7 +109,7 @@ def kmeans_clustering(
             "wb",
         ) as out:
             pickle.dump(clusters.cluster_centers_, out)
-    
+
     return result_dict
 
 

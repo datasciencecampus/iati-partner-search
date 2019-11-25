@@ -5,9 +5,23 @@
 To install the python packages, make sure that you have your virtual environment activated and run the following:
 
 ```powershell
-pip install -r requirements.txt
+pip install invoke
+invoke install-all
+```
+This will install all of the development and testing packages as well
+
+## Testing
+To run tests:
+
+```powershell
+invoke test
 ```
 
+To run linting, formatting and tests:
+
+```powershell
+invoke ci
+```
 ## Using Docker
 This repo provides a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.
 
@@ -25,7 +39,7 @@ docker run --name=ips -it -v ${pwd}:/iati-partner-search -p 5000:5000 iati_partn
 to break this down:
 
 - `--name=ips`: tells what we will call this container when we want to start and stop it again.
-- `-it`: 
+- `-it`:
 - `-v ${pwd}:/iati-partner-search`: tells Docker to share the files on your machine, with the Docker container.
 - `-p 5000:5000`: tells Docker that we want to map port 5000 on our machine to port 5000 of the container
 - `iati_partner_search`: refers to the image that we want to build the container from.
@@ -38,12 +52,10 @@ You can read more about Docker containers and this process [here](https://docs.d
 ## Get the Data
 Currently (and temporarily) we copy in the data manually. Copy the file named `all_downloaded_records.csv` in to the `/data/` directory.
 
-If you're not working from within the Docker container, you will also need to download the nltk data. Open your python shell and execute the following:
+If you're not working from within the Docker container, you will also need to download the nltk data.Execute the following:
 
-```python
->>> import nltk
->>> nltk.download('words')
->>> nltk.download('stopwords')
+```powershell
+invoke download-nltk-data
 ```
 
 ## Run the Flask application
@@ -56,28 +68,15 @@ In the `/data` directory make sure you have
     - term_document_matrix.pkl
     - vectorizer.pkl
 
-The easiest way is to run the application inside the docker container. Build and run the container using the instructions in the [Python Pipeline Development](#python-pipeline-development) section.
-
-Then, from within the running container, run 
+Then, using invoke, run
 
 ```bash
-python -m flask run --host=0.0.0.0
+invoke build-docker
 ```
-
-After a few seconds of start up time it should be up and running. Navigate to `localhost:5000` in your web browser to view the page.
-
-There is also the docker container which is used for running the application in production which is described by `app.Dockerfile`. To use this one instead it is necessary to remove `data/` from the `.dockerignore` first. 
-
-Then run 
-
-```bash 
-docker build -t iati-partner-search-app -f .\app.Dockerfile .
-```
-
-to build the image and
+to build the docker and then
 
 ```bash
-docker run --name=ipsapp -p 5000:5000 iati-partner-search-app
+invoke run-docker
 ```
 to run it.
 

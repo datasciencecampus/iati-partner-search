@@ -1,11 +1,11 @@
-from constants import INPUT_DATA_FILENAME, COSINE_FILENAME
-from os.path import join
-from utils import get_data_path
-import pandas as pd
 import time
-from fuzzywuzzy import fuzz
-import re
-from preprocessing import preprocessing_initial_text_clean
+from os.path import join
+
+import pandas as pd
+
+from .utils import get_data_path
+from .constants import INPUT_DATA_FILENAME, COSINE_FILENAME
+from .preprocessing import preprocessing_initial_text_clean
 
 
 def process_results(initial_result_df, full_iati_records, number_of_results=100):
@@ -60,9 +60,7 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
 
     start_time = time.time()
     # remove duplicate entries
-    post_processed_results = post_processed_results.drop_duplicates(
-        subset=[org_name, "title", "description"]
-    )
+    post_processed_results.drop_duplicates(subset=[org_name, "title", "description"])
 
     # set order for top reporting organisations
     myorder = pd.Series(post_processed_results[org_name], name="A").unique()
@@ -81,6 +79,8 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
     top_project_results = top_project_results.sort_values(
         ["myorder", "cosine_sim"], ascending=[True, False]
     )
+
+    top_project_results = top_project_results.drop(["myorder"], axis=1)
 
     print("limited after {} seconds".format(time.time() - start_time))
 
@@ -101,11 +101,11 @@ if __name__ == "__main__":
 
     refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
 
-    refined_res = remove_whitespace(refined_res, "reporting.org")
-    refined_res = remove_whitespace(refined_res, "description")
+    refined_res = remove_white_space(refined_res, "reporting.org")
+    refined_res = remove_white_space(refined_res, "description")
 
     # top results per reporting organisation
-    top_project_results = top_results(refined_res, "reporting.org", 3)
+    top_project_results = gather_top_results(refined_res, "reporting.org", 3)
 
 
 # column names in the provisional larger IATI dataset

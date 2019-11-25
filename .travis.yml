@@ -1,0 +1,28 @@
+language: python
+
+python:
+  - "3.7"
+
+services:
+  - docker
+
+install:
+  - pip install invoke codecov
+  - invoke install-all
+  - invoke download-nltk-data
+
+script:
+  - echo "$DOCKER_PASSWORD" | docker login docker.io -u "$DOCKER_USERNAME" --password-stdin
+  - echo "Running CI scripts"
+  - invoke check-format
+  - invoke lint
+  - invoke test
+
+after_success:
+  - codecov
+
+deploy:
+  provider: script
+  script: invoke build-and-deploy-flask-docker
+  on:
+    branch: master

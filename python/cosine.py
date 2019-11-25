@@ -1,17 +1,19 @@
+import time
 import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from preprocessing import preprocess_query_text
-from vectorize import vectorize_input_text
-from utils import get_data_path
+
+from .utils import get_data_path
 from os.path import join
-from constants import (
+
+from .preprocessing import preprocess_query_text
+from .vectorize import vectorize_input_text
+from .constants import (
     PROCESSED_RECORDS_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
     VECTORIZER_FILENAME,
     COSINE_FILENAME,
 )
-import time
 
 
 def get_cosine_similarity(
@@ -22,7 +24,7 @@ def get_cosine_similarity(
         TDM
         IATI Records used in TDM
         vectorized query
-    
+
     output:
         cosine similarity > 0 per iati.identifier
     """
@@ -42,14 +44,14 @@ def get_cosine_similarity(
 if __name__ == "__main__":
 
     # Test query
-    query = """Despite impressive improvements in Vietnam's development and 
+    query = """Despite impressive improvements in Vietnam's development and
     health status over the past decade, gains have not been equitable and significant unmet
-    health needs remain. Poor and marginalized populations continue to disproportionally 
-    suffer from preventable illnesses while those in wealthier socioeconomic groups 
-    continue to enjoy greater health and longer life expectancy. Social Marketing for 
-    Improved Rural Health will include 3 main components: i) social marketing of SafeWat 
-    household water treatment solution and promotion of safer hygiene behaviors; ii) Good 
-    health, Great life and iii) behavior change communication to address non-supply side 
+    health needs remain. Poor and marginalized populations continue to disproportionally
+    suffer from preventable illnesses while those in wealthier socioeconomic groups
+    continue to enjoy greater health and longer life expectancy. Social Marketing for
+    Improved Rural Health will include 3 main components: i) social marketing of SafeWat
+    household water treatment solution and promotion of safer hygiene behaviors; ii) Good
+    health, Great life and iii) behavior change communication to address non-supply side
     barriers to healthier behaviors."""
 
     # Or uncomment below if wish to test input text at runtime
@@ -58,8 +60,9 @@ if __name__ == "__main__":
     query_df = preprocess_query_text(query)
 
     if not query_df.empty:
-
-        query_vector = vectorize_input_text(query_df, VECTORIZER_FILENAME)
+        with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
+            vectorizer = pickle.load(_file)
+        query_vector = vectorize_input_text(query_df, vectorizer)
 
         with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
             term_document_matrix = pickle.load(_file)

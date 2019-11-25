@@ -7,9 +7,8 @@ from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 import time
 
-from utils import get_data_path, get_input_path
-
-from constants import (
+from .utils import get_data_path, get_input_path
+from .constants import (
     PROCESSED_RECORDS_FILENAME,
     INPUT_DATA_FILENAME,
     STOPWORDS_FILENAME,
@@ -132,37 +131,50 @@ def preprocess_embeddings(p_df):
     return preprocessing_empty_text_remove(df, "description")
 
 
-if __name__ == "__main__":
+def preprocess_pipeline(df):
+    """
+    Default process for taking the raw IATI data dump and processing the text for vectorizing
 
-    start = time.time()
+    Args:
+        df: dataframe of the raw IATI data with columns including identifier, description and title
 
-    # To import full dataset
-    df1 = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
-
-    df1 = df1[["iati.identifier", "description", "title"]]
+    Returns:
+        dataframe of with preprocessed data with _only_ the columns "iati.identifier" and "description"
+    """
+    df = df[["iati.identifier", "description", "title"]]
 
     # Remove record in current full dataset with null iati.identifer
-    df1 = df1[~df1["iati.identifier"].str.isspace()]
+    df = df[~df["iati.identifier"].str.isspace()]
 
     # If both description and title not NA concatenate them into description column
-    df1.loc[~df1["description"].isna() & ~df1["title"].isna(), ["description"]] = (
-        df1["title"] + " " + df1["description"]
+    df.loc[~df["description"].isna() & ~df["title"].isna(), ["description"]] = (
+        df["title"] + " " + df["description"]
     )
 
     # If description is NA replace with title
-    df1.loc[df1["description"].isna(), ["description"]] = df1["title"]
+    df.loc[df["description"].isna(), ["description"]] = df["title"]
 
-    df1 = df1[["iati.identifier", "description"]]
+    df = df[["iati.identifier", "description"]]
 
     # preprocessing
-    df1 = preprocessing_initial_text_clean(df1, "description")
-    df1 = preprocessing_nonenglish_words_remove(df1, "description")
-    df1 = preprocessing_stopwords_remove(df1, "description")
-    df1 = preprocessing_stem(df1, "description")
-    df1 = preprocessing_empty_text_remove(df1, "description")
+    df = preprocessing_initial_text_clean(df, "description")
+    df = preprocessing_nonenglish_words_remove(df, "description")
+    df = preprocessing_stopwords_remove(df, "description")
+    df = preprocessing_stem(df, "description")
+    df = preprocessing_empty_text_remove(df, "description")
+    return df
+
+
+if __name__ == "__main__":
+    start = time.time()
+
+    # To import full dataset
+    df = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
+
+    df = preprocess_pipeline(df)
 
     # write out df with reduced records
-    df1.to_csv(
+    df.to_csv(
         join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)),
         index=False,
         encoding="iso-8859-1",
