@@ -123,7 +123,6 @@ def preprocess_query_text(query_text):
     return preprocessing_empty_text_remove(df, "description")
 
 
-
 def preprocess_pipeline(df):
     """
     Default process for taking the raw IATI data dump and processing the text for vectorizing
