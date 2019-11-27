@@ -123,13 +123,6 @@ def preprocess_query_text(query_text):
     return preprocessing_empty_text_remove(df, "description")
 
 
-def preprocess_embeddings(p_df):
-    df = preprocessing_initial_text_clean(p_df, "description")
-    df = preprocessing_nonenglish_words_remove(df, "description")
-    df = preprocessing_stopwords_remove(df, "description")
-    df = preprocessing_stem(df, "description")
-    return preprocessing_empty_text_remove(df, "description")
-
 
 def preprocess_pipeline(df):
     """
