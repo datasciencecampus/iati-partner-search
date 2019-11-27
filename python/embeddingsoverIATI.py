@@ -4,7 +4,6 @@ from os.path import join
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 from utils import get_data_path
-from preprocessing import preprocess_query_text
 import time
 from gensim.models import Word2Vec
 import operator
