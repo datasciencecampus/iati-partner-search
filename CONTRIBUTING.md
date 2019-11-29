@@ -16,6 +16,7 @@ Edit this before making a repository public!
 
 > Responsibilities
 > * Ensure cross-platform compatibility for every change that's accepted. Windows, Mac, Debian & Ubuntu Linux.
+> * Ensure cross-browser compatibility for every change that's accepted. Firefox, Chrome, Edge, Internet Explorer etc. 
 > * Create issues for any major changes and enhancements that you wish to make. Discuss things transparently and get community feedback.
 > * Don't add any classes to the codebase unless absolutely needed. Err on the side of using functions.
 > * Keep feature versions as small as possible, preferably one new feature per version.
