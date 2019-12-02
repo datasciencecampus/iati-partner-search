@@ -49,18 +49,24 @@ def build_docker(c):
         if "TRAVIS_BUILD_NUMBER" in os.environ
         else "latest"
     )
-    c.run(f"docker build -t rabshab/iati-partner-search-app:{tag} -f app.Dockerfile .")
+    c.run(
+        f"docker build -t datasciencecampus/iati-partner-search-app:{tag} -f app.Dockerfile ."
+    )
 
 
 @task
 def run_docker(c):
-    c.run("docker run --name=ipsapp -p 5000:5000 rabshab/iati-partner-search-app")
+    c.run(
+        "docker run --name=ipsapp -p 5000:5000 datasciencecampus/iati-partner-search-app"
+    )
 
 
 @task
 def push_docker(c):
     travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
-    c.run(f"docker push rabshab/iati-partner-search-app:{travis_build_number}")
+    c.run(
+        f"docker push datasciencecampus/iati-partner-search-app:{travis_build_number}"
+    )
 
 
 @task
