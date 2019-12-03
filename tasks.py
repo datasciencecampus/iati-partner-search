@@ -1,7 +1,8 @@
 import os
 from os.path import isfile, join
-from invoke import task
+import shutil
 
+from invoke import task
 from python.utils import get_data_path
 from python.constants import INPUT_DATA_FILENAME
 
@@ -102,3 +103,30 @@ def download_nltk_data(c):
 
     nltk.download("stopwords")
     nltk.download("words")
+
+
+def get_docs_source_path():
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
+
+
+def get_docs_build_path():
+    return os.path.join(get_docs_source_path(), "_build")
+
+
+@task
+def makedocs(c):
+    from sphinx.cmd.build import build_main
+    from m2r import convert
+
+    with open("./README.md", "r") as _file:
+        markdown_contents = _file.read()
+
+    with open(os.path.join(get_docs_source_path(), "readme.rst"), "w+") as _file:
+        _file.write(convert(markdown_contents))
+
+    build_main(["-b", "html", get_docs_source_path(), get_docs_build_path()])
+
+
+@task
+def cleandocs(c):
+    shutil.rmtree(get_docs_build_path())
