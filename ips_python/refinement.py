@@ -3,9 +3,9 @@ from os.path import join
 
 import pandas as pd
 
-from .utils import get_data_path
-from .constants import INPUT_DATA_FILENAME, COSINE_FILENAME
-from .preprocessing import preprocessing_initial_text_clean
+from ips_python.utils import get_data_path
+from ips_python.constants import INPUT_DATA_FILENAME, COSINE_FILENAME
+from ips_python.preprocessing import preprocessing_initial_text_clean
 
 
 def process_results(initial_result_df, full_iati_records, number_of_results=100):

@@ -7,8 +7,8 @@ from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 import time
 
-from .utils import get_data_path, get_input_path
-from .constants import (
+from ips_python.utils import get_data_path, get_input_path
+from ips_python.constants import (
     PROCESSED_RECORDS_FILENAME,
     INPUT_DATA_FILENAME,
     STOPWORDS_FILENAME,

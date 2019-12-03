@@ -3,8 +3,8 @@ from os.path import join
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .utils import get_data_path
-from .constants import (
+from ips_python.utils import get_data_path
+from ips_python.constants import (
     PROCESSED_RECORDS_FILENAME,
     WORD_LIST_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
