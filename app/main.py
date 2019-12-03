@@ -7,9 +7,9 @@ import json
 import random
 import string
 
-from flask import Flask, request, render_template
-from script import process_query
-from constants import (
+from flask import Flask, request, render_template, jsonify
+from ips_python.script import process_query
+from ips_python.constants import (
     VECTORIZER_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
     PROCESSED_RECORDS_FILENAME,
@@ -17,7 +17,7 @@ from constants import (
 )
 import pickle
 from os.path import join, dirname
-from utils import get_data_path
+from ips_python.utils import get_data_path
 import pandas as pd
 import requests
 from dotenv import load_dotenv

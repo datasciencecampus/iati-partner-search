@@ -2,9 +2,9 @@ from unittest import TestCase
 from os.path import join, dirname, abspath
 import pandas as pd
 
-from python.preprocessing import preprocess_pipeline
-from python.vectorize import create_tfidf_term_document_matrix
-from python.script import process_query
+from ips_python.preprocessing import preprocess_pipeline
+from ips_python.vectorize import create_tfidf_term_document_matrix
+from ips_python.script import process_query
 
 INPUT_DATA_FILENAME = "sample_test_data.csv"
 

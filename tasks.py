@@ -3,8 +3,8 @@ from os.path import isfile, join
 import shutil
 
 from invoke import task
-from python.utils import get_data_path
-from python.constants import INPUT_DATA_FILENAME
+from ips_python.utils import get_data_path
+from ips_python.constants import INPUT_DATA_FILENAME
 
 
 @task
