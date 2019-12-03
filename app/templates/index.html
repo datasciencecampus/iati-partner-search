@@ -20,7 +20,7 @@
     </form>
   </div>
 
-  
+
   {% if result_type == "cosine" %}
   <div class="results">
     <h1>Organisations</h1>
@@ -30,6 +30,7 @@
       <h2>{{ result['reporting.org'] }}</h2>
       <p>
         <em>{{ result['title'] }}</em><br />
+        <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati.identifier'] | urlencode }}">{{ result['iati.identifier']}}</a><br />
         {{ result['description']}}
       </p>
     </div>
@@ -46,6 +47,7 @@
       <h2>{{ result['_source']['reportingOrg'] }}</h2>
       <p>
         <em>{{ result['_source']['title'] }}</em><br />
+        <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['_source']['iatiIdentifier'] | urlencode }}">{{ result['_source']['iatiIdentifier']}}</a><br />
         {{ result['_source']['description']}}
       </p>
     </div>
@@ -69,7 +71,7 @@
       barriers to healthier behaviors
     </p>
   </div>
-  {% endif %}  
+  {% endif %}
 
 </div>
 {% endblock %}

@@ -106,6 +106,11 @@ def home():
                 results = get_cosine_results(form.data["search"])
             else:
                 results = get_elasticsearch_results(form.data["search"])
+            from pprint import pprint
+            print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            pprint(request.headers)
+            if "Content-type" in request.headers and request.headers["Content-type"] == "application/json":
+                return jsonify(results)
             return render_template(
                 "index.html", form=form, results=results, result_type=search_type
             )

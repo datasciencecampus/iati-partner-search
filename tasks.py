@@ -132,3 +132,8 @@ def makedocs(
 @task
 def cleandocs(c):
     shutil.rmtree(get_docs_build_path())
+
+
+@task
+def run_flask(c):
+    c.run("python -m flask run --host=0.0.0.0")
