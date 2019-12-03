@@ -14,6 +14,8 @@ IATI Partner Search's documentation
    count_words
    overview
 
+   code_documentation
+
 Indices and tables
 ==================
 
