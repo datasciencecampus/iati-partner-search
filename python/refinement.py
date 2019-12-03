@@ -9,7 +9,19 @@ from .preprocessing import preprocessing_initial_text_clean
 
 
 def process_results(initial_result_df, full_iati_records, number_of_results=100):
+    """
+    This is an example of Google style.
 
+    Args:
+        param1: This is the first param.
+        param2: This is a second param.
+
+    Returns:
+        This is a description of what is returned.
+
+    Raises:
+        KeyError: Raises an exception.
+    """
     start_time = time.time()
     keep_columns = [
         "iati.identifier",
