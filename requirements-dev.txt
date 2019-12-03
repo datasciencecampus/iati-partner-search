@@ -1,5 +1,10 @@
 black
 flake8
+m2r
+nbsphinx
+pandoc
 pytest
 pytest-cov
+recommonmark
 sphinx
+sphinx-rtd-theme

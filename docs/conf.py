@@ -16,9 +16,11 @@
 
 
 # -- Project information -----------------------------------------------------
+import datetime
+from recommonmark.parser import CommonMarkParser
 
 project = "IATI Partner Search"
-copyright = "Department for International Development"
+copyright = f"{datetime.datetime.now().year}, Department for International Development"
 author = "Department for International Development"
 
 
@@ -27,7 +29,16 @@ author = "Department for International Development"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.todo",
+    "sphinx.ext.coverage",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",  # interpret Google style docstrings
+    "nbsphinx",  # include jupyter notebooks in analysis
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -38,12 +49,19 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
+source_parsers = {".md": CommonMarkParser}
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".txt": "markdown",
+    ".md": "markdown",
+}
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "alabaster"
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

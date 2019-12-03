@@ -166,3 +166,6 @@ vignettes/*.pdf
 
 data/*
 *.html
+
+# contents copied accross from root dir during 'invoke makedocs'
+docs/readme.rst
