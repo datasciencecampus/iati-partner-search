@@ -1,3 +1,10 @@
+import os
+import sys
+
+import datetime
+from recommonmark.parser import CommonMarkParser
+
+sys.path.insert(0, os.path.abspath(".."))
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -10,14 +17,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
-import datetime
-from recommonmark.parser import CommonMarkParser
+
 
 project = "IATI Partner Search"
 copyright = f"{datetime.datetime.now().year}, Department for International Development"
