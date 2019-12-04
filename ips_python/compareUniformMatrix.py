@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Create a uniform matrix of same density as document -term matrix
-Run K-means on it incrementing K to generate elbow-curve
-
-"""
-
 import pickle
 import os
 import numpy as np
@@ -12,15 +5,13 @@ from scipy import sparse
 from sklearn.cluster import KMeans
 import time
 import matplotlib.pyplot as plt
+from sklearn.decomposition import TruncatedSVD  #
 
 wd = r"C:\Users\t-wilson\Documents\IATI_partner_search\download_stemEngDict"
 
 # Read in pickle file of doc-term matrix
 with open(os.path.join(wd, "iatiFullTDMstemEngDict.pkl"), "rb") as f:
     X = pickle.load(f)
-
-# SVD to 100 components
-from sklearn.decomposition import TruncatedSVD
 
 svd = TruncatedSVD(n_components=100, n_iter=5, random_state=42)
 X = svd.fit_transform(X)
