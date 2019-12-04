@@ -4,7 +4,10 @@ import pandas as pd
 
 from ips_python.preprocessing import preprocess_pipeline
 from ips_python.vectorize import create_tfidf_term_document_matrix
-from ips_python.script import process_query
+from ips_python.script import process_query, process_query_embeddings
+from ips_python.word2vecmodel import build_w2v_model
+from ips_python.word2vecaverage import results_per_corpus_df
+
 
 INPUT_DATA_FILENAME = "sample_test_data.csv"
 
@@ -70,6 +73,48 @@ class TestPipeline(TestCase):
             query_text=query,
             vectorizer=vectorizer,
             term_document_matrix=term_document_matrix,
+            processed_iati_records=processed_df,
+            full_iati_records=raw_data,
+        )
+
+        assert results is not None
+
+    def test_runtime_w2vmodel(self):
+        raw_data = pd.read_csv(
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+        )
+        processed_df = preprocess_pipeline(raw_data)
+
+        model = build_w2v_model(processed_df, 300)
+
+        assert model is not None
+
+        assert len(list(model.wv.vocab)) > 0
+
+    def test_runtime_w2vavg(self):
+        raw_data = pd.read_csv(
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+        )
+        processed_df = preprocess_pipeline(raw_data)
+
+        model = build_w2v_model(processed_df, 300)
+
+        full_arr = results_per_corpus_df(processed_df, model, 300)
+
+        query = """Despite impressive improvements in Vietnam's development and
+            health status over the past decade, gains have not been equitable and significant unmet
+            health needs remain. Poor and marginalized populations continue to disproportionally
+            suffer from preventable illnesses while those in wealthier socioeconomic groups
+            continue to enjoy greater health and longer life expectancy. Social Marketing for
+            Improved Rural Health will include 3 main components: i) social marketing of SafeWat
+            household water treatment solution and promotion of safer hygiene behaviors; ii) Good
+            health, Great life and iii) behavior change communication to address non-supply side
+            barriers to healthier behaviors."""
+
+        results = process_query_embeddings(
+            query_text=query,
+            w2v_model=model,
+            w2v_avg=full_arr,
             processed_iati_records=processed_df,
             full_iati_records=raw_data,
         )

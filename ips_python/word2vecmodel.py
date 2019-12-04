@@ -1,10 +1,10 @@
-from utils import get_data_path
+from .utils import get_data_path
 import pandas as pd
 from os.path import join
 from gensim.models import Word2Vec
 import time
 
-from constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
+from .constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
 
 
 def build_w2v_model(input_df, dim_size):
