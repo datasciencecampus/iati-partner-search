@@ -1,10 +1,10 @@
-from utils import get_data_path
+from .utils import get_data_path
 import pandas as pd
 import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
 import pickle
-from constants import (
+from .constants import (
     WORD2VECMODEL_FILENAME,
     PROCESSED_RECORDS_FILENAME,
     WORD2VECAVG_FILENAME,
