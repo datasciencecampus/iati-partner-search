@@ -1,7 +1,7 @@
 FROM python:3.7
 
 COPY /app /iati-partner-search/app
-COPY /python /iati-partner-search/python
+COPY /ips_python /iati-partner-search/ips_python
 COPY /data /iati-partner-search/data
 COPY /input /iati-partner-search/input
 COPY requirements.txt /iati-partner-search
