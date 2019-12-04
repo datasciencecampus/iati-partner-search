@@ -1,18 +1,15 @@
-# Author: Saliha Minhas,  Date: 29th September 2019
-
-# Description
-# This program reads in file that is given from
-##the results of kmeans it has an iati identifier and a cluster number
-# The iati num is used to access raw data and corresponding
-# reporting org, sector, participating, geography data can be extracted.
-# this information is saved to the respective into cluster files.
-
-
-# -*- coding: utf-8 -*-
-
 import pandas as pd
 import time
 import csv
+
+"""
+Description
+This program reads in file that is given from
+the results of kmeans it has an iati identifier and a cluster number
+The iati num is used to access raw data and corresponding
+reporting org, sector, participating, geography data can be extracted.
+this information is saved to the respective into cluster files.
+"""
 
 start = time.time()
 
