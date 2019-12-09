@@ -19,13 +19,13 @@ jobs:
           pip install invoke
           sudo apt-get -y install pandoc
           invoke install-all
-          invoke makedocs --doctype=dirhtml --docs-build-path=public
+          invoke makedocs --doctype=dirhtml
 
       - name: github pages deploy
         uses: peaceiris/actions-gh-pages@v2
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
           PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: public
+          PUBLISH_DIR: docs/_build
         with:
           emptyCommits: false
