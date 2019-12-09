@@ -16,6 +16,7 @@ jobs:
       # add sphinx.ext.githubpages conf.py extensions list
       - name: Building documentation
         run: |
+          pip install invoke
           sudo apt-get -y install pandoc
           pip install -r requirements-dev.txt
           invoke makedocs --doctype=dirhtml --docs-build-path=public
