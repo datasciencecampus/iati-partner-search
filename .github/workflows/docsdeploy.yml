@@ -12,7 +12,9 @@ jobs:
       # add sphinx.ext.githubpages conf.py extensions list
       - name: Building documentation
         run: |
+          sudo apt-get -y install pandoc
           sudo apt-get install python3-sphinx
+          pip install -r requirements-dev.txt
           sphinx-build docs public -b dirhtml
 
       - name: github pages deploy
