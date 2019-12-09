@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ips_python.cosine &mdash; IATI Partner Search  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../" class="icon icon-home"> IATI Partner Search
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme/">IATI Partner Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../count_words/">Word Count Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/">IATI Tooling Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_documentation/">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../">IATI Partner Search</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../">Docs</a> &raquo;</li>
+        
+          <li><a href="../../">Module code</a> &raquo;</li>
+        
+      <li>ips_python.cosine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ips_python.cosine</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+
+<span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span>
+
+<span class="kn">from</span> <span class="nn">ips_python.preprocessing</span> <span class="kn">import</span> <span class="n">preprocess_query_text</span>
+<span class="kn">from</span> <span class="nn">ips_python.vectorize</span> <span class="kn">import</span> <span class="n">vectorize_input_text</span>
+<span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
+    <span class="n">TERM_DOCUMENT_MATRIX_FILENAME</span><span class="p">,</span>
+    <span class="n">VECTORIZER_FILENAME</span><span class="p">,</span>
+    <span class="n">COSINE_FILENAME</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_cosine_similarity"><a class="viewcode-back" href="../../../code_documentation/#ips_python.cosine.get_cosine_similarity">[docs]</a><span class="k">def</span> <span class="nf">get_cosine_similarity</span><span class="p">(</span>
+    <span class="n">processed_user_query_vector</span><span class="p">,</span> <span class="n">term_document_matrix</span><span class="p">,</span> <span class="n">iati_records</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    input:</span>
+<span class="sd">        TDM</span>
+<span class="sd">        IATI Records used in TDM</span>
+<span class="sd">        vectorized query</span>
+
+<span class="sd">    output:</span>
+<span class="sd">        cosine similarity &gt; 0 per iati.identifier</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cosine_array</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">term_document_matrix</span><span class="p">,</span> <span class="n">processed_user_query_vector</span><span class="p">)</span>
+
+    <span class="n">iati_records</span> <span class="o">=</span> <span class="n">iati_records</span><span class="p">[[</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">]]</span>
+
+    <span class="n">iati_records</span><span class="p">[</span><span class="s2">&quot;cosine_sim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cosine_array</span>
+
+    <span class="c1"># Remove all non-zero results?</span>
+    <span class="n">iati_records</span> <span class="o">=</span> <span class="n">iati_records</span><span class="p">[</span><span class="n">iati_records</span><span class="p">[</span><span class="s2">&quot;cosine_sim&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">iati_records</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Test query</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Despite impressive improvements in Vietnam&#39;s development and</span>
+<span class="s2">    health status over the past decade, gains have not been equitable and significant unmet</span>
+<span class="s2">    health needs remain. Poor and marginalized populations continue to disproportionally</span>
+<span class="s2">    suffer from preventable illnesses while those in wealthier socioeconomic groups</span>
+<span class="s2">    continue to enjoy greater health and longer life expectancy. Social Marketing for</span>
+<span class="s2">    Improved Rural Health will include 3 main components: i) social marketing of SafeWat</span>
+<span class="s2">    household water treatment solution and promotion of safer hygiene behaviors; ii) Good</span>
+<span class="s2">    health, Great life and iii) behavior change communication to address non-supply side</span>
+<span class="s2">    barriers to healthier behaviors.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Or uncomment below if wish to test input text at runtime</span>
+    <span class="c1"># query = input(&quot;Please enter search text:\n&quot;)</span>
+
+    <span class="n">query_df</span> <span class="o">=</span> <span class="n">preprocess_query_text</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">query_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">VECTORIZER_FILENAME</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
+            <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_file</span><span class="p">)</span>
+        <span class="n">query_vector</span> <span class="o">=</span> <span class="n">vectorize_input_text</span><span class="p">(</span><span class="n">query_df</span><span class="p">,</span> <span class="n">vectorizer</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">TERM_DOCUMENT_MATRIX_FILENAME</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
+            <span class="n">term_document_matrix</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_file</span><span class="p">)</span>
+
+        <span class="n">iati_records</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;iso-8859-1&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">iati_records</span> <span class="o">=</span> <span class="n">iati_records</span><span class="p">[[</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">]]</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">outDF</span> <span class="o">=</span> <span class="n">get_cosine_similarity</span><span class="p">(</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">term_document_matrix</span><span class="p">,</span> <span class="n">iati_records</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine match in </span><span class="si">{0}</span><span class="s2"> seconds&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
+        <span class="c1"># example calling of function for script</span>
+        <span class="c1"># cosine_similar(&quot;tdm.pkl&quot;, &quot;vec.pkl&quot;, &quot;iati_records&quot;, &quot;&quot;)</span>
+
+        <span class="n">outDF</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+            <span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">COSINE_FILENAME</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;iso-8859-1&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no words exist after pre-processing&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Department for International Development
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

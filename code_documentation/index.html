@@ -86,10 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#preprocessing">Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#modeling">Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#results-refinement">Results Refinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#runtime-code">Runtime Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.vectorize">Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.refinement">Results Refinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.script">Runtime Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ips_python.utils">Package Utilities</a></li>
 </ul>
 </li>
@@ -183,17 +183,100 @@
 </style>
 <div class="section" id="code-documentation">
 <h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="preprocessing">
-<h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ips_python.preprocessing">
+<span id="preprocessing"></span><h2>Preprocessing<a class="headerlink" href="#module-ips_python.preprocessing" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ips_python.preprocessing.get_wordnet_pos">
+<code class="sig-prename descclassname">ips_python.preprocessing.</code><code class="sig-name descname">get_wordnet_pos</code><span class="sig-paren">(</span><em class="sig-param">word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/preprocessing/#get_wordnet_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.preprocessing.get_wordnet_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map POS tag to first character lemmatize() accepts</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ips_python.preprocessing.preprocess_pipeline">
+<code class="sig-prename descclassname">ips_python.preprocessing.</code><code class="sig-name descname">preprocess_pipeline</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/preprocessing/#preprocess_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.preprocessing.preprocess_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default process for taking the raw IATI data dump and processing the text for vectorizing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> – dataframe of the raw IATI data with columns including identifier, description and title</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe of with preprocessed data with _only_ the columns “iati.identifier” and “description”</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="modeling">
-<h2>Modeling<a class="headerlink" href="#modeling" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ips_python.vectorize">
+<span id="modeling"></span><h2>Modeling<a class="headerlink" href="#module-ips_python.vectorize" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ips_python.vectorize.create_tfidf_term_document_matrix">
+<code class="sig-prename descclassname">ips_python.vectorize.</code><code class="sig-name descname">create_tfidf_term_document_matrix</code><span class="sig-paren">(</span><em class="sig-param">preprocessed_text_dataframe</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/vectorize/#create_tfidf_term_document_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.vectorize.create_tfidf_term_document_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a vectorizer object, TFIDF term document matrix and list of words</p>
+<dl class="simple">
+<dt>input:</dt><dd><p>preprocessed_text_dataframe: dataframe of preprocessed text with ‘description’ column</p>
+</dd>
+<dt>output:</dt><dd><p>tuple: vectorizer, term_document_matrix, word_list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ips_python.vectorize.vectorize_input_text">
+<code class="sig-prename descclassname">ips_python.vectorize.</code><code class="sig-name descname">vectorize_input_text</code><span class="sig-paren">(</span><em class="sig-param">processed_query_dataframe</em>, <em class="sig-param">vectorizer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/vectorize/#vectorize_input_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.vectorize.vectorize_input_text" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>input:</dt><dd><p>processed_query_text: dataframe of processed user text
+vectorizer: TfidfVectorizer object</p>
+</dd>
+<dt>output:</dt><dd><p>numpy array of vectorized user input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-ips_python.cosine"></span><dl class="function">
+<dt id="ips_python.cosine.get_cosine_similarity">
+<code class="sig-prename descclassname">ips_python.cosine.</code><code class="sig-name descname">get_cosine_similarity</code><span class="sig-paren">(</span><em class="sig-param">processed_user_query_vector</em>, <em class="sig-param">term_document_matrix</em>, <em class="sig-param">iati_records</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/cosine/#get_cosine_similarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.cosine.get_cosine_similarity" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>input:</dt><dd><p>TDM
+IATI Records used in TDM
+vectorized query</p>
+</dd>
+<dt>output:</dt><dd><p>cosine similarity &gt; 0 per iati.identifier</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="results-refinement">
-<h2>Results Refinement<a class="headerlink" href="#results-refinement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ips_python.refinement">
+<span id="results-refinement"></span><h2>Results Refinement<a class="headerlink" href="#module-ips_python.refinement" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ips_python.refinement.process_results">
+<code class="sig-prename descclassname">ips_python.refinement.</code><code class="sig-name descname">process_results</code><span class="sig-paren">(</span><em class="sig-param">initial_result_df</em>, <em class="sig-param">full_iati_records</em>, <em class="sig-param">number_of_results=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/refinement/#process_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.refinement.process_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is an example of Google style.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param1</strong> – This is the first param.</p></li>
+<li><p><strong>param2</strong> – This is a second param.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This is a description of what is returned.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>KeyError</strong> – Raises an exception.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="runtime-code">
-<h2>Runtime Code<a class="headerlink" href="#runtime-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ips_python.script">
+<span id="runtime-code"></span><h2>Runtime Code<a class="headerlink" href="#module-ips_python.script" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ips_python.script.download_data">
+<code class="sig-prename descclassname">ips_python.script.</code><code class="sig-name descname">download_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/script/#download_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.script.download_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>this is a placeholder function to show that we need to run something in order to procure the data</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-ips_python.utils">
 <span id="package-utilities"></span><h2>Package Utilities<a class="headerlink" href="#module-ips_python.utils" title="Permalink to this headline">¶</a></h2>
