@@ -1,0 +1,25 @@
+name: Deploy Docs To GH Pages
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # check out sources that will be used for autodocs, plus readme
+    steps:
+      - uses: actions/checkout@v1
+
+      # add sphinx.ext.githubpages conf.py extensions list
+      - name: Building documentation
+        run: |
+          sudo apt-get install python3-sphinx
+          sphinx-build docs public -b dirhtml
+
+      - name: github pages deploy
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: public
+        with:
+          emptyCommits: false
