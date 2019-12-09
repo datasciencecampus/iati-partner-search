@@ -6,6 +6,12 @@
 IATI Partner Search's documentation
 ===================================
 
+This document:
+
+- explains how to get started with our code and analysis
+- provides an explanation and record of our progress
+- covers our code documentation
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
