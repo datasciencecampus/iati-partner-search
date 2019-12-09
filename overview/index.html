@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IATI Tooling Overview &mdash; IATI Partner Search  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Code Documentation" href="../code_documentation/" />
+    <link rel="prev" title="Word Count Analysis" href="../count_words/" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../" class="icon icon-home"> IATI Partner Search
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IATI Tooling Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#so-what-is-iati">So what is IATI?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identifiers">Identifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-an-activity">What is an activity?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#versioning">Versioning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation">Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datastore">Datastore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#some-other-notes">Some other notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#organisations-and-their-tools">Organisations and their tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iati-technical-team">IATI Technical Team</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data-store-v1">Data Store (v1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-dashboard">IATI Dashboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-registry-refresher">IATI Registry Refresher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-public-validator">IATI Public Validator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#development-initaitives">Development Initaitives</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#d-portal">D-Portal</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#open-data-services">Open Data Services</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iati-cove">IATI COVE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dfid">DFID</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#devtracker">DevTracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sql-to-iati">SQL to IATI</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#publish-what-you-fund">Publish What You Fund</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data-quality-tester">data-quality-tester</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-canary">IATI Canary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-decipher">iati-decipher</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#code-for-iati">Code for IATI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data-dump">Data Dump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iatikit">iatikit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-id-guide">Org-ID Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#zimmerman-zimmerman">Zimmerman Zimmerman</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#oipa">OIPA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iati-cloud">IATI Cloud</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openaidnl">openaidNL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-code">Additional Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#thoughts-and-reflections">Thoughts and reflections</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">IATI Partner Search</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../">Docs</a> &raquo;</li>
+        
+      <li>IATI Tooling Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/overview.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="iati-tooling-overview">
+<h1>IATI Tooling Overview<a class="headerlink" href="#iati-tooling-overview" title="Permalink to this headline">¶</a></h1>
+<p>This document attemtps to:</p>
+<ul class="simple">
+<li><p>break down the broader concepts of what IATI is</p></li>
+<li><p>give an overview of IATI tools and the organisations that built them</p></li>
+</ul>
+<p>The hope is that by the end of reading this, you will have a much better idea of:</p>
+<ul class="simple">
+<li><p>what the tool ‘space’ looks like for IATI</p></li>
+<li><p>where the gaps might exist for additional IATI tools</p></li>
+<li><p>what tools we can re-use in attempting to achieve our goals</p></li>
+<li><p>clarity on data sources, where it sits and which tools rely on which data sources</p></li>
+<li><p>who we could/should partner with from a technical and organisational perspective?</p></li>
+</ul>
+<div class="section" id="so-what-is-iati">
+<h2>So what is IATI?<a class="headerlink" href="#so-what-is-iati" title="Permalink to this headline">¶</a></h2>
+<p>At a very broad level, IATI is a standard.
+A standard is an agreed upon way of communicating (For more on what a standard is, I highly recommend <a class="reference external" href="https://opensource.com/resources/what-are-open-standards">this article</a> from <a class="reference external" href="https://opensource.com">opensource.com</a>).
+In this case, there were enough folks who agreed that they would communicate data in a particular way.
+What they wanted to communicate, was aid projects - things like who was involved, what they did and how much was spent on aid.
+This means that there would be a common way of communicating something like “we worked on combatting HIV AIDS in South Africa,
+spending $1 million in expenses and disbursing another $1 million to X and Y organisation”.</p>
+<p>It was agreed that this data would be published as XML, but that it would also adhere to a Schema.</p>
+<div class="section" id="identifiers">
+<h3>Identifiers<a class="headerlink" href="#identifiers" title="Permalink to this headline">¶</a></h3>
+<p>Identifiers are a string of letters and numbers that uniquely identify something.
+They are used for both activities and organisations.
+Identifiers are used to link organisation within datasets and thus allow us to identify and connect disparate bits of information across documents.
+Note that in some cases, identifiers might not be included in the XML data, where they are supposed to.
+Publishers may instead list the organisations in the description, using only the organisations name.</p>
+<p>There are norms that govern identifiers.
+For example, if it’s a UK private organisation, it will start with <code class="docutils literal notranslate"><span class="pre">GB-COH</span></code> .
+Government organisations start with <code class="docutils literal notranslate"><span class="pre">GB-GOV</span></code> . DFID is <code class="docutils literal notranslate"><span class="pre">GB-GOV-1</span></code> .
+Check out <a class="reference external" href="https://companieshouse.gov.uk">companieshouse.gov.uk</a> for company references.</p>
+</div>
+<div class="section" id="what-is-an-activity">
+<h3>What is an activity?<a class="headerlink" href="#what-is-an-activity" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="http://reference.iatistandard.org/203/activity-standard/">official source</a> does a great job of explaining what goes in an activity.
+Some important things to note though:</p>
+<ul class="simple">
+<li><p>This information sits on an XML file.</p></li>
+<li><p>You might have a bunch of activities on a single file.</p></li>
+<li><p>Each activity is one and only one activity.</p></li>
+<li><p>There can be hierarchies between activities.</p></li>
+<li><p>IATI identifier would indicate relationship to other activities. E.g. Parent and child</p></li>
+</ul>
+</div>
+<div class="section" id="versioning">
+<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
+<p>There are versions of the schema or data format.
+This basically means that there are certain ways that the data should be structured.
+How the data should be structured over time has changed, to incorporate more fields etc.
+The XML document should include what version of the schema was used, within the XML file.</p>
+<p>Currently, the <a class="reference external" href="http://reference.iatistandard.org/203/guidance/datastore/reference/structure-of-data/">latest data format is 2.03</a>.
+Note that only 5% of the data are in the version 1 format.</p>
+<p>|     Publisher Name                                                                      |     Version 1 Activities     |
+|—————————————————————————————–|——————————|
+|    Finland - Ministry of Foreign   Affairs                                              |    17067                     |
+|    Switzerland - Swiss Agency for   Development and Cooperation (SDC)                   |    10382                     |
+|    AidData                                                                              |    8959                      |
+|    Ireland - Department of Foreign   Affairs and Trade                                  |    4266                      |
+|    Japan International Cooperation   Agency (JICA)                                      |    2767                      |
+|    openmindedly                                                                         |    1903                      |
+|    New Zealand - Ministry of Foreign   Affairs and Trade - New Zealand Aid Programme    |    1526                      |
+|    The Foundation Center                                                                |    1387                      |
+|    Lithuania, Ministry of Foreign   Affairs                                             |    1077                      |
+|    International Climate Initiative /   BMU - IKI Secretariat                           |    618                       |</p>
+<p>However, dealing with versions is difficult, and may involve additional work.
+It may be pragmatic to ignore the Version 1 data in some cases.</p>
+</div>
+<div class="section" id="validation">
+<h3>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h3>
+<p>When we ask the question ‘is this information valid?’, there are a number of levels to consider;
+XML - does the document itself valid XML? There are plenty of tools that can do this.
+IATI Schema - there are certain required elements and structure in the document, as well as how they should be added to the document.
+Semantically Valid - something might be completely valid from a technical viewpoint, but doesn’t helpfully communicate certain details about an activity.
+For example, an organisation that was included in the description or</p>
+<p>There are a number of tools, listed later, that help check for valid data.</p>
+</div>
+<div class="section" id="datastore">
+<h3>Datastore<a class="headerlink" href="#datastore" title="Permalink to this headline">¶</a></h3>
+<p>The datastore refers to where the data (an enourmous number of XML files) are stored and how we retrieve that data (via a REST API).
+IATI currently maintains a datastore, which is accessible via an API; <code class="docutils literal notranslate"><span class="pre">https://iatiregistry.org/api/3/</span></code> .
+It is in the process of building a new datastore, with a new REST API.
+This new datastore is being built by Zimmerman Zimmerman and is called IATI.cloud.
+See <a class="reference external" href="https://iatistandard.org/en/using-data/iati-tools-and-resources/iati-datastore/">description of moving to new Datastore here</a>
+and the
+<a class="reference external" href="https://discuss.iatistandard.org/t/terms-of-reference-for-a-new-iati-datastore/1293">discussion around moving to the new Datastore</a></p>
+</div>
+<div class="section" id="some-other-notes">
+<h3>Some other notes<a class="headerlink" href="#some-other-notes" title="Permalink to this headline">¶</a></h3>
+<p>There’s a difference between an organization and a publisher.
+There are about 1000 publishers on IATI, but about 10000 organizations.</p>
+<p>The partner might not be explictly added, and might be</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Mentioned</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">description</span>
+<span class="o">-</span> <span class="n">Disbursement</span> <span class="ow">is</span> <span class="n">where</span> <span class="n">the</span> <span class="n">partner</span> <span class="n">might</span> <span class="n">be</span> <span class="n">included</span><span class="o">.</span> <span class="p">(</span><span class="n">This</span> <span class="n">might</span> <span class="n">give</span> <span class="n">you</span> <span class="n">a</span> <span class="n">better</span> <span class="n">idea</span> <span class="n">of</span> <span class="n">the</span> <span class="n">people</span> <span class="n">involved</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="organisations-and-their-tools">
+<h2>Organisations and their tools<a class="headerlink" href="#organisations-and-their-tools" title="Permalink to this headline">¶</a></h2>
+<p>We will now take a look at each organisation and what they have built.
+Please note that there may be some overlap in terms of who built certain tools.
+This document attempts to group tools by</p>
+<ul class="simple">
+<li><p>code ownership: which organisation does it belong to on Github?</p></li>
+<li><p>organisation domain: what URL, if any, can the tool be found at?</p></li>
+</ul>
+<div class="section" id="iati-technical-team">
+<h3>IATI Technical Team<a class="headerlink" href="#iati-technical-team" title="Permalink to this headline">¶</a></h3>
+<p>This is the team that build/maintain/host the old data store.
+Much of the information about IATI and the tools that have been built haev already been documented on their website.</p>
+<div class="section" id="data-store-v1">
+<h4>Data Store (v1)<a class="headerlink" href="#data-store-v1" title="Permalink to this headline">¶</a></h4>
+<p>See discussion above for details.
+<a class="reference external" href="https://github.com/IATI/IATI-Datastore">Link to the code</a></p>
+</div>
+<div class="section" id="iati-dashboard">
+<h4><a class="reference external" href="http://dashboard.iatistandard.org/">IATI Dashboard</a><a class="headerlink" href="#iati-dashboard" title="Permalink to this headline">¶</a></h4>
+<p>This provides a useful count as a metric for what is valuable in the data.
+It’s helps to demonstrate that the data from IATI is not perfect.</p>
+</div>
+<div class="section" id="iati-registry-refresher">
+<h4><a class="reference external" href="https://github.com/IATI/IATI-Registry-Refresher">IATI Registry Refresher</a><a class="headerlink" href="#iati-registry-refresher" title="Permalink to this headline">¶</a></h4>
+<p>This data is pulled from <code class="docutils literal notranslate"><span class="pre">https://iatiregistry.org/api/3/</span></code> , which is indicated in the code <a class="reference external" href="https://github.com/IATI/IATI-Registry-Refresher/blob/master/grab_urls.php#L33">here</a>.</p>
+</div>
+<div class="section" id="iati-public-validator">
+<h4><a class="reference external" href="https://validator.iatistandard.org">IATI Public Validator</a><a class="headerlink" href="#iati-public-validator" title="Permalink to this headline">¶</a></h4>
+<p>Provides some kind of structural validation. Doesn’t do semantic validation.</p>
+</div>
+</div>
+<div class="section" id="development-initaitives">
+<h3><a class="reference external" href="http://www.devinit.org">Development Initaitives</a><a class="headerlink" href="#development-initaitives" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>an independent international development organisation that focuses on the role of data in driving poverty eradication and sustainable development.<a class="reference external" href="http://devinit.org/about/">Source</a></p>
+</div></blockquote>
+<p>There are a number of individuals at Development Initaitives (DI) who are on the IATI secretariat.
+This means that
+Contracted out to
+DI also updates the codebase</p>
+<div class="section" id="d-portal">
+<h4>D-Portal<a class="headerlink" href="#d-portal" title="Permalink to this headline">¶</a></h4>
+<p>This tool is used to interrogate data, as well as search for activities related to a term.
+<a class="reference external" href="https://github.com/devinit/d-portal">Link to the code</a></p>
+<p>There’s a UI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">demonstrate</span> <span class="n">IATI</span><span class="p">,</span> <span class="n">particularly</span> <span class="n">an</span> <span class="n">activity</span>
+<span class="n">If</span> <span class="n">you</span><span class="s1">&#39;re trying to render XML, you can hopefully reuse that code.</span>
+</pre></div>
+</div>
+<p>In terms of integrating tools, it might be useful to link through to the D-Portal UI, in order to interrogate specific activities.</p>
+<p>One thing that is useful is that it can give you an idea of what’s going on with financials.
+D-Portal does good visualization of the financial data for example.</p>
+<p>If someone can’t go in to the XML data themselves.
+Organisations use D-Portal to more usefully see what there data look like at a human-readable level.
+This tool gives a narrative from the raw data format.</p>
+<p>It interprets the IDs and creates the links for you.
+This is really useful, because it creates the relationships between the various organisations.</p>
+</div>
+</div>
+<div class="section" id="open-data-services">
+<h3><a class="reference external" href="https://opendataservices.coop/">Open Data Services</a><a class="headerlink" href="#open-data-services" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>We help people publish and use open data</p>
+</div></blockquote>
+<div class="section" id="iati-cove">
+<h4><a class="reference external" href="https://iati.cove.opendataservices.coop/">IATI COVE</a><a class="headerlink" href="#iati-cove" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>CoVE is an web application to Convert, Validate and Explore data following certain open data standards - including 360Giving, Open Contracting Data Standard, IATI and the Beneficial Ownership Data Standard (<a class="reference external" href="https://github.com/OpenDataServices/cove/">Source</a>)</p>
+</div></blockquote>
+<p><a class="reference external" href="https://github.com/OpenDataServices/cove/">Link to the Code</a>
+Written in python.
+Also a converter.
+If you want to get data in to a usable format.
+It also validates against code list.e.g. If a code wasn’t on the list
+Ruleset checks - e.g.your end date is before your start date.
+Converts the XML to a spreadsheet. Every time there is a jump in cardinality, it creates another tab.(e.g.1 to many relationship, means creating another table)</p>
+</div>
+</div>
+<div class="section" id="dfid">
+<h3>DFID<a class="headerlink" href="#dfid" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="devtracker">
+<h4>DevTracker<a class="headerlink" href="#devtracker" title="Permalink to this headline">¶</a></h4>
+<p>DevTracker is DFID’s platform for publishing its data. It uses IATI data as the underlying store.
+It relies on <a class="reference external" href="https://www.OIPA.nl">OIPA</a> to pull its data.</p>
+</div>
+<div class="section" id="sql-to-iati">
+<h4><a class="reference external" href="https://github.com/dfid/sql-to-iati-database">SQL to IATI</a><a class="headerlink" href="#sql-to-iati" title="Permalink to this headline">¶</a></h4>
+<p>Takes a bunch of internal databases that DFID has and pushes the data in to XML and IATI schema.</p>
+</div>
+</div>
+<div class="section" id="publish-what-you-fund">
+<h3><a class="reference external" href="http://www.publishwhatyoufund.org">Publish What You Fund</a><a class="headerlink" href="#publish-what-you-fund" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="data-quality-tester">
+<h4><a class="reference external" href="http://dataqualitytester.publishwhatyoufund.org/">data-quality-tester</a><a class="headerlink" href="#data-quality-tester" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>Test your IATI data against the Publish What You Fund Aid Transparency Index tests.<a class="reference external" href="https://github.com/pwyf/data-quality-tester">Source</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="iati-canary">
+<h4><a class="reference external" href="https://iati-canary.herokuapp.com/">IATI Canary</a><a class="headerlink" href="#iati-canary" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>checks to ensure data is both available and compliant with the IATI schema.</p>
+</div></blockquote>
+<p>If there’s a problem, you’ll be notified by email <a class="reference external" href="https://iati-canary.herokuapp.com/">Source</a></p>
+<p>Note that this tool is opt-in.</p>
+</div>
+<div class="section" id="iati-decipher">
+<h4><a class="reference external" href="https://iati-decipher.publishwhatyoufund.org/">iati-decipher</a><a class="headerlink" href="#iati-decipher" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>Browser plugins for deciphering IATI organisation files.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://github.com/pwyf/iati-decipher">Link to the code</a>. Written in Javascript.</p>
+</div>
+</div>
+<div class="section" id="code-for-iati">
+<h3><a class="reference external" href="codeforiati.org">Code for IATI</a><a class="headerlink" href="#code-for-iati" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Tools and guidance contributed by community members, in support of IATI infrastructure, publishers and data users.</p>
+</div></blockquote>
+<p>Non-official, group of developers who have projects surrounding IATI.
+list of community tools that exist outisde of the offical IATI tools.</p>
+<div class="section" id="data-dump">
+<h4><a class="reference external" href="https://iati-data-dump.codeforiati.org/">Data Dump</a><a class="headerlink" href="#data-dump" title="Permalink to this headline">¶</a></h4>
+<p>This hosts a zip file of data (currently ~450mb) and hosts it on Dropbox.
+It relies on the <a class="reference external" href="https://github.com/codeforIATI/iati-data-dump">IATI Registry Refresher</a> mentioned earlier and fetches data from the old data store.
+<a class="reference external" href="https://github.com/codeforIATI/iati-data-dump">The code can be found here</a>.</p>
+</div>
+<div class="section" id="iatikit">
+<h4><a class="reference external" href="https://iatikit.readthedocs.io/en/stable/index.html">iatikit</a><a class="headerlink" href="#iatikit" title="Permalink to this headline">¶</a></h4>
+<p>This is a python library that allows us to access IATI data using python (rather than say, querying raw data from the XML, CSV or JSON endpoints).</p>
+<p>IATIkit downloads the iati data dump on dropbox and additionally downloads metadata from the API on at <code class="docutils literal notranslate"><span class="pre">https://iatiregistry.org/api/3/</span></code> .
+The specifc download code can be found <a class="reference external" href="https://github.com/codeforIATI/iatikit/blob/dev/iatikit/utils/download.py">here</a>.</p>
+</div>
+<div class="section" id="org-id-guide">
+<h4><a class="reference external" href="https://org-id.guide">Org-ID Guide</a><a class="headerlink" href="#org-id-guide" title="Permalink to this headline">¶</a></h4>
+<p>TODO: check that this is the correct organisation that builds this.
+Tool for constructing an identifier.
+It will show you all of the different lists that you could use to get your identifier from.
+If you were working with those who might not have already published on IATI, you could direct them to the tool.</p>
+</div>
+</div>
+<div class="section" id="zimmerman-zimmerman">
+<h3><a class="reference external" href="https://www.zimmermanzimmerman.nl/">Zimmerman Zimmerman</a><a class="headerlink" href="#zimmerman-zimmerman" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Providing data services to Governments, The UN family, The Global Fund, municipalities and non profit foundations.<a class="reference external" href="https://www.zimmermanzimmerman.nl/">Source</a></p>
+</div></blockquote>
+<div class="section" id="oipa">
+<h4><a class="reference external" href="https://www.OIPA.nl">OIPA</a><a class="headerlink" href="#oipa" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>OIPA extracts and stores raw IATI XML files from the IATI Registry and makes it available as API endpoints to build data driven information solutions.</p>
+</div></blockquote>
+<p>OIPA extracts all published IATI XML files from the IATI Registry and makes them available in a normalised PostgreSQL database, that you can access using a RESTful API.
+This was built in order to make IATI data more usable to others.
+This is what DFID uses for DevTracker and is built with Python and Django.
+However, it is apparent from their repo, that OIPA is now becoming iata.cloud …</p>
+</div>
+<div class="section" id="iati-cloud">
+<h4><a class="reference external" href="http://iati.cloud/">IATI Cloud</a><a class="headerlink" href="#iati-cloud" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://github.com/zimmerman-zimmerman/iati.cloud/">Link to the code</a>.
+This is becoming the new IATI datastore (as discussed earlier in the document).
+From the author’s understanding, it is not yet mature and most of the tools are</p>
+</div>
+<div class="section" id="openaidnl">
+<h4><a class="reference external" href="https://openaid.nl/">openaidNL</a><a class="headerlink" href="#openaidnl" title="Permalink to this headline">¶</a></h4>
+<p>A visualization tool for data on the Dutch government’s IATI data. Predominantly web based, using Javascript, HTML and JS.<a class="reference external" href="https://github.com/zimmerman-zimmerman/OPENAID-IATI-PORTAL">Link to Code</a>.</p>
+</div>
+</div>
+<div class="section" id="additional-code">
+<h3>Additional Code<a class="headerlink" href="#additional-code" title="Permalink to this headline">¶</a></h3>
+<p>This document is by no means extensive.
+I encourage anyone reading this to continue reviewing <a class="reference external" href="https://github.com/search?p=1&amp;q=IATI&amp;type=Repositories">Github Repositories that are involved in IATI</a>
+and add to this document via a pull request.</p>
+</div>
+</div>
+<div class="section" id="thoughts-and-reflections">
+<h2>Thoughts and reflections<a class="headerlink" href="#thoughts-and-reflections" title="Permalink to this headline">¶</a></h2>
+<p>Where do things fit in the toolchain?</p>
+<p>Where do we go from here?
+<a class="reference external" href="https://discuss.iatistandard.org/">This is the discussion board for the IATI community</a>.
+I suggest signing up to keep in the loop here.</p>
+<p>Where is our value add for the users?</p>
+<p>Where is the value add within the pipeline?</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../code_documentation/" class="btn btn-neutral float-right" title="Code Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../count_words/" class="btn btn-neutral float-left" title="Word Count Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Department for International Development
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
