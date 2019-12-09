@@ -18,7 +18,7 @@ jobs:
         run: |
           sudo apt-get -y install pandoc
           pip install -r requirements-dev.txt
-          sphinx-build docs public -b dirhtml
+          invoke makedocs --doctype=dirhtml --docs-build-path=public
 
       - name: github pages deploy
         uses: peaceiris/actions-gh-pages@v2
