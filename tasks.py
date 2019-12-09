@@ -114,7 +114,9 @@ def get_docs_build_path():
 
 
 @task
-def makedocs(c):
+def makedocs(
+    c, doctype="html", docs_build_path=get_docs_build_path(),
+):
     from sphinx.cmd.build import build_main
     from m2r import convert
 
@@ -124,7 +126,7 @@ def makedocs(c):
     with open(os.path.join(get_docs_source_path(), "readme.rst"), "w+") as _file:
         _file.write(convert(markdown_contents))
 
-    build_main(["-b", "html", get_docs_source_path(), get_docs_build_path()])
+    build_main(["-b", doctype, get_docs_source_path(), docs_build_path])
 
 
 @task
