@@ -3,27 +3,27 @@ Code Documentation
 
 Preprocessing
 -------------
-.. automodule:: python.preprocessing
+.. automodule:: ips_python.preprocessing
     :members:
 
 Modeling
 -----------
-.. automodule:: python.vectorize
+.. automodule:: ips_python.vectorize
     :members:
-.. automodule:: python.cosine
+.. automodule:: ips_python.cosine
     :members:
 
 Results Refinement
 ------------------
-.. automodule:: python.refinement
+.. automodule:: ips_python.refinement
     :members:
 
 Runtime Code
 ------------
-.. automodule:: python.script
+.. automodule:: ips_python.script
     :members:
 
 Package Utilities
 -----------------
-.. automodule:: python.utils
+.. automodule:: ips_python.utils
     :members:
