@@ -212,7 +212,7 @@ Note that this tool is opt-in.
 
 [Link to the code](https://github.com/pwyf/iati-decipher). Written in Javascript.
 
-### [Code for IATI](codeforiati.org)
+### [Code for IATI](https://codeforiati.org/)
 
 > Tools and guidance contributed by community members, in support of IATI infrastructure, publishers and data users.
 
