@@ -4,7 +4,7 @@
 ## Installation
 To install the python packages, make sure that you have your virtual environment activated and run the following:
 
-```powershell
+```shell
 pip install invoke
 invoke install-all
 ```
@@ -13,13 +13,13 @@ This will install all of the development and testing packages as well
 ## Testing
 To run tests:
 
-```powershell
+```shell
 invoke test
 ```
 
 To run linting, formatting and tests:
 
-```powershell
+```shell
 invoke ci
 ```
 ## Using Docker
@@ -27,13 +27,13 @@ This repo provides a Dockerfile, that you can build on your machine, which shoul
 
 ### Python Pipeline Development
 We do not currently publish our images to a registry. You must build them on your machine. Make sure that the Docker VM is running, then run:
-```powershell
+```shell
 docker build -t iati_partner_search .
 ```
 The `-t iati_partner_search` means that we're telling Docker that we want the image to be called `iati_partner_search`.
 
 Once the image has been built, we can run a container:
-```powershell
+```shell
 docker run --name=ips -it -v ${pwd}:/iati-partner-search -p 5000:5000 iati_partner_search bash
 ```
 to break this down:
@@ -54,7 +54,7 @@ Currently (and temporarily) we copy in the data manually. Copy the file named `a
 
 If you're not working from within the Docker container, you will also need to download the nltk data.Execute the following:
 
-```powershell
+```shell
 invoke download-nltk-data
 ```
 

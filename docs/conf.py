@@ -42,6 +42,8 @@ extensions = [
     "sphinx.ext.napoleon",  # interpret Google style docstrings
     "nbsphinx",  # include jupyter notebooks in analysis
     "sphinx.ext.githubpages",  # deploy docs to GH Pages
+    # highlight ipython code segments
+    "IPython.sphinxext.ipython_console_highlighting",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
