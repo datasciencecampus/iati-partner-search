@@ -95,7 +95,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-
 - How fast/parallel you want ES to be able to write the data
 - How much time you will want to wait when ES relocates your shard
 
-**Index Mapping (Index Schema)
+**Index Mapping (Index Schema)**
 
 - There are the so-called 'field datatypes', which define the type of data your field contains. By 'field' we are meaning the value of a key inside indexed JSON Document. 
 - If you have JSON document like this:
@@ -138,5 +138,4 @@ Currently the field data types you are able to choose from, contain:
 
 Other option:
 - Can store Geo coordinates inside ElasticSearch. 
-
 
