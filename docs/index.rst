@@ -19,6 +19,7 @@ This document:
    readme
    count_words
    overview
+   IATI_methods
 
    code_documentation
 
