@@ -1,13 +1,25 @@
 import sys
-
-sys.path.append("./python/")
-
 import os
-import json
-import random
-import string
+from os.path import join, dirname
 
-from flask import Flask, request, render_template, jsonify
+import json
+import string
+import pickle
+import logging
+
+import pandas as pd
+import requests
+
+from flask import Flask, request, render_template, jsonify, Blueprint
+from flask_wtf import FlaskForm
+from wtforms.fields import TextAreaField, RadioField, SubmitField
+from wtforms.validators import DataRequired
+from flask_restplus import Api, Resource, fields
+
+# ensure that ips_python module is accessible
+sys.path.append(os.path.abspath(os.path.dirname("__file__")))
+
+from ips_python.utils import get_data_path
 from ips_python.script import process_query
 from ips_python.constants import (
     VECTORIZER_FILENAME,
@@ -15,42 +27,37 @@ from ips_python.constants import (
     PROCESSED_RECORDS_FILENAME,
     INPUT_DATA_FILENAME,
 )
-import pickle
-from os.path import join, dirname
-from ips_python.utils import get_data_path
-import pandas as pd
-import requests
-from dotenv import load_dotenv
 
-from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, RadioField, SubmitField
-from wtforms.validators import DataRequired
+import settings
 
+log = logging.getLogger(__name__)
 
-dotenv_path = join(dirname(dirname(__file__)), ".env")
-load_dotenv(dotenv_path)
-
-environment = os.getenv("FLASK_ENV", "development").lower()
-
-app = Flask(__name__)
-if environment == "production":
-    app.secret_key = os.getenv("APP_SECRET_KEY")
-else:
-    app.secret_key = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-
+log.info("Reading in vectorizer")
 with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
     vectorizer = pickle.load(_file)
 
+log.info("Reading in TDM")
 with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
     term_document_matrix = pickle.load(_file)
 
+log.info("Reading in processed IATI records")
 processed_iati_records = pd.read_csv(
     join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
 )
 
+log.info("Reading in full IATI records")
 full_iati_records = pd.read_csv(
     join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
 )
+
+flask_app = Flask(__name__)
+api = Api(flask_app, version='1.0', title='IATI Partner Search',
+    description='TODO',
+)
+search_query = api.model("Search Query", {
+    "search_method": fields.String(Required=True, description="Method for search - either 'cosine' or 'elasticsearch"),
+    "search": fields.String(Required=True, description="Description of project")
+})
 
 
 class SearchForm(FlaskForm):
@@ -94,8 +101,8 @@ def get_cosine_results(query):
     ).to_dict("records")
 
 
-@app.route("/", methods=["POST", "GET"])
-# @app.route("/search")
+@flask_app.route("/", methods=["POST", "GET"])
+# @flask_app.route("/search")
 def home():
     form = SearchForm(request.form)
     if request.method == "POST":
@@ -117,8 +124,48 @@ def home():
     return render_template("index.html", form=form)
 
 
+def configure_app(flask_app):
+    flask_app.config['SWAGGER_UI_DOC_EXPANSION'] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
+    flask_app.config['RESTPLUS_VALIDATE'] = settings.RESTPLUS_VALIDATE
+    flask_app.config['RESTPLUS_MASK_SWAGGER'] = settings.RESTPLUS_MASK_SWAGGER
+    flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
+
+
+def initialize_app(flask_app):
+    pass
+
+
+namespace = api.namespace('search', description='search operations')
+search_query = api.model("Search Query", {
+    "search_method": fields.String(Required=True, description="Method for search - either 'cosine' or 'elasticsearch"),
+    "search": fields.String(Required=True, description="Description of project")
+})
+
+
+@namespace.route('/api')
+class Search(Resource):
+    '''Shows a list of all todos, and lets you POST to add new tasks'''
+
+    @namespace.doc('search_query')
+    @namespace.expect(search_query)
+    @namespace.marshal_with(search_query, code=200)
+    def post(self):
+        '''Create a new task'''
+        return {"search_method":"something", "search": "another_thing"}, 200
+
+
+
+def main():
+    configure_app(flask_app)
+
+    # FLASK RESTful API Set up
+    # blueprint = Blueprint('api', __name__, url_prefix='/api')
+    # api.init_app(blueprint)
+
+    # flask_app.register_blueprint(blueprint)
+
+    # change the .env file to enable or disable debugging
+    flask_app.run(debug=settings.FLASK_DEBUG)
+
 if __name__ == "__main__":
-    if environment == "development":
-        app.run(debug=True)
-    elif environment == "production":
-        app.run(debug=False)
+    main()
