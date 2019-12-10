@@ -1,14 +1,3 @@
----
-title: "IATI_Methods"
-author: "Laurie Baker"
-date: "21/11/2019"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Overview of Information Searching
 
 See Saliha's code base for overview: https://github.com/salihadfid1/NLP_INTRO
