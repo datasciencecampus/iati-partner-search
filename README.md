@@ -1,6 +1,8 @@
 # IATI Partner Search
 A tool using NLP technology to match aid funders with potential implementers.
 
+A more detailed break-down of the project can be found [here](http://datasciencecampus.github.io/iati-partner-search).
+
 ## Installation
 To install the python packages, make sure that you have your virtual environment activated and run the following:
 
