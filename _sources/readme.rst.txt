@@ -2,7 +2,7 @@
 IATI Partner Search
 ===================
 
- Description of the project goes here
+A tool using NLP technology to match aid funders with potential implementers.
 
 Installation
 ------------
