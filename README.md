@@ -1,5 +1,5 @@
 # IATI Partner Search
- Description of the project goes here
+A tool using NLP technology to match aid funders with potential implementers.
 
 ## Installation
 To install the python packages, make sure that you have your virtual environment activated and run the following:
