@@ -4,6 +4,8 @@ IATI Partner Search
 
 A tool using NLP technology to match aid funders with potential implementers.
 
+A more detailed break-down of the project can be found `here <http://datasciencecampus.github.io/iati-partner-search>`_.
+
 Installation
 ------------
 
