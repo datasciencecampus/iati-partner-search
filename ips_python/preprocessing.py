@@ -54,10 +54,11 @@ def preprocessing_nonenglish_paragraph_remove(p_df, p_text):
 
 
 def preprocessing_nonenglish_words_remove(p_df, p_text):
-    wordstokeep = set(nltk.corpus.words.words())
+    wordstokeep = nltk.corpus.words.words()
     # Remove word if not in keep list
     wordstokeep = append_to_list(wordstokeep, join(get_input_path(), KEEPWORDS_FILENAME))
     wordstokeep = [w.lower() for w in wordstokeep]
+    wordstokeep = set(wordstokeep)
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x in wordstokeep)
     )
