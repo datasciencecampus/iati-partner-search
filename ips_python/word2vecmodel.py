@@ -1,12 +1,13 @@
-from .utils import get_data_path
 import pandas as pd
 from os.path import join
 from gensim.models import Word2Vec
 import time
 
 try:
+    from ips_python.utils import get_data_path
     from ips_python.constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
 except ModuleNotFoundError:
+    from utils import get_data_path
     from constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
 
 
