@@ -11,13 +11,15 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-
-      - name: Check Scripts Run
+      - name: Install and Set Up Data
         run: |
           pip install invoke
           invoke install-all --quiet
           invoke download-nltk-data
           cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
+
+      - name: Check Scripts Run
+        run: |
           # these are all of the scripts that have been refactored to fit in with the
           # modularized structure.
           # we simply want to be sure that these script's __main__ functions work without error
