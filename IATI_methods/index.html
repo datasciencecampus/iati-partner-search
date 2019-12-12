@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IATI Approaches Overview &mdash; IATI Partner Search  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Code Documentation" href="../code_documentation/" />
+    <link rel="prev" title="IATI Tooling Overview" href="../overview/" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../" class="icon icon-home"> IATI Partner Search
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme/">IATI Partner Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IATI Approaches Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#word-embeddings-tom">Word Embeddings - Tom</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#approach">Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-status">Current Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#packages">Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#added-value">Added value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-challenges">Current challenges</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#information-searching-saliha">Information Searching - Saliha</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elastic-search">Elastic Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-it-works">How It works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deciding-the-right-number-of-shards-to-use">Deciding the right number of shards to use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#index-mapping-index-schema">Index Mapping (Index Schema)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">IATI Partner Search</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../">Docs</a> &raquo;</li>
+        
+      <li>IATI Approaches Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/IATI_methods.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="iati-approaches-overview">
+<h1>IATI Approaches Overview<a class="headerlink" href="#iati-approaches-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="word-embeddings-tom">
+<h2>Word Embeddings - Tom<a class="headerlink" href="#word-embeddings-tom" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="approach">
+<h3>Approach<a class="headerlink" href="#approach" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>For every word in your corpus (i.e. all the IATI descriptions) the word2vec model</p>
+<ul>
+<li><ol class="simple">
+<li><p>Using the words occuring more than 20 times it maps those words into a 50 dimensional space.</p></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Similarity: determined by context in the corpus (cat, dog), which helps to pick out synonyms.</p></li>
+</ul>
+</div>
+<div class="section" id="current-status">
+<h3>Current Status<a class="headerlink" href="#current-status" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>adding context just from the IATI data.</p></li>
+<li><ul>
+<li><p>could add context from another corpus or use a pre-built model.</p></li>
+</ul>
+</li>
+<li><p>vector size (how many dimensions) is 50, but could be higher e.g. 300, but ideally you would want to decide based on the asymptote as to when more dimensions does not add anything.</p></li>
+<li><p>but this is difficult to assess because hasn’t been supervised</p></li>
+</ul>
+<p><strong>How to use it:</strong></p>
+<ol class="simple">
+<li><p>Advanced key word search.</p></li>
+<li><p>Averaging the vector to document and using cosine similarity.</p></li>
+<li><p>doc2vec (may not have enough words in document to use this)</p></li>
+</ol>
+</div>
+<div class="section" id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>gensim.models word2vec</p></li>
+</ul>
+</div>
+<div class="section" id="added-value">
+<h3>Added value<a class="headerlink" href="#added-value" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Includes synonyms, so may strengthen connections.</p></li>
+</ul>
+</div>
+<div class="section" id="current-challenges">
+<h3>Current challenges<a class="headerlink" href="#current-challenges" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Entries with very few words.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="information-searching-saliha">
+<h2>Information Searching - Saliha<a class="headerlink" href="#information-searching-saliha" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/salihadfid1/NLP_INTRO">See Saliha’s code base for overview</a></p>
+</div>
+<div class="section" id="elastic-search">
+<h2>Elastic Search<a class="headerlink" href="#elastic-search" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html">Can do custom analysis at both index time and query time</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-analyzers.html">Here are the ones that are supplied</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html">Or build out your own</a></p></li>
+</ul>
+<div class="section" id="id1">
+<h3>Approach<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Elastic search uses Apache Lucene.</p>
+<ul>
+<li><p>according to <strong>Lucene scoring formula</strong>, a document would be most similar to itself due to the terms with the highest tf-idf.</p></li>
+</ul>
+</li>
+<li><p>One of the query functions is more_like_this:</p>
+<ul>
+<li><p>MLT: query extracts text from the input document, analyzes it, usually using the same analyzer at the field, then selects the top K terms with highest tf-idf to form a disjunctive query of these terms.</p></li>
+<li><p>The fields on which to perform MLT must be indexed and of type text of keyword.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="how-it-works">
+<h3>How It works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Acquire Raw Content</p></li>
+<li><p>Build the document</p></li>
+<li><p>Analyze the document</p>
+<ul>
+<li><p>Specify which part of the text is to be indexed.</p></li>
+</ul>
+</li>
+<li><p>Index the document</p>
+<ul>
+<li><p>the documents need to be indexed so that the document can be retrieved based on certain keys instead of the entire content of the document.</p></li>
+<li><p>the index process is similar to indexes at the end of a book (where common words are shown with their page numbers so that these words can be tracked quickly).</p>
+<ul>
+<li><p>each index is comprised of multiple <strong>shards</strong>, which are the storage containers for your data.</p></li>
+<li><p>Once your Index is created your cannot change the number of Primary shards.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="deciding-the-right-number-of-shards-to-use">
+<h3>Deciding the right number of shards to use<a class="headerlink" href="#deciding-the-right-number-of-shards-to-use" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>How much information you are going to store inside your index</p></li>
+<li><p>How fast/parallel you want ES to be able to write the data</p></li>
+<li><p>How much time you will want to wait when ES relocates your shard</p></li>
+</ul>
+</div>
+<div class="section" id="index-mapping-index-schema">
+<h3>Index Mapping (Index Schema)<a class="headerlink" href="#index-mapping-index-schema" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>There are the so-called ‘field datatypes’, which define the type of data your field contains. By ‘field’ we are meaning the value of a key inside indexed JSON Document.</p></li>
+<li><p>If you have JSON document like this:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="n">Travis</span><span class="p">,</span>
+    <span class="s2">&quot;Age&quot;</span> <span class="p">:</span> <span class="mi">23</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Each of the fields “Name” and “Age” will have their datatype (part of the Index Mapping).</p>
+<p>If you let ElasticSearch choose the mapping for you, always double-check and make sure that the right mappings have been chosen for your scenario. You could easily check an Index mappings, by issuing ES query:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>GET /my_test_index/_mapping?pretty
+</pre></div>
+</div>
+<p>Currently the field data types you are able to choose from, contain:</p>
+<ul class="simple">
+<li><p><strong>basic:</strong> text, keyword, date, long, double, boolean, ip</p></li>
+<li><p><strong>hierarchy support:</strong> object, nested</p></li>
+<li><p><strong>special types:</strong> geo_point, geo_shape, completion</p></li>
+</ul>
+<ul class="simple">
+<li><p>User Interface for Search</p></li>
+<li><p>Build Query</p>
+<ul>
+<li><p>prepare a Query object using text which can be used to inquire index database to get the relevant details.</p></li>
+</ul>
+</li>
+<li><p>Search Query</p>
+<ul>
+<li><p>Using a query object, the index database is checked to get the relevant details and the content documents.</p></li>
+<li><p>Common query types</p>
+<ul>
+<li><p>TermQuery, TermRangeQuery, BooleanQuery, PhraseQuery, WildCardQuery, FuzzyQuery (searches documets using fuzzy implementation that is an approximate search based on the edit distance algorithm.)</p></li>
+<li><p>edit distance is a way of quantifying how dissimilar two strings (e.g., words) are to one another by counting the minimum number of operations required to transform one string into the other. Edit distances find applications in natural language processing, where automatic spelling correction can determine candidate corrections for a misspelled word by selecting words from a dictionary that have a low distance to the word in question.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>**Difference between keyword and text data types for storing your data.</p>
+<ul class="simple">
+<li><p>Keywords are stored as they are inside the Lucene Index</p></li>
+<li><p>Keyword can be sued for filtering and aggregations.  - that is imporotant if you try to do things liek ‘GROUP By’ or ‘WHERE id = ‘5’”</p></li>
+<li><p>Keywords can be searched with Term-Level Queries like: <strong>range, exists, regexp, wildcard</strong>.</p></li>
+</ul>
+<p>Other option:</p>
+<ul class="simple">
+<li><p>Can store Geo coordinates inside ElasticSearch.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../code_documentation/" class="btn btn-neutral float-right" title="Code Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../overview/" class="btn btn-neutral float-left" title="IATI Tooling Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Department for International Development
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
