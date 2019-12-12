@@ -7,12 +7,20 @@ from os.path import join
 from gensim.models import Word2Vec
 import pickle
 
-from constants import (
-    PROCESSED_RECORDS_FILENAME,
-    COSINE_FILENAME,
-    WORD2VECMODEL_FILENAME,
-    WORD2VECAVG_FILENAME,
-)
+try:
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        COSINE_FILENAME,
+        WORD2VECMODEL_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
+except ModuleNotFoundError:
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        COSINE_FILENAME,
+        WORD2VECMODEL_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
 
 
 if __name__ == "__main__":

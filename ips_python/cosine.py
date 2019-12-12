@@ -6,14 +6,24 @@ from sklearn.metrics.pairwise import cosine_similarity
 from ips_python.utils import get_data_path
 from os.path import join
 
-from ips_python.preprocessing import preprocess_query_text
-from ips_python.vectorize import vectorize_input_text
-from ips_python.constants import (
-    PROCESSED_RECORDS_FILENAME,
-    TERM_DOCUMENT_MATRIX_FILENAME,
-    VECTORIZER_FILENAME,
-    COSINE_FILENAME,
-)
+try:
+    from ips_python.preprocessing import preprocess_query_text
+    from ips_python.vectorize import vectorize_input_text
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        VECTORIZER_FILENAME,
+        COSINE_FILENAME,
+    )
+except ModuleNotFoundError:
+    from preprocessing import preprocess_query_text
+    from vectorize import vectorize_input_text
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        VECTORIZER_FILENAME,
+        COSINE_FILENAME,
+    )
 
 
 def get_cosine_similarity(

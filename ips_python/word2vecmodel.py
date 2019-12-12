@@ -4,7 +4,10 @@ from os.path import join
 from gensim.models import Word2Vec
 import time
 
-from .constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
+try:
+    from ips_python.constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
+except ModuleNotFoundError:
+    from constants import PROCESSED_RECORDS_FILENAME, WORD2VECMODEL_FILENAME
 
 
 def build_w2v_model(input_df, dim_size):

@@ -7,12 +7,20 @@ from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 import time
 
-from ips_python.utils import get_data_path, get_input_path
-from ips_python.constants import (
-    PROCESSED_RECORDS_FILENAME,
-    INPUT_DATA_FILENAME,
-    STOPWORDS_FILENAME,
-)
+try:
+    from ips_python.utils import get_data_path, get_input_path
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        INPUT_DATA_FILENAME,
+        STOPWORDS_FILENAME,
+    )
+except ModuleNotFoundError:
+    from utils import get_data_path, get_input_path
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        INPUT_DATA_FILENAME,
+        STOPWORDS_FILENAME,
+    )
 
 
 def preprocessing_initial_text_clean(p_df, p_text):

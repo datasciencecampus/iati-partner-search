@@ -1,8 +1,18 @@
-from ips_python.preprocessing import preprocess_query_text
-from ips_python.vectorize import create_tfidf_term_document_matrix, vectorize_input_text
-from ips_python.cosine import get_cosine_similarity
-from ips_python.refinement import process_results, gather_top_results
-from ips_python.word2vecaverage import average_per_doc
+try:
+    from ips_python.preprocessing import preprocess_query_text
+    from ips_python.vectorize import (
+        create_tfidf_term_document_matrix,
+        vectorize_input_text,
+    )
+    from ips_python.cosine import get_cosine_similarity
+    from ips_python.refinement import process_results, gather_top_results
+    from ips_python.word2vecaverage import average_per_doc
+except ModuleNotFoundError:
+    from preprocessing import preprocess_query_text
+    from vectorize import create_tfidf_term_document_matrix, vectorize_input_text
+    from cosine import get_cosine_similarity
+    from refinement import process_results, gather_top_results
+    from word2vecaverage import average_per_doc
 
 
 def download_data():

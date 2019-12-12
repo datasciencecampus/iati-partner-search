@@ -3,13 +3,22 @@ from os.path import join
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from ips_python.utils import get_data_path
-from ips_python.constants import (
-    PROCESSED_RECORDS_FILENAME,
-    WORD_LIST_FILENAME,
-    TERM_DOCUMENT_MATRIX_FILENAME,
-    VECTORIZER_FILENAME,
-)
+try:
+    from ips_python.utils import get_data_path
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        WORD_LIST_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        VECTORIZER_FILENAME,
+    )
+except ModuleNotFoundError:
+    from utils import get_data_path
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        WORD_LIST_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        VECTORIZER_FILENAME,
+    )
 
 
 def create_tfidf_term_document_matrix(preprocessed_text_dataframe):
