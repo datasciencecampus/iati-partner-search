@@ -28,6 +28,6 @@ jobs:
           python ips_python/cosine.py
           python ips_python/refinement.py
           python ips_python/script.py
+          python ips_python/word2vecmodel.py
           python ips_python/word2vecaverage.py
           python ips_python/word2veccosine.py
-          python ips_python/word2vecmodel.py
