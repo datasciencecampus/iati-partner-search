@@ -8,19 +8,29 @@ from ips_python.constants import INPUT_DATA_FILENAME
 
 
 @task
-def install_dependencies(c):
-    c.run("pip install -r requirements.txt")
+def install_dependencies(c, quiet=False):
+    if quiet:
+        c.run("pip install --quiet -r requirements.txt")
+    else:
+        c.run("pip install -r requirements.txt")
 
 
 @task
-def install_dev_dependencies(c):
-    c.run("pip install -r requirements-dev.txt")
+def install_dev_dependencies(c, quiet=False):
+    if quiet:
+        c.run("pip install --quiet -r requirements-dev.txt")
+    else:
+        c.run("pip install -r requirements-dev.txt")
 
 
 @task
-def install_all(c):
-    install_dependencies(c)
-    install_dev_dependencies(c)
+def install_all(c, quiet=False):
+    if quiet:
+        install_dependencies(c, quiet=True)
+        install_dev_dependencies(c, quiet=True)
+    else:
+        install_dependencies(c)
+        install_dev_dependencies(c)
 
 
 @task

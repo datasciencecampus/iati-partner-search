@@ -15,7 +15,7 @@ jobs:
       - name: Check Scripts Run
         run: |
           pip install invoke
-          invoke install-all
+          invoke install-all --quiet
           invoke download-nltk-data
           cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
           # these are all of the scripts that have been refactored to fit in with the
