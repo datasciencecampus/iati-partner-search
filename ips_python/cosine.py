@@ -3,10 +3,10 @@ import pickle
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-from ips_python.utils import get_data_path
 from os.path import join
 
 try:
+    from ips_python.utils import get_data_path
     from ips_python.preprocessing import preprocess_query_text
     from ips_python.vectorize import vectorize_input_text
     from ips_python.constants import (
@@ -16,6 +16,7 @@ try:
         COSINE_FILENAME,
     )
 except ModuleNotFoundError:
+    from utils import get_data_path
     from preprocessing import preprocess_query_text
     from vectorize import vectorize_input_text
     from constants import (
