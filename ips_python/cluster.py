@@ -5,15 +5,27 @@ import time
 from os.path import join
 import pickle
 from sklearn.cluster import KMeans
-from constants import (
-    PROCESSED_RECORDS_FILENAME,
-    TERM_DOCUMENT_MATRIX_FILENAME,
-    CLUSTERING_SUM_OF_SQUARE_COMPARISON_FILENAME,
-    CLUSTER_CENTROIDS_FILENAME_CONVENTION,
-    ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION,
-)
-from utils import get_data_path
 from sklearn.decomposition import TruncatedSVD
+
+
+try:
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        CLUSTERING_SUM_OF_SQUARE_COMPARISON_FILENAME,
+        CLUSTER_CENTROIDS_FILENAME_CONVENTION,
+        ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION,
+    )
+    from ips_python.utils import get_data_path
+except ModuleNotFoundError:
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        TERM_DOCUMENT_MATRIX_FILENAME,
+        CLUSTERING_SUM_OF_SQUARE_COMPARISON_FILENAME,
+        CLUSTER_CENTROIDS_FILENAME_CONVENTION,
+        ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION,
+    )
+    from utils import get_data_path
 
 
 def plot_kmean_results(result_dict):

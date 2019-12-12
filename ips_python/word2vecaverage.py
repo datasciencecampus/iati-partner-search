@@ -1,15 +1,24 @@
-from .utils import get_data_path
 import pandas as pd
 import numpy as np
 from os.path import join
 from gensim.models import Word2Vec
 import pickle
-from .constants import (
-    WORD2VECMODEL_FILENAME,
-    PROCESSED_RECORDS_FILENAME,
-    WORD2VECAVG_FILENAME,
-)
 import time
+
+try:
+    from ips_python.utils import get_data_path
+    from ips_python.constants import (
+        WORD2VECMODEL_FILENAME,
+        PROCESSED_RECORDS_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
+except ModuleNotFoundError:
+    from utils import get_data_path
+    from constants import (
+        WORD2VECMODEL_FILENAME,
+        PROCESSED_RECORDS_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
 
 
 def average_per_doc(description_text, w2v_model, dim_size=300):

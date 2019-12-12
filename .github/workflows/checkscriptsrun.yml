@@ -1,0 +1,33 @@
+name: Check python scripts run
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install and Set Up Data
+        run: |
+          pip install invoke
+          invoke install-all
+          invoke download-nltk-data
+          cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
+
+      - name: Check Scripts Run
+        run: |
+          # these are all of the scripts that have been refactored to fit in with the
+          # modularized structure.
+          # we simply want to be sure that these script's __main__ functions work without error
+          python ips_python/preprocessing.py
+          python ips_python/vectorize.py
+          python ips_python/cosine.py
+          python ips_python/refinement.py
+          python ips_python/script.py
+          python ips_python/word2vecmodel.py
+          python ips_python/word2vecaverage.py
+          python ips_python/word2veccosine.py

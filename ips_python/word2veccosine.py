@@ -1,18 +1,30 @@
-from .utils import get_data_path
-from .preprocessing import preprocess_query_text
-from .cosine import get_cosine_similarity
-from .word2vecaverage import average_per_doc
 import pandas as pd
 from os.path import join
 from gensim.models import Word2Vec
 import pickle
 
-from constants import (
-    PROCESSED_RECORDS_FILENAME,
-    COSINE_FILENAME,
-    WORD2VECMODEL_FILENAME,
-    WORD2VECAVG_FILENAME,
-)
+try:
+    from ips_python.utils import get_data_path
+    from ips_python.preprocessing import preprocess_query_text
+    from ips_python.cosine import get_cosine_similarity
+    from ips_python.word2vecaverage import average_per_doc
+    from ips_python.constants import (
+        PROCESSED_RECORDS_FILENAME,
+        COSINE_FILENAME,
+        WORD2VECMODEL_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
+except ModuleNotFoundError:
+    from utils import get_data_path
+    from preprocessing import preprocess_query_text
+    from cosine import get_cosine_similarity
+    from word2vecaverage import average_per_doc
+    from constants import (
+        PROCESSED_RECORDS_FILENAME,
+        COSINE_FILENAME,
+        WORD2VECMODEL_FILENAME,
+        WORD2VECAVG_FILENAME,
+    )
 
 
 if __name__ == "__main__":

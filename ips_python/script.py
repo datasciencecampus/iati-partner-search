@@ -1,8 +1,15 @@
-from ips_python.preprocessing import preprocess_query_text
-from ips_python.vectorize import create_tfidf_term_document_matrix, vectorize_input_text
-from ips_python.cosine import get_cosine_similarity
-from ips_python.refinement import process_results, gather_top_results
-from ips_python.word2vecaverage import average_per_doc
+try:
+    from ips_python.preprocessing import preprocess_query_text
+    from ips_python.vectorize import vectorize_input_text
+    from ips_python.cosine import get_cosine_similarity
+    from ips_python.refinement import process_results, gather_top_results
+    from ips_python.word2vecaverage import average_per_doc
+except ModuleNotFoundError:
+    from preprocessing import preprocess_query_text
+    from vectorize import vectorize_input_text
+    from cosine import get_cosine_similarity
+    from refinement import process_results, gather_top_results
+    from word2vecaverage import average_per_doc
 
 
 def download_data():
@@ -10,11 +17,6 @@ def download_data():
     this is a placeholder function to show that we need to run something in order to procure the data
     """
     pass
-
-
-def main():
-    download_data()
-    create_tfidf_term_document_matrix()
 
 
 def process_query(
@@ -47,7 +49,3 @@ def process_query_embeddings(
     smart_results = process_results(df_result, full_iati_records)
     top_results = gather_top_results(smart_results, "reporting.org", 3)
     return top_results
-
-
-if __name__ == "__main__":
-    main()
