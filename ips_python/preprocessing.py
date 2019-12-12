@@ -13,6 +13,7 @@ try:
         PROCESSED_RECORDS_FILENAME,
         INPUT_DATA_FILENAME,
         STOPWORDS_FILENAME,
+        KEEPWORDS_FILENAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path, get_input_path
@@ -53,24 +54,26 @@ def preprocessing_nonenglish_paragraph_remove(p_df, p_text):
 
 def preprocessing_nonenglish_words_remove(p_df, p_text):
     wordstokeep = set(nltk.corpus.words.words())
-    # Remove word if not in English dictionary
+    # Remove word if not in keep list
+    wordstokeep = append_to_list(wordstokeep, join(get_input_path(), KEEPWORDS_FILENAME))
+    wordstokeep = [w.lower() for w in wordstokeep]
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x in wordstokeep)
     )
     return p_df
 
 
-def append_to_stop(stoplist, inputfile):
+def append_to_list(inlist, inputfile):
     with open(inputfile, "r") as r:
         new_words = r.read().splitlines()
         new_words = [w.lower() for w in new_words]
-    return stoplist + new_words
+    return inlist + new_words
 
 
 def preprocessing_stopwords_remove(p_df, p_text):
     # Remove english stop words
     stop = stopwords.words("english")
-    stop = append_to_stop(stop, join(get_input_path(), STOPWORDS_FILENAME))
+    stop = append_to_list(stop, join(get_input_path(), STOPWORDS_FILENAME))
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x not in stop)
     )
