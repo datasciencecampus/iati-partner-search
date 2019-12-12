@@ -158,12 +158,20 @@
 <span class="kn">from</span> <span class="nn">langdetect</span> <span class="kn">import</span> <span class="n">detect</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span><span class="p">,</span> <span class="n">get_input_path</span>
-<span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
-    <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
-    <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span><span class="p">,</span> <span class="n">get_input_path</span>
+    <span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
+        <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_data_path</span><span class="p">,</span> <span class="n">get_input_path</span>
+    <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
+        <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">p_df</span><span class="p">,</span> <span class="n">p_text</span><span class="p">):</span>

@@ -154,13 +154,22 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
 
-<span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
-<span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
-    <span class="n">WORD_LIST_FILENAME</span><span class="p">,</span>
-    <span class="n">TERM_DOCUMENT_MATRIX_FILENAME</span><span class="p">,</span>
-    <span class="n">VECTORIZER_FILENAME</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
+    <span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">WORD_LIST_FILENAME</span><span class="p">,</span>
+        <span class="n">TERM_DOCUMENT_MATRIX_FILENAME</span><span class="p">,</span>
+        <span class="n">VECTORIZER_FILENAME</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
+    <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">WORD_LIST_FILENAME</span><span class="p">,</span>
+        <span class="n">TERM_DOCUMENT_MATRIX_FILENAME</span><span class="p">,</span>
+        <span class="n">VECTORIZER_FILENAME</span><span class="p">,</span>
+    <span class="p">)</span>
 
 
 <div class="viewcode-block" id="create_tfidf_term_document_matrix"><a class="viewcode-back" href="../../../code_documentation/#ips_python.vectorize.create_tfidf_term_document_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_tfidf_term_document_matrix</span><span class="p">(</span><span class="n">preprocessed_text_dataframe</span><span class="p">):</span>
