@@ -14,7 +14,7 @@ jobs:
       - name: Install and Set Up Data
         run: |
           pip install invoke
-          invoke install-all --quiet
+          invoke install-all
           invoke download-nltk-data
           cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
 
