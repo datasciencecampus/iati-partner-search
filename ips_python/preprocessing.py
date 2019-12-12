@@ -21,6 +21,7 @@ except ModuleNotFoundError:
         PROCESSED_RECORDS_FILENAME,
         INPUT_DATA_FILENAME,
         STOPWORDS_FILENAME,
+        KEEPWORDS_FILENAME,
     )
 
 
