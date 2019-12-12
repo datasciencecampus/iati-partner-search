@@ -23,6 +23,7 @@ jobs:
           # we simply want to be sure that these script's __main__ functions work without error
           python ips_python/preprocessing.py
           python ips_python/vectorize.py
+          python ips_python/cosine.py
           python ips_python/refinement.py
           python ips_python/scripts.py
           python ips_python/word2vecaverage.py
