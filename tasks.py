@@ -44,6 +44,11 @@ def build_dev_docker(c):
 
 
 @task
+def build_rest_api_docker(c):
+    c.run("docker build -t ips_rest_api -f ./api.Dockerfile .")
+
+
+@task
 def build_docker(c):
     tag = (
         os.environ["TRAVIS_BUILD_NUMBER"]
@@ -74,6 +79,11 @@ def push_docker(c):
 def build_and_deploy_flask_docker(c):
     build_docker(c)
     push_docker(c)
+
+
+@task
+def run_fastapi(c):
+    c.run("uvicorn ips_python.fast_api_app:app --reload")
 
 
 @task
