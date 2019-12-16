@@ -188,6 +188,12 @@
 </style>
 <div class="section" id="iati-partner-search">
 <h1>IATI Partner Search<a class="headerlink" href="#iati-partner-search" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.com/datasciencecampus/iati-partner-search/"><img alt="Build Passing/Failing on TravisCI.com" src="https://travis-ci.com/datasciencecampus/iati-partner-search.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://actions-badge.atrox.dev/datasciencecampus/iati-partner-search/goto?ref=master"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fdatasciencecampus%2Fiati-partner-search%2Fbadge%3Fref%3Dmaster&amp;style=flat" /></a>
+<a class="reference external image-reference" href="https://hub.docker.com/r/datasciencecampus/iati-partner-search-app/tags"><img alt="Docker Automated build" src="https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/datasciencecampus/iati-partner-search"><img alt="Code Coverage" src="https://codecov.io/gh/datasciencecampus/iati-partner-search/branch/master/graph/badge.svg" /></a>
+<p><a class="reference external" href="https://datasciencecampus.github.io/iati-partner-search/">![https://readthedocs.org/projects/iati-partner-search/badge/?version=latest]</a></p>
+<a class="reference external image-reference" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <p>A tool using NLP technology to match aid funders with potential implementers.</p>
 <p>A more detailed break-down of the project can be found <a class="reference external" href="http://datasciencecampus.github.io/iati-partner-search">here</a>.</p>
 <div class="section" id="installation">
@@ -212,14 +218,16 @@ invoke install-all
 </div>
 <div class="section" id="using-docker">
 <h2>Using Docker<a class="headerlink" href="#using-docker" title="Permalink to this headline">¶</a></h2>
-<p>This repo provides a Dockerfile, that you can build on your machine, which should provide an environment in which the code can execute.</p>
+<p>This repo provides a Dockerfile (<code class="docutils literal notranslate"><span class="pre">app.Dockerfile</span></code>), that you can build on your machine, which should provide an environment in which the code can execute.</p>
 <div class="section" id="python-pipeline-development">
 <h3>Python Pipeline Development<a class="headerlink" href="#python-pipeline-development" title="Permalink to this headline">¶</a></h3>
-<p>We do not currently publish our images to a registry. You must build them on your machine. Make sure that the Docker VM is running, then run:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker build -t iati_partner_search .
+<p>We do not currently publish our images to <a class="reference external" href="https://hub.docker.com/r/datasciencecampus/iati-partner-search-app">DockerHub</a>. You must build them on your machine. Make sure that the Docker VM is running, then run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker build -t iati_partner_search -f ./app.Dockerfile .
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">iati_partner_search</span></code> means that we’re telling Docker that we want the image to be called <code class="docutils literal notranslate"><span class="pre">iati_partner_search</span></code>.</p>
+<p>Or if you have <code class="docutils literal notranslate"><span class="pre">invoke</span></code> installed, run <code class="docutils literal notranslate"><span class="pre">invoke</span> <span class="pre">build-dev-docker</span></code> which will run this command on your behalf.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">iati_partner_search</span></code> means that we’re telling Docker that we want the image to be called <code class="docutils literal notranslate"><span class="pre">iati_partner_search</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">./app.Dockerfile</span></code> tells Docker which Dockerfile to use.</p>
 <p>Once the image has been built, we can run a container:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>docker run --name<span class="o">=</span>ips -it -v <span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>:/iati-partner-search -p <span class="m">5000</span>:5000 iati_partner_search bash
 </pre></div>
@@ -231,7 +239,7 @@ invoke install-all
 <li><p><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">${pwd}:/iati-partner-search</span></code>: tells Docker to share the files on your machine, with the Docker container.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">5000:5000</span></code>: tells Docker that we want to map port 5000 on our machine to port 5000 of the container</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">iati_partner_search</span></code>: refers to the image that we want to build the container from.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bash</span></code>: is the process that want the container to run. In this case we’re asking it to start the CLI</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bash</span></code>: is the process that want the container to run. In this case we’re asking it to start the CLI. If instead we want to start the web application, do not include this, and it will be started automatically.</p></li>
 </ul>
 <p>You can then stop and start the container by running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span> <span class="pre">ips</span></code> and <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span> <span class="pre">ips</span></code> respectively.</p>
 <p>You can read more about Docker containers and this process <a class="reference external" href="https://docs.docker.com/">here</a>.</p>
@@ -240,14 +248,14 @@ invoke install-all
 <div class="section" id="get-the-data">
 <h2>Get the Data<a class="headerlink" href="#get-the-data" title="Permalink to this headline">¶</a></h2>
 <p>Currently (and temporarily) we copy in the data manually. Copy the file named <code class="docutils literal notranslate"><span class="pre">all_downloaded_records.csv</span></code> in to the <code class="docutils literal notranslate"><span class="pre">/data/</span></code> directory.</p>
-<p>If you’re not working from within the Docker container, you will also need to download the nltk data.Execute the following:</p>
+<p>If you’re not working from within the Docker container, you will also need to download the nltk data. Execute the following:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>invoke download-nltk-data
 </pre></div>
 </div>
 </div>
 <div class="section" id="run-the-flask-application">
 <h2>Run the Flask application<a class="headerlink" href="#run-the-flask-application" title="Permalink to this headline">¶</a></h2>
-<p>After adding the required data and installing the required packages you will be able to run the Flask app locally.</p>
+<p>After adding the required data and installing the required packages you will be able to run the web application on your own computer.</p>
 <p>In the <code class="docutils literal notranslate"><span class="pre">/data</span></code> directory make sure you have</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">all_downloaded_records</span><span class="o">.</span><span class="n">csv</span>
 <span class="o">-</span> <span class="n">processed_records</span><span class="o">.</span><span class="n">csv</span>
