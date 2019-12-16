@@ -60,6 +60,7 @@ def preprocessing_nonenglish_words_remove(p_df, p_text):
         wordstokeep, join(get_input_path(), KEEPWORDS_FILENAME)
     )
     wordstokeep = [w.lower() for w in wordstokeep]
+    wordstokeep = split_flatten_list(wordstokeep)
     wordstokeep = set(wordstokeep)
     p_df[p_text] = p_df[p_text].apply(
         lambda x: " ".join(x for x in x.split() if x in wordstokeep)
@@ -73,6 +74,9 @@ def append_to_list(inlist, inputfile):
         new_words = [w.lower() for w in new_words]
     return inlist + new_words
 
+def split_flatten_list(inputlist):
+    splitlist = [s.split(" ") for s in inputlist]
+    return [o for i in splitlist for o in i]
 
 def preprocessing_stopwords_remove(p_df, p_text):
     # Remove english stop words
