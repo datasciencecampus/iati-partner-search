@@ -74,9 +74,11 @@ def append_to_list(inlist, inputfile):
         new_words = [w.lower() for w in new_words]
     return inlist + new_words
 
+
 def split_flatten_list(inputlist):
     splitlist = [s.split(" ") for s in inputlist]
     return [o for i in splitlist for o in i]
+
 
 def preprocessing_stopwords_remove(p_df, p_text):
     # Remove english stop words
