@@ -40,7 +40,7 @@ def lint(c):
 
 @task
 def build_dev_docker(c):
-    c.run("docker build -t iati_partner_search .")
+    c.run("docker build -t iati_partner_search -f ./app.Dockerfile .")
 
 
 @task
