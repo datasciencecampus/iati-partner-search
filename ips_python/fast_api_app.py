@@ -72,15 +72,15 @@ class IATIQuery(BaseModel):
         ...,
         description="Search terms, or description of desired activity.",
         example=(
-            "Despite impressive improvements in Vietnam's development and health status"
-            "over the past decade, gains have not been equitable and significant unmet"
-            "health needs remain. Poor and marginalized populations continue to"
-            "disproportionally suffer from preventable illnesses while those in"
-            "wealthier socioeconomic groups continue to enjoy greater health and longer"
-            "life expectancy. Social Marketing for Improved Rural Health will include 3"
-            "main components: i) social marketing of SafeWat household water treatment"
-            "solution and promotion of safer hygiene behaviors; ii) Good health, Great"
-            "life and iii) behavior change communication to address non-supply side"
+            "Despite impressive improvements in Vietnam's development and health status "
+            "over the past decade, gains have not been equitable and significant unmet "
+            "health needs remain. Poor and marginalized populations continue to "
+            "disproportionally suffer from preventable illnesses while those in "
+            "wealthier socioeconomic groups continue to enjoy greater health and longer "
+            "life expectancy. Social Marketing for Improved Rural Health will include 3 "
+            "main components: i) social marketing of SafeWat household water treatment "
+            "solution and promotion of safer hygiene behaviors; ii) Good health, Great "
+            "life and iii) behavior change communication to address non-supply side "
             "barriers to healthier behaviors"
         ),
     )
@@ -103,6 +103,7 @@ class IATIResult(BaseModel):
             ""
             "Not included when using Elasticsearch."
         ),
+        example="turkey transit institut build year eu strategi turkey prioriti axe polit criteria civil societi dialogu support vaccin rabi",
     )
 
 
@@ -132,17 +133,17 @@ def search_iati_post(iati_query: IATIQuery):
     # model and stuff goes here . . .
     return {
         "search_method": "cosine",
-        "query": "Despite impressive improvements in Vietnam's development and health statusover the past decade, gains have not been equitable and significant unmethealth needs remain. Poor and marginalized populations continue todisproportionally suffer from preventable illnesses while those inwealthier socioeconomic groups continue to enjoy greater health and longerlife expectancy. Social Marketing for Improved Rural Health will include 3main components: i) social marketing of SafeWat household water treatmentsolution and promotion of safer hygiene behaviors; ii) Good health, Greatlife and iii) behavior change communication to address non-supply sidebarriers to healthier behaviors",
+        "query": "Delivery of vaccinations to eradicate rabies.",
         "timestamp": timestamp,
         "version": "0.1.0",
-        "processed_query": "string",
+        "processed_query": "deliveri erad rabi",
         "results": [
             {
-                "iati_identifier": "XM-DAC-12345-abcde",
-                "reporting_org": "XM-DAC-12345",
-                "title": "Title of An Example Activity",
-                "description": "Delivery of vaccinations to eradicate rabies.",
-                "processed_description": "string",
+                "iati_identifier": "XI-IATI-EC_NEAR-2010/22518/17",
+                "reporting_org": "XI-IATI-EC_NEAR",
+                "title": "Oral Vaccination against Rabies",
+                "description": "National programme for Turkey under the IPA - Transition Assistance and Institution Building Component for the year 2010.To support the EU pre-accession strategy for Turkey under 4 priority axes: Copenhagen political criteria, acquis communautaire, EU-Turkey Civil Society Dialogue and supporting activities.Oral Vaccination against Rabies",
+                "processed_description": "turkey transit institut build year eu strategi turkey prioriti axe polit criteria civil societi dialogu support vaccin rabi",
             }
         ],
     }
