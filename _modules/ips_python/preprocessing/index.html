@@ -164,6 +164,7 @@
         <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
         <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
         <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">KEEPWORDS_FILENAME</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_data_path</span><span class="p">,</span> <span class="n">get_input_path</span>
@@ -171,6 +172,7 @@
         <span class="n">PROCESSED_RECORDS_FILENAME</span><span class="p">,</span>
         <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
         <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">KEEPWORDS_FILENAME</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -203,25 +205,36 @@
 
 
 <span class="k">def</span> <span class="nf">preprocessing_nonenglish_words_remove</span><span class="p">(</span><span class="n">p_df</span><span class="p">,</span> <span class="n">p_text</span><span class="p">):</span>
-    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">words</span><span class="o">.</span><span class="n">words</span><span class="p">())</span>
-    <span class="c1"># Remove word if not in English dictionary</span>
+    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">words</span><span class="o">.</span><span class="n">words</span><span class="p">()</span>
+    <span class="c1"># Remove word if not in keep list</span>
+    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="n">append_to_list</span><span class="p">(</span>
+        <span class="n">wordstokeep</span><span class="p">,</span> <span class="n">join</span><span class="p">(</span><span class="n">get_input_path</span><span class="p">(),</span> <span class="n">KEEPWORDS_FILENAME</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wordstokeep</span><span class="p">]</span>
+    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="n">split_flatten_list</span><span class="p">(</span><span class="n">wordstokeep</span><span class="p">)</span>
+    <span class="n">wordstokeep</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">wordstokeep</span><span class="p">)</span>
     <span class="n">p_df</span><span class="p">[</span><span class="n">p_text</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_df</span><span class="p">[</span><span class="n">p_text</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">wordstokeep</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">p_df</span>
 
 
-<span class="k">def</span> <span class="nf">append_to_stop</span><span class="p">(</span><span class="n">stoplist</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">append_to_list</span><span class="p">(</span><span class="n">inlist</span><span class="p">,</span> <span class="n">inputfile</span><span class="p">):</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
         <span class="n">new_words</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
         <span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">new_words</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">stoplist</span> <span class="o">+</span> <span class="n">new_words</span>
+    <span class="k">return</span> <span class="n">inlist</span> <span class="o">+</span> <span class="n">new_words</span>
+
+
+<span class="k">def</span> <span class="nf">split_flatten_list</span><span class="p">(</span><span class="n">inputlist</span><span class="p">):</span>
+    <span class="n">splitlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">inputlist</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">splitlist</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
 
 
 <span class="k">def</span> <span class="nf">preprocessing_stopwords_remove</span><span class="p">(</span><span class="n">p_df</span><span class="p">,</span> <span class="n">p_text</span><span class="p">):</span>
     <span class="c1"># Remove english stop words</span>
     <span class="n">stop</span> <span class="o">=</span> <span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
-    <span class="n">stop</span> <span class="o">=</span> <span class="n">append_to_stop</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">join</span><span class="p">(</span><span class="n">get_input_path</span><span class="p">(),</span> <span class="n">STOPWORDS_FILENAME</span><span class="p">))</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">append_to_list</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">join</span><span class="p">(</span><span class="n">get_input_path</span><span class="p">(),</span> <span class="n">STOPWORDS_FILENAME</span><span class="p">))</span>
     <span class="n">p_df</span><span class="p">[</span><span class="n">p_text</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_df</span><span class="p">[</span><span class="n">p_text</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop</span><span class="p">)</span>
     <span class="p">)</span>
