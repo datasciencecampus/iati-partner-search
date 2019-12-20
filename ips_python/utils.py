@@ -1,6 +1,11 @@
 from os.path import join, dirname, abspath
 from datetime import datetime
 
+try:
+    from ips_python.constants import INPUT_DATA_FILENAME
+except ModuleNotFoundError:
+    from constants import INPUT_DATA_FILENAME
+
 
 def get_timestamp_string_prefix():
     """
@@ -16,6 +21,10 @@ def get_data_path():
     Should work consistently across OS
     """
     return join(dirname(dirname(abspath(__file__))), "data")
+
+
+def get_raw_data_filepath():
+    return join(get_data_path(), INPUT_DATA_FILENAME)
 
 
 def get_input_path():
