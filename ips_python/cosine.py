@@ -14,6 +14,7 @@ try:
         TERM_DOCUMENT_MATRIX_FILENAME,
         VECTORIZER_FILENAME,
         COSINE_FILENAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path
@@ -24,6 +25,7 @@ except ModuleNotFoundError:
         TERM_DOCUMENT_MATRIX_FILENAME,
         VECTORIZER_FILENAME,
         COSINE_FILENAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 
 
@@ -42,7 +44,7 @@ def get_cosine_similarity(
 
     cosine_array = cosine_similarity(term_document_matrix, processed_user_query_vector)
 
-    iati_records = iati_records[["iati.identifier"]]
+    iati_records = iati_records[[IATI_IDENTIFIER_COLUMN_NAME]]
 
     iati_records["cosine_sim"] = cosine_array
 
@@ -82,7 +84,7 @@ if __name__ == "__main__":
             join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
         )
 
-        iati_records = iati_records[["iati.identifier"]]
+        iati_records = iati_records[[IATI_IDENTIFIER_COLUMN_NAME]]
         start_time = time.time()
         outDF = get_cosine_similarity(query_vector, term_document_matrix, iati_records)
         print("cosine match in {0} seconds".format(time.time() - start_time))

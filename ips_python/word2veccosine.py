@@ -13,6 +13,7 @@ try:
         COSINE_FILENAME,
         WORD2VECMODEL_FILENAME,
         WORD2VECAVG_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path
@@ -24,6 +25,7 @@ except ModuleNotFoundError:
         COSINE_FILENAME,
         WORD2VECMODEL_FILENAME,
         WORD2VECAVG_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
     )
 
 
@@ -53,7 +55,7 @@ if __name__ == "__main__":
             full_arr = pickle.load(_file)
 
         query_average = average_per_doc(
-            str(query_df["description"]), model, 300
+            str(query_df[DESCRIPTION_COLUMN_NAME]), model, 300
         ).reshape(1, -1)
 
         # Using get_cosine_similarity from our cosine.py script, it removes cosine < 0 results

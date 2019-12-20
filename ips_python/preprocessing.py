@@ -14,6 +14,9 @@ try:
         INPUT_DATA_FILENAME,
         STOPWORDS_FILENAME,
         KEEPWORDS_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
+        TITLE_COLUMN_NAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path, get_input_path
@@ -22,6 +25,9 @@ except ModuleNotFoundError:
         INPUT_DATA_FILENAME,
         STOPWORDS_FILENAME,
         KEEPWORDS_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
+        TITLE_COLUMN_NAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 
 
@@ -135,13 +141,13 @@ def preprocessing_empty_text_remove(p_df, p_text):
 
 def preprocess_query_text(query_text):
     # transform into dataframe
-    df = pd.DataFrame([query_text], columns=["description"])
+    df = pd.DataFrame([query_text], columns=[DESCRIPTION_COLUMN_NAME])
     # Apply specific preprocessing functions
-    df = preprocessing_initial_text_clean(df, "description")
-    df = preprocessing_nonenglish_words_remove(df, "description")
-    df = preprocessing_stopwords_remove(df, "description")
-    df = preprocessing_stem(df, "description")
-    return preprocessing_empty_text_remove(df, "description")
+    df = preprocessing_initial_text_clean(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_nonenglish_words_remove(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_stopwords_remove(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_stem(df, DESCRIPTION_COLUMN_NAME)
+    return preprocessing_empty_text_remove(df, DESCRIPTION_COLUMN_NAME)
 
 
 def preprocess_pipeline(df):
@@ -152,29 +158,32 @@ def preprocess_pipeline(df):
         df: dataframe of the raw IATI data with columns including identifier, description and title
 
     Returns:
-        dataframe of with preprocessed data with _only_ the columns "iati.identifier" and "description"
+        dataframe of with preprocessed data with _only_ the columns IATI_IDENTIFIER_COLUMN_NAME and DESCRIPTION_COLUMN_NAME
     """
-    df = df[["iati.identifier", "description", "title"]]
+    df = df[[IATI_IDENTIFIER_COLUMN_NAME, DESCRIPTION_COLUMN_NAME, TITLE_COLUMN_NAME]]
 
     # Remove record in current full dataset with null iati.identifer
-    df = df[~df["iati.identifier"].str.isspace()]
+    df = df[~df[IATI_IDENTIFIER_COLUMN_NAME].str.isspace()]
 
     # If both description and title not NA concatenate them into description column
-    df.loc[~df["description"].isna() & ~df["title"].isna(), ["description"]] = (
-        df["title"] + " " + df["description"]
-    )
+    df.loc[
+        ~df[DESCRIPTION_COLUMN_NAME].isna() & ~df[TITLE_COLUMN_NAME].isna(),
+        [DESCRIPTION_COLUMN_NAME],
+    ] = (df[TITLE_COLUMN_NAME] + " " + df[DESCRIPTION_COLUMN_NAME])
 
     # If description is NA replace with title
-    df.loc[df["description"].isna(), ["description"]] = df["title"]
+    df.loc[df[DESCRIPTION_COLUMN_NAME].isna(), [DESCRIPTION_COLUMN_NAME]] = df[
+        TITLE_COLUMN_NAME
+    ]
 
-    df = df[["iati.identifier", "description"]]
+    df = df[[IATI_IDENTIFIER_COLUMN_NAME, DESCRIPTION_COLUMN_NAME]]
 
     # preprocessing
-    df = preprocessing_initial_text_clean(df, "description")
-    df = preprocessing_nonenglish_words_remove(df, "description")
-    df = preprocessing_stopwords_remove(df, "description")
-    df = preprocessing_stem(df, "description")
-    df = preprocessing_empty_text_remove(df, "description")
+    df = preprocessing_initial_text_clean(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_nonenglish_words_remove(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_stopwords_remove(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_stem(df, DESCRIPTION_COLUMN_NAME)
+    df = preprocessing_empty_text_remove(df, DESCRIPTION_COLUMN_NAME)
     return df
 
 

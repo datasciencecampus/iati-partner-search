@@ -10,6 +10,8 @@ try:
         WORD_LIST_FILENAME,
         TERM_DOCUMENT_MATRIX_FILENAME,
         VECTORIZER_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path
@@ -18,6 +20,8 @@ except ModuleNotFoundError:
         WORD_LIST_FILENAME,
         TERM_DOCUMENT_MATRIX_FILENAME,
         VECTORIZER_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
     )
 
 
@@ -33,7 +37,7 @@ def create_tfidf_term_document_matrix(preprocessed_text_dataframe):
     """
     vectorizer = TfidfVectorizer(min_df=0)
     term_document_matrix = vectorizer.fit_transform(
-        preprocessed_text_dataframe["description"]
+        preprocessed_text_dataframe[DESCRIPTION_COLUMN_NAME]
     )
 
     word_list = vectorizer.get_feature_names()
@@ -50,7 +54,7 @@ def write_tfidf_term_document_matrix_to_file(
     df1 = pd.read_csv(
         join(get_data_path(), preprocessed_file_name), encoding="iso-8859-1"
     )
-    df1 = df1[["iati.identifier", "description"]]
+    df1 = df1[[IATI_IDENTIFIER_COLUMN_NAME, DESCRIPTION_COLUMN_NAME]]
 
     vectorizer, term_document_matrix, word_list = create_tfidf_term_document_matrix(df1)
 
@@ -76,7 +80,7 @@ def vectorize_input_text(processed_query_dataframe, vectorizer):
         numpy array of vectorized user input
     """
     # use the transform method from the vectorizer
-    return vectorizer.transform(processed_query_dataframe["description"])
+    return vectorizer.transform(processed_query_dataframe[DESCRIPTION_COLUMN_NAME])
 
 
 if __name__ == "__main__":

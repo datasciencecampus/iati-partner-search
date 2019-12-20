@@ -1,10 +1,12 @@
 try:
+    from ips_python.constants import DESCRIPTION_COLUMN_NAME, ORG_ID_COLUMN_NAME
     from ips_python.preprocessing import preprocess_query_text
     from ips_python.vectorize import vectorize_input_text
     from ips_python.cosine import get_cosine_similarity
     from ips_python.refinement import process_results, gather_top_results
     from ips_python.word2vecaverage import average_per_doc
 except ModuleNotFoundError:
+    from constants import DESCRIPTION_COLUMN_NAME, ORG_ID_COLUMN_NAME
     from preprocessing import preprocess_query_text
     from vectorize import vectorize_input_text
     from cosine import get_cosine_similarity
@@ -32,7 +34,7 @@ def process_query(
         vectorized_query, term_document_matrix, processed_iati_records
     )
     smart_results = process_results(df_result, full_iati_records)
-    top_results = gather_top_results(smart_results, "reporting.org", 3)
+    top_results = gather_top_results(smart_results, ORG_ID_COLUMN_NAME, 3)
     return top_results
 
 
@@ -42,10 +44,10 @@ def process_query_embeddings(
     processed_query_dataframe = preprocess_query_text(query_text)
 
     query_average = average_per_doc(
-        str(processed_query_dataframe["description"]), w2v_model, 300
+        str(processed_query_dataframe[DESCRIPTION_COLUMN_NAME]), w2v_model, 300
     ).reshape(1, -1)
 
     df_result = get_cosine_similarity(query_average, w2v_avg, processed_iati_records)
     smart_results = process_results(df_result, full_iati_records)
-    top_results = gather_top_results(smart_results, "reporting.org", 3)
+    top_results = gather_top_results(smart_results, ORG_ID_COLUMN_NAME, 3)
     return top_results

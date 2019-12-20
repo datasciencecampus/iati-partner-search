@@ -5,11 +5,25 @@ import pandas as pd
 
 try:
     from ips_python.utils import get_data_path
-    from ips_python.constants import INPUT_DATA_FILENAME, COSINE_FILENAME
+    from ips_python.constants import (
+        INPUT_DATA_FILENAME,
+        COSINE_FILENAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
+        TITLE_COLUMN_NAME,
+        DESCRIPTION_COLUMN_NAME,
+        ORG_ID_COLUMN_NAME,
+    )
     from ips_python.preprocessing import preprocessing_initial_text_clean
 except ModuleNotFoundError:
     from utils import get_data_path
-    from constants import INPUT_DATA_FILENAME, COSINE_FILENAME
+    from constants import (
+        INPUT_DATA_FILENAME,
+        COSINE_FILENAME,
+        IATI_IDENTIFIER_COLUMN_NAME,
+        TITLE_COLUMN_NAME,
+        DESCRIPTION_COLUMN_NAME,
+        ORG_ID_COLUMN_NAME,
+    )
     from preprocessing import preprocessing_initial_text_clean
 
 
@@ -29,25 +43,37 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
     """
     start_time = time.time()
     keep_columns = [
-        "iati.identifier",
-        "reporting.org",
-        "participating.org..Implementing.",
-        "title",
-        "description",
-        "start.actual",
-        "recipient.country",
-        "total.Expenditure",
+        "id",
+        IATI_IDENTIFIER_COLUMN_NAME,
+        ORG_ID_COLUMN_NAME,
+        "reporting_org_type_code",
+        "reporting_org_type_name",
+        "reporting_org_secondary_reporter",
+        "reporting_org_narrative",
+        "title_narrative",
+        "title_narrative_lang",
+        "title_narrative_text",
+        "description_type",
+        "description_narrative",
+        "description_narrative_text",
+        "participating_org_ref",
+        "participating_org_type",
+        "participating_org_role",
+        "participating_org_narrative",
+        "participating_org_narrative_lang",
+        "participating_org_narrative_text",
+        "description_lang",
     ]
     full_iati_df = full_iati_records[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
 
     # Select unique record on all fields but iati.identifier, include iati.identifer of 1st record in duplicate set (!!!)
-    make_unique = [f for f in keep_columns if f != "iati.identifier"]
+    make_unique = [f for f in keep_columns if f != IATI_IDENTIFIER_COLUMN_NAME]
     full_iati_df.drop_duplicates(subset=make_unique, keep="first")
     print("duplicates dropped after {} seconds".format(time.time() - start_time))
 
     full_iati_df = full_iati_df.merge(
-        initial_result_df, on="iati.identifier", how="inner"
+        initial_result_df, on=IATI_IDENTIFIER_COLUMN_NAME, how="inner"
     )
     print("joined cosine res after {} seconds".format(time.time() - start_time))
 
@@ -77,7 +103,9 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
 
     start_time = time.time()
     # remove duplicate entries
-    post_processed_results.drop_duplicates(subset=[org_name, "title", "description"])
+    post_processed_results.drop_duplicates(
+        subset=[org_name, TITLE_COLUMN_NAME, DESCRIPTION_COLUMN_NAME]
+    )
 
     # set order for top reporting organisations
     myorder = pd.Series(post_processed_results[org_name], name="A").unique()
@@ -116,74 +144,10 @@ if __name__ == "__main__":
 
     refined_res = process_results(cosine_res_df, full_df, 100)
 
-    refined_res = preprocessing_initial_text_clean(refined_res, "reporting.org")
+    refined_res = preprocessing_initial_text_clean(refined_res, ORG_ID_COLUMN_NAME)
 
-    refined_res = remove_white_space(refined_res, "reporting.org")
-    refined_res = remove_white_space(refined_res, "description")
+    refined_res = remove_white_space(refined_res, ORG_ID_COLUMN_NAME)
+    refined_res = remove_white_space(refined_res, DESCRIPTION_COLUMN_NAME)
 
     # top results per reporting organisation
-    top_project_results = gather_top_results(refined_res, "reporting.org", 3)
-
-
-# column names in the provisional larger IATI dataset
-
-
-"""
-iati.identifier
-hierarchy
-last.updated.datetime
-default.language
-reporting.org
-reporting.org.ref
-reporting.org.type
-reporting.org.type.code
-title
-description
-activity.status.code
-start.planned
-end.planned
-start.actual
-end.actual
-participating.org..Accountable.
-participating.org.ref..Accountable.
-participating.org.type..Accountable.
-participating.org.type.code..Accountable.
-participating.org..Funding.
-participating.org.ref..Funding.
-participating.org.type..Funding.
-participating.org.type.code..Funding.
-participating.org..Extending.
-participating.org.ref..Extending.
-participating.org.type..Extending.
-participating.org.type.code..Extending.
-participating.org..Implementing.
-participating.org.ref..Implementing.
-participating.org.type..Implementing.
-participating.org.type.code..Implementing.
-recipient.country.code
-recipient.country
-recipient.country.percentage
-recipient.region.code
-recipient.region
-recipient.region.percentage
-sector.code
-sector
-sector.percentage
-sector.vocabulary
-sector.vocabulary.code
-collaboration.type.code
-default.finance.type.code
-default.flow.type.code
-default.aid.type.code
-default.tied.status.code
-default.currency
-currency
-total.Commitment
-total.Disbursement
-total.Expenditure
-total.Incoming.Funds
-total.Interest.Repayment
-total.Loan.Repayment
-total.Reimbursement
-cosine_sim
-"""
+    top_project_results = gather_top_results(refined_res, ORG_ID_COLUMN_NAME, 3)
