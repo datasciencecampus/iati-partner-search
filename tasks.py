@@ -139,3 +139,16 @@ def download_data(c):
     from ips_python.download import main
 
     main()
+
+
+@task
+def create_new_sample_test_data(c):
+    import pandas as pd
+    from ips_python.utils import get_raw_data_filepath
+    from ips_python.tests.test_integration import (
+        get_test_data_file,
+        INPUT_DATA_FILENAME,
+    )
+
+    data = pd.read_csv(get_raw_data_filepath(), low_memory=False)
+    data.sample(n=5000).to_csv(join(get_test_data_file(), INPUT_DATA_FILENAME))
