@@ -17,6 +17,7 @@ This documentation:
    :caption: Introduction:
 
    readme
+   data_architecture
 
 .. toctree::
    :maxdepth: 2
