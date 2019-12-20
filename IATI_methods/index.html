@@ -87,9 +87,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">IATI Approaches Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#word-embeddings-tom">Word Embeddings - Tom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#word-embeddings">Word Embeddings</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#approach">Approach</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#current-status">Current Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-embeddings-vectors-for-document-search">How to use embeddings vectors for document search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#packages">Packages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#added-value">Added value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#current-challenges">Current challenges</a></li>
@@ -196,56 +197,50 @@
 </style>
 <div class="section" id="iati-approaches-overview">
 <h1>IATI Approaches Overview<a class="headerlink" href="#iati-approaches-overview" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="word-embeddings-tom">
-<h2>Word Embeddings - Tom<a class="headerlink" href="#word-embeddings-tom" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="word-embeddings">
+<h2>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="approach">
 <h3>Approach<a class="headerlink" href="#approach" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>For every word in your corpus (i.e. all the IATI descriptions) the word2vec model</p>
-<ul>
-<li><ol class="simple">
-<li><p>Using the words occuring more than 20 times it maps those words into a 50 dimensional space.</p></li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p>Similarity: determined by context in the corpus (cat, dog), which helps to pick out synonyms.</p></li>
-</ul>
+<p>Using the Gensim implementation of Word2Vec, Continuous Bag of Words (CBOW) method.
+Word embeddings represent all the words in a corpus in vector space, where words with similar meaning have a similar vector representation.</p>
 </div>
 <div class="section" id="current-status">
 <h3>Current Status<a class="headerlink" href="#current-status" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>adding context just from the IATI data.</p></li>
-<li><ul>
-<li><p>could add context from another corpus or use a pre-built model.</p></li>
+<li><p>building the Word2Vec model from the IATI activity descriptions (not pre-built model)</p></li>
+<li><p>Using 300 dimensional vectors, as suggested to be optimal in previous studies: https://nlp.stanford.edu/pubs/glove.pdf</p></li>
 </ul>
-</li>
-<li><p>vector size (how many dimensions) is 50, but could be higher e.g. 300, but ideally you would want to decide based on the asymptote as to when more dimensions does not add anything.</p></li>
-<li><p>but this is difficult to assess because hasn’t been supervised</p></li>
-</ul>
-<p><strong>How to use it:</strong></p>
+</div>
+<div class="section" id="how-to-use-embeddings-vectors-for-document-search">
+<h3>How to use embeddings vectors for document search<a class="headerlink" href="#how-to-use-embeddings-vectors-for-document-search" title="Permalink to this headline">¶</a></h3>
+<p>The challenge is turning the 300 dimensional vectors per word into a document search engine, matching existing documents to search input text.</p>
+<p>Possible methods:</p>
 <ol class="simple">
-<li><p>Advanced key word search.</p></li>
-<li><p>Averaging the vector to document and using cosine similarity.</p></li>
-<li><p>doc2vec (may not have enough words in document to use this)</p></li>
+<li><p>Averaging the word vectors per document and also for the search phrase and the matching using cosine similarity.</p></li>
+<li><p>Using Word Mover’s Distance (WMD), which calculates the minimum cumulative distance between two documents.</p></li>
+<li><p>Using doc2vec inplace of word2vec.</p></li>
 </ol>
+<p>Option 1 (vector averaging) while not an advanced technique, is a widely acknowledged option and is performant, so being implemented in the code currently.
+Option 2 (WMD) has proved not performant, taking several minutes to return a search result.
+Option 3 (doc2vec) could evenutally be the best choice and may be implemented in future.</p>
 </div>
 <div class="section" id="packages">
 <h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>gensim.models word2vec</p></li>
+<li><p>gensim.models word2vec, doc2vec</p></li>
 </ul>
 </div>
 <div class="section" id="added-value">
 <h3>Added value<a class="headerlink" href="#added-value" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Includes synonyms, so may strengthen connections.</p></li>
+<li><p>Should make a more advanced search engine incorporating synonyms matches to user input search terms</p></li>
 </ul>
 </div>
 <div class="section" id="current-challenges">
 <h3>Current challenges<a class="headerlink" href="#current-challenges" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Entries with very few words.</p></li>
+<li><p>Some IATI activity descriptions have few words, with a mean of 17 words per entry after preprocessing.</p></li>
+<li><p>The suitability of the data before or after pre-processing as a word2vec or doc2vec model training set.</p></li>
 </ul>
 </div>
 </div>
