@@ -247,7 +247,11 @@ The <code class="docutils literal notranslate"><span class="pre">-f</span> <span
 </div>
 <div class="section" id="get-the-data">
 <h2>Get the Data<a class="headerlink" href="#get-the-data" title="Permalink to this headline">¶</a></h2>
-<p>Currently (and temporarily) we copy in the data manually. Copy the file named <code class="docutils literal notranslate"><span class="pre">all_downloaded_records.csv</span></code> in to the <code class="docutils literal notranslate"><span class="pre">/data/</span></code> directory.</p>
+<p>To download the raw data, run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>invoke download-data
+</pre></div>
+</div>
+<p>Note the data is currently just over 1GB in size and so could take some time to download.</p>
 <p>If you’re not working from within the Docker container, you will also need to download the nltk data. Execute the following:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>invoke download-nltk-data
 </pre></div>

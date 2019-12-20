@@ -107,7 +107,13 @@ You can read more about Docker containers and this process `here <https://docs.d
 Get the Data
 ------------
 
-Currently (and temporarily) we copy in the data manually. Copy the file named ``all_downloaded_records.csv`` in to the ``/data/`` directory.
+To download the raw data, run:
+
+.. code-block:: shell
+
+   invoke download-data
+
+Note the data is currently just over 1GB in size and so could take some time to download.
 
 If you're not working from within the Docker container, you will also need to download the nltk data. Execute the following:
 
