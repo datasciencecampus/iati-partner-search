@@ -57,9 +57,13 @@ def download_data():
         get_and_write_csv_from_url(download_url, raw_data_filepath)
 
 
-if __name__ == "__main__":
+def main():
     start_time = time.time()
 
     download_data()
 
     print("completed in {} seconds".format(time.time() - start_time))
+
+
+if __name__ == "__main__":
+    main()
