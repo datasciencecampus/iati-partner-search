@@ -110,7 +110,7 @@ def kmeans_clustering(
                 get_data_path(),
                 ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION.format(n_clust),
             ),
-            encoding="utf-8",
+            encoding="iso-8859-1",
             index=False,
         )
 
@@ -154,7 +154,7 @@ def get_number_of_records_by_organisation_by_cluster(term_dataframe, n_clust):
 if __name__ == "__main__":
     # Import iati.identifier csv for records included in doc-term matrix
     term_dataframe = pd.read_csv(
-        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
     term_dataframe = term_dataframe[["iati.identifier"]]
 

@@ -48,7 +48,7 @@ def results_per_corpus_df(input_df, w2v_model, dim_size=300):
 if __name__ == "__main__":
 
     df1 = pd.read_csv(
-        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
 
     df1 = df1[["description"]]

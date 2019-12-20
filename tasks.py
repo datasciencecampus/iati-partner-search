@@ -137,5 +137,4 @@ def cleandocs(c):
 @task
 def download_data(c):
     from ips_python.download import download_data
-
     download_data()

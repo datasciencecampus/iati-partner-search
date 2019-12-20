@@ -106,10 +106,12 @@ def gather_top_results(post_processed_results, org_name, number_of_results_per_o
 
 if __name__ == "__main__":
 
-    full_df = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="utf-8")
+    full_df = pd.read_csv(
+        join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+    )
 
     cosine_res_df = pd.read_csv(
-        join(get_data_path(), COSINE_FILENAME), encoding="utf-8"
+        join(get_data_path(), COSINE_FILENAME), encoding="iso-8859-1"
     )
 
     refined_res = process_results(cosine_res_df, full_df, 100)
