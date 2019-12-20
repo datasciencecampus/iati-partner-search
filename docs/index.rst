@@ -36,6 +36,7 @@ This documentation:
    :caption: Analysis and Progress Reports
 
    count_words
+   data_download_comparison
 
 .. toctree::
    :maxdepth: 2
