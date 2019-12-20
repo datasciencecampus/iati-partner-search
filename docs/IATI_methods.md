@@ -19,7 +19,7 @@ Possible methods:
   3. Using doc2vec inplace of word2vec.
 
 Option 1 (vector averaging) while not an advanced technique, is a widely acknowledged option and is performant, so being implemented in the code currently.
-Option 2 (WMD) has proved not performant, taking several minutes to return a search result. 
+Option 2 (WMD) has proved not performant, taking several minutes to return a search result.
 Option 3 (doc2vec) could evenutally be the best choice and may be implemented in future.
 
 ### Packages
@@ -35,6 +35,10 @@ Option 3 (doc2vec) could evenutally be the best choice and may be implemented in
 ## Information Searching - Saliha
 
 [See Saliha's code base for overview](https://github.com/salihadfid1/NLP_INTRO)
+
+# Language Models
+
+TODO @s-minhas: add text here explaining this approach.
 
 ## Elastic Search
 * [Can do custom analysis at both index time and query time](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html)
