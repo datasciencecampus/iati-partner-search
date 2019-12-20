@@ -1,31 +1,36 @@
 # IATI Approaches Overview
 
-## Word Embeddings - Tom
+## Word Embeddings
 
 ### Approach
-- For every word in your corpus (i.e. all the IATI descriptions) the word2vec model
-    - 1. Using the words occuring more than 20 times it maps those words into a 50 dimensional space.
-- Similarity: determined by context in the corpus (cat, dog), which helps to pick out synonyms.
+Using the Gensim implementation of Word2Vec, Continuous Bag of Words (CBOW) method.
+Word embeddings represent all the words in a corpus in vector space, where words with similar meaning have a similar vector representation.
 
 ### Current Status
-  - adding context just from the IATI data.
-  - * could add context from another corpus or use a pre-built model.
-  - vector size (how many dimensions) is 50, but could be higher e.g. 300, but ideally you would want to decide based on the asymptote as to when more dimensions does not add anything.
-  - but this is difficult to assess because hasn't been supervised
+  - building the Word2Vec model from the IATI activity descriptions (not pre-built model)
+  - Using 300 dimensional vectors, as suggested to be optimal in previous studies: https://nlp.stanford.edu/pubs/glove.pdf
 
-**How to use it:**
-  1. Advanced key word search.
-  2. Averaging the vector to document and using cosine similarity.
-  3. doc2vec (may not have enough words in document to use this)
+### How to use embeddings vectors for document search
+The challenge is turning the 300 dimensional vectors per word into a document search engine, matching existing documents to search input text.
+
+Possible methods:
+  1. Averaging the word vectors per document and also for the search phrase and the matching using cosine similarity.
+  2. Using Word Mover's Distance (WMD), which calculates the minimum cumulative distance between two documents.
+  3. Using doc2vec inplace of word2vec.
+
+Option 1 (vector averaging) while not an advanced technique, is a widely acknowledged option and is performant, so being implemented in the code currently.
+Option 2 (WMD) has proved not performant, taking several minutes to return a search result. 
+Option 3 (doc2vec) could evenutally be the best choice and may be implemented in future.
 
 ### Packages
-- gensim.models word2vec
+- gensim.models word2vec, doc2vec
 
 ### Added value
-- Includes synonyms, so may strengthen connections.
+- Should make a more advanced search engine incorporating synonyms matches to user input search terms
 
 ### Current challenges
-- Entries with very few words.
+- Some IATI activity descriptions have few words, with a mean of 17 words per entry after preprocessing.
+- The suitability of the data before or after pre-processing as a word2vec or doc2vec model training set.
 
 ## Information Searching - Saliha
 
