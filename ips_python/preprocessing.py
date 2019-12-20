@@ -182,7 +182,7 @@ if __name__ == "__main__":
     start = time.time()
 
     # To import full dataset
-    df = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1")
+    df = pd.read_csv(join(get_data_path(), INPUT_DATA_FILENAME), encoding="utf-8")
 
     df = preprocess_pipeline(df)
 
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     df.to_csv(
         join(join(get_data_path(), PROCESSED_RECORDS_FILENAME)),
         index=False,
-        encoding="iso-8859-1",
+        encoding="utf-8",
     )
 
     end = time.time()

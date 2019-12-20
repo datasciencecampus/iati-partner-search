@@ -19,19 +19,19 @@ global colhead, colhead2, data
 data = pd.read_csv(
     "C:/corpus3/iati30Clusters.csv",
     dtype={"cluster30": int, "iati-identifier": str},
-    encoding="iso-8859-1",
+    encoding="utf-8",
 )
 # report = pd.read_csv("C:/corpus3/dfreport.csv", dtype={'df10rand.iati.identifier': str, 'df10rand.reporting.org': str, 'df10rand.reporting.org.ref':str, 'df10rand.reporting.org.type':str,	'df10rand.reporting.org.type.code':str},  encoding="ANSI")
 colhead2 = list(data.columns)
 
-report = pd.read_csv("C:/corpus3/dfcountry.csv", encoding="iso-8859-1")
+report = pd.read_csv("C:/corpus3/dfcountry.csv", encoding="utf-8")
 colhead = list(report.columns)
 start = time.time()
 
 
 def writetocsv(pfile, pline, phead):
     pfile = "C:/corpus3/" + pfile
-    with open(pfile, mode="a", newline="", encoding="iso-8859-1") as fw:
+    with open(pfile, mode="a", newline="", encoding="utf-8") as fw:
         file_writer = csv.writer(
             fw, lineterminator="\n", quotechar='"', quoting=csv.QUOTE_MINIMAL
         )

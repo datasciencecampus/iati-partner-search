@@ -19,7 +19,7 @@ def build_w2v_model(input_df, dim_size):
 if __name__ == "__main__":
 
     df1 = pd.read_csv(
-        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
     )
 
     start = time.time()
