@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Code Documentation &mdash; IATI Partner Search  documentation</title>
+  <title>Preprocessing &mdash; IATI Partner Search  documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="prev" title="IATI Approaches Overview" href="../IATI_methods/" /> 
+    <link rel="prev" title="Data Source Comparison" href="../data_download_comparison/" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,20 +80,31 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <p class="caption"><span class="caption-text">Introduction:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme/">IATI Partner Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../IATI_methods/">IATI Approaches Overview</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.preprocessing">Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.vectorize">Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.refinement">Results Refinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.script">Runtime Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ips_python.utils">Package Utilities</a></li>
 </ul>
-</li>
+<p class="caption"><span class="caption-text">An Overview of IATI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../challenges/">Challenges of working with IATI Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Search and NLP Approaches</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../IATI_methods/">IATI Approaches Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis and Progress Reports</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_download_comparison/">Data Source Comparison</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-ips_python.vectorize">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-ips_python.refinement">Results Refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-ips_python.script">Runtime Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-ips_python.utils">Package Utilities</a></li>
 </ul>
 
             
@@ -139,7 +150,7 @@
     
       <li><a href="../">Docs</a> &raquo;</li>
         
-      <li>Code Documentation</li>
+      <li>Preprocessing</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -182,10 +193,8 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="code-documentation">
-<h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-ips_python.preprocessing">
-<span id="preprocessing"></span><h2>Preprocessing<a class="headerlink" href="#module-ips_python.preprocessing" title="Permalink to this headline">¶</a></h2>
+<span id="preprocessing"></span><h1>Preprocessing<a class="headerlink" href="#module-ips_python.preprocessing" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ips_python.preprocessing.get_wordnet_pos">
 <code class="sig-prename descclassname">ips_python.preprocessing.</code><code class="sig-name descname">get_wordnet_pos</code><span class="sig-paren">(</span><em class="sig-param">word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/preprocessing/#get_wordnet_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.preprocessing.get_wordnet_pos" title="Permalink to this definition">¶</a></dt>
@@ -208,7 +217,7 @@
 
 </div>
 <div class="section" id="module-ips_python.vectorize">
-<span id="modeling"></span><h2>Modeling<a class="headerlink" href="#module-ips_python.vectorize" title="Permalink to this headline">¶</a></h2>
+<span id="modeling"></span><h1>Modeling<a class="headerlink" href="#module-ips_python.vectorize" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ips_python.vectorize.create_tfidf_term_document_matrix">
 <code class="sig-prename descclassname">ips_python.vectorize.</code><code class="sig-name descname">create_tfidf_term_document_matrix</code><span class="sig-paren">(</span><em class="sig-param">preprocessed_text_dataframe</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/vectorize/#create_tfidf_term_document_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.vectorize.create_tfidf_term_document_matrix" title="Permalink to this definition">¶</a></dt>
@@ -248,7 +257,7 @@ vectorized query</p>
 
 </div>
 <div class="section" id="module-ips_python.refinement">
-<span id="results-refinement"></span><h2>Results Refinement<a class="headerlink" href="#module-ips_python.refinement" title="Permalink to this headline">¶</a></h2>
+<span id="results-refinement"></span><h1>Results Refinement<a class="headerlink" href="#module-ips_python.refinement" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ips_python.refinement.process_results">
 <code class="sig-prename descclassname">ips_python.refinement.</code><code class="sig-name descname">process_results</code><span class="sig-paren">(</span><em class="sig-param">initial_result_df</em>, <em class="sig-param">full_iati_records</em>, <em class="sig-param">number_of_results=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/refinement/#process_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.refinement.process_results" title="Permalink to this definition">¶</a></dt>
@@ -271,7 +280,7 @@ vectorized query</p>
 
 </div>
 <div class="section" id="module-ips_python.script">
-<span id="runtime-code"></span><h2>Runtime Code<a class="headerlink" href="#module-ips_python.script" title="Permalink to this headline">¶</a></h2>
+<span id="runtime-code"></span><h1>Runtime Code<a class="headerlink" href="#module-ips_python.script" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ips_python.script.download_data">
 <code class="sig-prename descclassname">ips_python.script.</code><code class="sig-name descname">download_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/script/#download_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.script.download_data" title="Permalink to this definition">¶</a></dt>
@@ -280,7 +289,7 @@ vectorized query</p>
 
 </div>
 <div class="section" id="module-ips_python.utils">
-<span id="package-utilities"></span><h2>Package Utilities<a class="headerlink" href="#module-ips_python.utils" title="Permalink to this headline">¶</a></h2>
+<span id="package-utilities"></span><h1>Package Utilities<a class="headerlink" href="#module-ips_python.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ips_python.utils.get_data_path">
 <code class="sig-prename descclassname">ips_python.utils.</code><code class="sig-name descname">get_data_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ips_python/utils/#get_data_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ips_python.utils.get_data_path" title="Permalink to this definition">¶</a></dt>
@@ -302,7 +311,6 @@ vectorized query</p>
 </dd></dl>
 
 </div>
-</div>
 
 
            </div>
@@ -313,7 +321,7 @@ vectorized query</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../IATI_methods/" class="btn btn-neutral float-left" title="IATI Approaches Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../data_download_comparison/" class="btn btn-neutral float-left" title="Data Source Comparison" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

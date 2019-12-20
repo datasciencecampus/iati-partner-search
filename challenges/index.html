@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; IATI Partner Search  documentation</title>
+  <title>Challenges of working with IATI Data &mdash; IATI Partner Search  documentation</title>
   
 
   
@@ -36,9 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
- 
-
-
+    <link rel="next" title="IATI Approaches Overview" href="../IATI_methods/" />
+    <link rel="prev" title="IATI Tooling Overview" href="../overview/" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,9 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../readme/">IATI Partner Search</a></li>
 </ul>
 <p class="caption"><span class="caption-text">An Overview of IATI</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../challenges/">Challenges of working with IATI Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Challenges of working with IATI Data</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Search and NLP Approaches</span></p>
 <ul>
@@ -152,10 +151,14 @@
     
       <li><a href="../">Docs</a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>Challenges of working with IATI Data</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/challenges.md.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -167,60 +170,59 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
 
-   <h1>Python Module Index</h1>
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
 
-   <div class="modindex-jumpbox">
-   <a href="#cap-i"><strong>i</strong></a>
-   </div>
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
 
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-i"><td></td><td>
-       <strong>i</strong></td><td></td></tr>
-     <tr>
-       <td><img src="../_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">ips_python</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.cosine"><code class="xref">ips_python.cosine</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.preprocessing"><code class="xref">ips_python.preprocessing</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.refinement"><code class="xref">ips_python.refinement</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.script"><code class="xref">ips_python.script</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.utils"><code class="xref">ips_python.utils</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="../code_documentation/#module-ips_python.vectorize"><code class="xref">ips_python.vectorize</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="challenges-of-working-with-iati-data">
+<h1>Challenges of working with IATI Data<a class="headerlink" href="#challenges-of-working-with-iati-data" title="Permalink to this headline">¶</a></h1>
+<p>IATI was designed for flexibility.
+Within the aid sector multiple different organizations and governments work towards dramatically different goals, with different approaches and different ways of working.
+This diversity in the sector is reflected in the IATI data.
+For example; one organizations idea of an activity is not the same as another organizations.
+Multiple currencies are used, but the particular currency (eg £, $ or €) is not always specified.
+Different organizations update their projects at different times.
+None of these examples are exactly a fault in the data, but rather reflect the complexity of the sector and the multiple languages, cultures, backgrounds and motivations of the organizations involved in aid.
+This needs to be borne in mind when analysing the data.
+As a simple example; using the “language” tag to remove non-English entries does not remove all non-English entries.
+This means that depending on the stopwords list used words like “pour” will cause French language entries to cluster, as “pour” is “for” in French, but also a valid word in English.
+The point of this example is that the data will always require particularly careful examination of any filter or analysis, and even simple transformations do not always result in the expected outcome.</p>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../IATI_methods/" class="btn btn-neutral float-right" title="IATI Approaches Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../overview/" class="btn btn-neutral float-left" title="IATI Tooling Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
