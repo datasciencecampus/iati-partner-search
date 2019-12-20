@@ -168,12 +168,14 @@
             
   <h1>Source code for ips_python.script</h1><div class="highlight"><pre>
 <span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span>
     <span class="kn">from</span> <span class="nn">ips_python.preprocessing</span> <span class="kn">import</span> <span class="n">preprocess_query_text</span>
     <span class="kn">from</span> <span class="nn">ips_python.vectorize</span> <span class="kn">import</span> <span class="n">vectorize_input_text</span>
     <span class="kn">from</span> <span class="nn">ips_python.cosine</span> <span class="kn">import</span> <span class="n">get_cosine_similarity</span>
     <span class="kn">from</span> <span class="nn">ips_python.refinement</span> <span class="kn">import</span> <span class="n">process_results</span><span class="p">,</span> <span class="n">gather_top_results</span>
     <span class="kn">from</span> <span class="nn">ips_python.word2vecaverage</span> <span class="kn">import</span> <span class="n">average_per_doc</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span>
     <span class="kn">from</span> <span class="nn">preprocessing</span> <span class="kn">import</span> <span class="n">preprocess_query_text</span>
     <span class="kn">from</span> <span class="nn">vectorize</span> <span class="kn">import</span> <span class="n">vectorize_input_text</span>
     <span class="kn">from</span> <span class="nn">cosine</span> <span class="kn">import</span> <span class="n">get_cosine_similarity</span>
@@ -201,7 +203,7 @@
         <span class="n">vectorized_query</span><span class="p">,</span> <span class="n">term_document_matrix</span><span class="p">,</span> <span class="n">processed_iati_records</span>
     <span class="p">)</span>
     <span class="n">smart_results</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">df_result</span><span class="p">,</span> <span class="n">full_iati_records</span><span class="p">)</span>
-    <span class="n">top_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">smart_results</span><span class="p">,</span> <span class="s2">&quot;reporting.org&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">top_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">smart_results</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">top_results</span>
 
 
@@ -211,12 +213,12 @@
     <span class="n">processed_query_dataframe</span> <span class="o">=</span> <span class="n">preprocess_query_text</span><span class="p">(</span><span class="n">query_text</span><span class="p">)</span>
 
     <span class="n">query_average</span> <span class="o">=</span> <span class="n">average_per_doc</span><span class="p">(</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">processed_query_dataframe</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]),</span> <span class="n">w2v_model</span><span class="p">,</span> <span class="mi">300</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">processed_query_dataframe</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]),</span> <span class="n">w2v_model</span><span class="p">,</span> <span class="mi">300</span>
     <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">df_result</span> <span class="o">=</span> <span class="n">get_cosine_similarity</span><span class="p">(</span><span class="n">query_average</span><span class="p">,</span> <span class="n">w2v_avg</span><span class="p">,</span> <span class="n">processed_iati_records</span><span class="p">)</span>
     <span class="n">smart_results</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">df_result</span><span class="p">,</span> <span class="n">full_iati_records</span><span class="p">)</span>
-    <span class="n">top_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">smart_results</span><span class="p">,</span> <span class="s2">&quot;reporting.org&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">top_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">smart_results</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">top_results</span>
 </pre></div>
 

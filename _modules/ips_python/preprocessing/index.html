@@ -183,6 +183,9 @@
         <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
         <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
         <span class="n">KEEPWORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">TITLE_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_data_path</span><span class="p">,</span> <span class="n">get_input_path</span>
@@ -191,6 +194,9 @@
         <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
         <span class="n">STOPWORDS_FILENAME</span><span class="p">,</span>
         <span class="n">KEEPWORDS_FILENAME</span><span class="p">,</span>
+        <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">TITLE_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -304,13 +310,13 @@
 
 <span class="k">def</span> <span class="nf">preprocess_query_text</span><span class="p">(</span><span class="n">query_text</span><span class="p">):</span>
     <span class="c1"># transform into dataframe</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">query_text</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">query_text</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">])</span>
     <span class="c1"># Apply specific preprocessing functions</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_nonenglish_words_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stopwords_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stem</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">preprocessing_empty_text_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_nonenglish_words_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stopwords_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stem</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">preprocessing_empty_text_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="preprocess_pipeline"><a class="viewcode-back" href="../../../code_documentation/#ips_python.preprocessing.preprocess_pipeline">[docs]</a><span class="k">def</span> <span class="nf">preprocess_pipeline</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
@@ -321,29 +327,32 @@
 <span class="sd">        df: dataframe of the raw IATI data with columns including identifier, description and title</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        dataframe of with preprocessed data with _only_ the columns &quot;iati.identifier&quot; and &quot;description&quot;</span>
+<span class="sd">        dataframe of with preprocessed data with _only_ the columns IATI_IDENTIFIER_COLUMN_NAME and DESCRIPTION_COLUMN_NAME</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span> <span class="n">TITLE_COLUMN_NAME</span><span class="p">]]</span>
 
     <span class="c1"># Remove record in current full dataset with null iati.identifer</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">isspace</span><span class="p">()]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">isspace</span><span class="p">()]</span>
 
     <span class="c1"># If both description and title not NA concatenate them into description column</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">TITLE_COLUMN_NAME</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span>
+        <span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">],</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">TITLE_COLUMN_NAME</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">])</span>
 
     <span class="c1"># If description is NA replace with title</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
+        <span class="n">TITLE_COLUMN_NAME</span>
+    <span class="p">]</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">]]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]]</span>
 
     <span class="c1"># preprocessing</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_nonenglish_words_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stopwords_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stem</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_empty_text_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_nonenglish_words_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stopwords_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_stem</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">preprocessing_empty_text_remove</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 

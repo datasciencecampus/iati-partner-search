@@ -174,11 +174,25 @@
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">ips_python.utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
-    <span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span> <span class="n">COSINE_FILENAME</span>
+    <span class="kn">from</span> <span class="nn">ips_python.constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
+        <span class="n">COSINE_FILENAME</span><span class="p">,</span>
+        <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">TITLE_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="kn">from</span> <span class="nn">ips_python.preprocessing</span> <span class="kn">import</span> <span class="n">preprocessing_initial_text_clean</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_data_path</span>
-    <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span> <span class="n">COSINE_FILENAME</span>
+    <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">INPUT_DATA_FILENAME</span><span class="p">,</span>
+        <span class="n">COSINE_FILENAME</span><span class="p">,</span>
+        <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">TITLE_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="kn">from</span> <span class="nn">preprocessing</span> <span class="kn">import</span> <span class="n">preprocessing_initial_text_clean</span>
 
 
@@ -198,25 +212,37 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">keep_columns</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;iati.identifier&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;reporting.org&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;participating.org..Implementing.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;title&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;start.actual&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;recipient.country&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;total.Expenditure&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span>
+        <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span>
+        <span class="s2">&quot;reporting_org_type_code&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reporting_org_type_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reporting_org_secondary_reporter&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reporting_org_narrative&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;title_narrative&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;title_narrative_lang&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;title_narrative_text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description_narrative&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description_narrative_text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_ref&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_role&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_narrative&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_narrative_lang&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participating_org_narrative_text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description_lang&quot;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="n">full_iati_df</span> <span class="o">=</span> <span class="n">full_iati_records</span><span class="p">[</span><span class="n">keep_columns</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;select columns after </span><span class="si">{}</span><span class="s2"> seconds&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
 
     <span class="c1"># Select unique record on all fields but iati.identifier, include iati.identifer of 1st record in duplicate set (!!!)</span>
-    <span class="n">make_unique</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">keep_columns</span> <span class="k">if</span> <span class="n">f</span> <span class="o">!=</span> <span class="s2">&quot;iati.identifier&quot;</span><span class="p">]</span>
+    <span class="n">make_unique</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">keep_columns</span> <span class="k">if</span> <span class="n">f</span> <span class="o">!=</span> <span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">]</span>
     <span class="n">full_iati_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">make_unique</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;duplicates dropped after </span><span class="si">{}</span><span class="s2"> seconds&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
 
     <span class="n">full_iati_df</span> <span class="o">=</span> <span class="n">full_iati_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-        <span class="n">initial_result_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;iati.identifier&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span>
+        <span class="n">initial_result_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">IATI_IDENTIFIER_COLUMN_NAME</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span>
     <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;joined cosine res after </span><span class="si">{}</span><span class="s2"> seconds&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
 
@@ -246,7 +272,9 @@
 
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="c1"># remove duplicate entries</span>
-    <span class="n">post_processed_results</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">org_name</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">])</span>
+    <span class="n">post_processed_results</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
+        <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">org_name</span><span class="p">,</span> <span class="n">TITLE_COLUMN_NAME</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="c1"># set order for top reporting organisations</span>
     <span class="n">myorder</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">post_processed_results</span><span class="p">[</span><span class="n">org_name</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
@@ -285,77 +313,13 @@
 
     <span class="n">refined_res</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">cosine_res_df</span><span class="p">,</span> <span class="n">full_df</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
-    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="s2">&quot;reporting.org&quot;</span><span class="p">)</span>
+    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">preprocessing_initial_text_clean</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">)</span>
 
-    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">remove_white_space</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="s2">&quot;reporting.org&quot;</span><span class="p">)</span>
-    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">remove_white_space</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
+    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">remove_white_space</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">)</span>
+    <span class="n">refined_res</span> <span class="o">=</span> <span class="n">remove_white_space</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">)</span>
 
     <span class="c1"># top results per reporting organisation</span>
-    <span class="n">top_project_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="s2">&quot;reporting.org&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-
-
-<span class="c1"># column names in the provisional larger IATI dataset</span>
-
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">iati.identifier</span>
-<span class="sd">hierarchy</span>
-<span class="sd">last.updated.datetime</span>
-<span class="sd">default.language</span>
-<span class="sd">reporting.org</span>
-<span class="sd">reporting.org.ref</span>
-<span class="sd">reporting.org.type</span>
-<span class="sd">reporting.org.type.code</span>
-<span class="sd">title</span>
-<span class="sd">description</span>
-<span class="sd">activity.status.code</span>
-<span class="sd">start.planned</span>
-<span class="sd">end.planned</span>
-<span class="sd">start.actual</span>
-<span class="sd">end.actual</span>
-<span class="sd">participating.org..Accountable.</span>
-<span class="sd">participating.org.ref..Accountable.</span>
-<span class="sd">participating.org.type..Accountable.</span>
-<span class="sd">participating.org.type.code..Accountable.</span>
-<span class="sd">participating.org..Funding.</span>
-<span class="sd">participating.org.ref..Funding.</span>
-<span class="sd">participating.org.type..Funding.</span>
-<span class="sd">participating.org.type.code..Funding.</span>
-<span class="sd">participating.org..Extending.</span>
-<span class="sd">participating.org.ref..Extending.</span>
-<span class="sd">participating.org.type..Extending.</span>
-<span class="sd">participating.org.type.code..Extending.</span>
-<span class="sd">participating.org..Implementing.</span>
-<span class="sd">participating.org.ref..Implementing.</span>
-<span class="sd">participating.org.type..Implementing.</span>
-<span class="sd">participating.org.type.code..Implementing.</span>
-<span class="sd">recipient.country.code</span>
-<span class="sd">recipient.country</span>
-<span class="sd">recipient.country.percentage</span>
-<span class="sd">recipient.region.code</span>
-<span class="sd">recipient.region</span>
-<span class="sd">recipient.region.percentage</span>
-<span class="sd">sector.code</span>
-<span class="sd">sector</span>
-<span class="sd">sector.percentage</span>
-<span class="sd">sector.vocabulary</span>
-<span class="sd">sector.vocabulary.code</span>
-<span class="sd">collaboration.type.code</span>
-<span class="sd">default.finance.type.code</span>
-<span class="sd">default.flow.type.code</span>
-<span class="sd">default.aid.type.code</span>
-<span class="sd">default.tied.status.code</span>
-<span class="sd">default.currency</span>
-<span class="sd">currency</span>
-<span class="sd">total.Commitment</span>
-<span class="sd">total.Disbursement</span>
-<span class="sd">total.Expenditure</span>
-<span class="sd">total.Incoming.Funds</span>
-<span class="sd">total.Interest.Repayment</span>
-<span class="sd">total.Loan.Repayment</span>
-<span class="sd">total.Reimbursement</span>
-<span class="sd">cosine_sim</span>
-<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">top_project_results</span> <span class="o">=</span> <span class="n">gather_top_results</span><span class="p">(</span><span class="n">refined_res</span><span class="p">,</span> <span class="n">ORG_ID_COLUMN_NAME</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
            </div>
