@@ -6,7 +6,7 @@
 IATI Partner Search's documentation
 ===================================
 
-This document:
+This documentation:
 
 - explains how to get started with our code and analysis
 - provides an explanation and record of our progress
@@ -14,12 +14,33 @@ This document:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Introduction:
 
    readme
-   count_words
+
+.. toctree::
+   :maxdepth: 2
+   :caption: An Overview of IATI
+
    overview
+   challenges
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Search and NLP Approaches
+
    IATI_methods
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Analysis and Progress Reports
+
+   count_words
+   data_download_comparison
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Code:
 
    code_documentation
 

@@ -1,6 +1,3 @@
-Code Documentation
-==================
-
 Preprocessing
 -------------
 .. automodule:: ips_python.preprocessing
