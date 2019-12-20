@@ -15,3 +15,8 @@ ACTIVITY_CLUSTER_ASSIGNMENT_FILENAME_CONVENTION = (
 )
 WORD2VECMODEL_FILENAME = "word2vec.model"
 WORD2VECAVG_FILENAME = "word2vecdocavg.pkl"
+
+DESCRIPTION_COLUMN_NAME = "description_narrative_text"
+TITLE_COLUMN_NAME = "title_narrative_text"
+IATI_IDENTIFIER_COLUMN_NAME = "iati_identifier"
+ORG_ID_COLUMN_NAME = "reporting_org_ref"

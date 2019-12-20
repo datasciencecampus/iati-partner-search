@@ -11,6 +11,7 @@ try:
         WORD2VECMODEL_FILENAME,
         PROCESSED_RECORDS_FILENAME,
         WORD2VECAVG_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
     )
 except ModuleNotFoundError:
     from utils import get_data_path
@@ -18,6 +19,7 @@ except ModuleNotFoundError:
         WORD2VECMODEL_FILENAME,
         PROCESSED_RECORDS_FILENAME,
         WORD2VECAVG_FILENAME,
+        DESCRIPTION_COLUMN_NAME,
     )
 
 
@@ -39,7 +41,9 @@ def results_per_corpus_df(input_df, w2v_model, dim_size=300):
     results_arr = []
     progress = set([i for i in range(10 ** 5, 10 ** 6, 10 ** 5)])
     for index, row in input_df.iterrows():
-        results_arr.append(average_per_doc(row["description"], w2v_model, dim_size))
+        results_arr.append(
+            average_per_doc(row[DESCRIPTION_COLUMN_NAME], w2v_model, dim_size)
+        )
         if index in progress:
             print("processed {0} records".format(index))
     return np.array(results_arr)
@@ -51,7 +55,7 @@ if __name__ == "__main__":
         join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
     )
 
-    df1 = df1[["description"]]
+    df1 = df1[[DESCRIPTION_COLUMN_NAME]]
 
     model = Word2Vec.load(join(get_data_path(), WORD2VECMODEL_FILENAME))
 
