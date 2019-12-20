@@ -132,3 +132,9 @@ def makedocs(
 @task
 def cleandocs(c):
     shutil.rmtree(get_docs_build_path())
+
+
+@task
+def download_data(c):
+    from ips_python.download import download_data
+    download_data()
