@@ -8,10 +8,12 @@ from humanfriendly import format_size
 
 try:
     from ips_python.utils import get_raw_data_filepath
+    from ips_python.constants import IATI_FIELDS
 except ModuleNotFoundError:
     from utils import get_raw_data_filepath
+    from constants import IATI_FIELDS
 
-DOWNLOAD_URL = "https://iati.cloud/search/activity?q=*:*&fl=id,iati_identifier,description_*,reporting_org_*,participating_org_*,title_*&wt=csv&rows=5000000"  # noqa: W605
+DOWNLOAD_URL = f"http://iati.cloud/search/activity?q=*:*&fl={','.join(IATI_FIELDS)}&wt=csv&rows=5000000"  # noqa: W605
 
 
 def get_and_write_csv_from_url(url, filename):

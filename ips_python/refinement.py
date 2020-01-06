@@ -12,6 +12,7 @@ try:
         TITLE_COLUMN_NAME,
         DESCRIPTION_COLUMN_NAME,
         ORG_ID_COLUMN_NAME,
+        IATI_FIELDS,
     )
     from ips_python.preprocessing import preprocessing_initial_text_clean
 except ModuleNotFoundError:
@@ -23,6 +24,7 @@ except ModuleNotFoundError:
         TITLE_COLUMN_NAME,
         DESCRIPTION_COLUMN_NAME,
         ORG_ID_COLUMN_NAME,
+        IATI_FIELDS,
     )
     from preprocessing import preprocessing_initial_text_clean
 
@@ -42,28 +44,7 @@ def process_results(initial_result_df, full_iati_records, number_of_results=100)
         KeyError: Raises an exception.
     """
     start_time = time.time()
-    keep_columns = [
-        "id",
-        IATI_IDENTIFIER_COLUMN_NAME,
-        ORG_ID_COLUMN_NAME,
-        "reporting_org_type_code",
-        "reporting_org_type_name",
-        "reporting_org_secondary_reporter",
-        "reporting_org_narrative",
-        "title_narrative",
-        "title_narrative_lang",
-        "title_narrative_text",
-        "description_type",
-        "description_narrative",
-        "description_narrative_text",
-        "participating_org_ref",
-        "participating_org_type",
-        "participating_org_role",
-        "participating_org_narrative",
-        "participating_org_narrative_lang",
-        "participating_org_narrative_text",
-        "description_lang",
-    ]
+    keep_columns = IATI_FIELDS
     full_iati_df = full_iati_records[keep_columns]
     print("select columns after {} seconds".format(time.time() - start_time))
 
