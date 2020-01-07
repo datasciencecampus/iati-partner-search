@@ -43,3 +43,4 @@ IATI_FIELDS = [
     "participating_org_narrative_text",
     "description_lang",
 ]
+ELASTICSEARCH_INDEX_NAME = "iati"
