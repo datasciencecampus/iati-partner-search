@@ -24,6 +24,7 @@ This documentation:
 
    overview
    challenges
+   continuous_integration
 
 .. toctree::
    :maxdepth: 2
