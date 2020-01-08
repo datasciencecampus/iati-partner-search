@@ -1,12 +1,8 @@
 name: Update ElasticSearch Instance
 
 on:
-  # schedule:
-  #   - cron: "0 */2 * * *"  # every 2 hours (for now)
-  # TODO: switch to cron job
-  push:
-    branches:
-      - 97-add-ci-for-elasticsearch
+  schedule:
+    - cron: "0 1 * * *"  # every day at 1am
 
 jobs:
   download_data:
@@ -25,7 +21,7 @@ jobs:
           pip install invoke requests humanfriendly
       - name: Download the Data From IATI.Cloud
         run: invoke download-data
-      - name: Upload
+      - name: Upload IATI Data to Github Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: data
