@@ -37,9 +37,19 @@ jobs:
       - download_data
     runs-on: ubuntu-latest
     steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
         uses: actions/download-artifact@v1
         with:
           name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
       - name: Upload New Data to Elasticsearch Instance
         run: invoke update-elasticsearch --url=${{ secrets.ELASTICSEARCH_URL }}
