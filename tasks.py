@@ -154,3 +154,13 @@ def create_new_sample_test_data(c):
     data.sample(n=5000).to_csv(
         join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
     )
+
+@task
+def show_progress(c):
+    from tqdm import tqdm
+    import time
+    sum = 0
+    for i in tqdm(range(10)):
+        time.sleep(1)
+        sum += i
+    print(sum)

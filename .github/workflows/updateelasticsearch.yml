@@ -9,49 +9,63 @@ on:
       - try-artifacts-with-github-actions
 
 jobs:
-  download_data:
-    name: Download and store data from IATI.cloud
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        # run: curl https://iati.cloud/search/activity\?q\=\*:\*\&fl\=id,iati_identifier,description_\*,reporting_org_\*,participating_org_\*,title_\*\&wt\=csv\&rows\=5000000  > test_data.csv
-        run: echo "a,b\n1,2" > test_data.csv
-      - name: Upload
-        uses: actions/upload-artifact@v1
-        with:
-          name: the_data_from_iati
-          path: test_data.csv
+  # download_data:
+  #   name: Download and store data from IATI.cloud
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - shell: bash
+  #       # run: curl https://iati.cloud/search/activity\?q\=\*:\*\&fl\=id,iati_identifier,description_\*,reporting_org_\*,participating_org_\*,title_\*\&wt\=csv\&rows\=5000000  > test_data.csv
+  #       run: echo "a,b\n1,2" > test_data.csv
+  #     - name: Upload
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: the_data_from_iati
+  #         path: test_data.csv
 
-  create_python_pickle:
-    name: create python model
+  # create_python_pickle:
+  #   name: create python model
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set up Python 3.7
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.7
+  #     - name: create the dummy pickle file
+  #       shell: bash
+  #       run: echo "print('hello world')" > not_how_it_works.pkl
+  #     - name: Upload Dummy pickle file
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: the_data_from_iati
+  #         path: not_how_it_works.pkl
+
+  show_progress:
+    name: Show Progress Bar
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Python 3.7
+      - uses: actions/checkout@v1
+      - name: Set Up Python 3.7
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - name: create the dummy pickle file
-        shell: bash
-        run: echo "print('hello world')" > not_how_it_works.pkl
-      - name: Upload Dummy pickle file
-        uses: actions/upload-artifact@v1
-        with:
-          name: the_data_from_iati
-          path: not_how_it_works.pkl
+      - name: Install Dependencies
+        run: pip install invoke tqdm
+      - name: Check Progress
+        run: invoke show-progress
 
-  get_number_of_lines:
-    name: Get Number of lines of data
-    needs:
-      - download_data
-      - create_python_pickle
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the Artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: the_data_from_iati
-      - name: show the files
-        shell: bash
-        run: |
-          ls the_data_from_iati
-          wc -l the_data_from_iati/test_data.csv
+  # get_number_of_lines:
+  #   name: Get Number of lines of data
+  #   needs:
+  #     - download_data
+  #     - create_python_pickle
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get the Artifact
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: the_data_from_iati
+  #     - name: show the files
+  #       shell: bash
+  #       run: |
+  #         ls the_data_from_iati
+  #         wc -l the_data_from_iati/test_data.csv
