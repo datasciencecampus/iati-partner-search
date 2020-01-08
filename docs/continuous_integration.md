@@ -20,7 +20,7 @@ curl --location --request PUT '<ELASTICSEARCH_URL>' \
     "settings": {
         "index.mapping.ignore_malformed": true
     }
-    }'
+}'
 ```
 
 or you can use the python library, which we've wrapped with the `ensure_elasticsearch_keeps_malformed_fields` function in the `upload_to_elasticsearch.py` file.
@@ -87,4 +87,4 @@ on:
 To understand how the timing is set, see the [Github scheduling events documentation](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#scheduled-events-schedule).
 
 Note that we store the production Elasticsearch URL using [Github Secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets) within the Github Action.
-In the event that the URL changes, a repository administrator will need to delete an re-create the secret called `ELASTICSEARCH_URL`.
+In the event that the URL changes, a repository administrator will need to delete and re-create the secret called `ELASTICSEARCH_URL`.
