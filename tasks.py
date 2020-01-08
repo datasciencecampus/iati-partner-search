@@ -154,3 +154,11 @@ def create_new_sample_test_data(c):
     data.sample(n=5000).to_csv(
         join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
     )
+
+@task
+def update_elasticsearch(c, url=""):
+    from ips_python.upload_to_elasticsearch import main
+    if not url:
+        print("provide an elasticsearch_url with flag \"--url='https://foo.bar'\"")
+    else:
+        main(url)
