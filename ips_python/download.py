@@ -20,7 +20,7 @@ def get_download_url():
 
 
 def get_and_write_csv_from_url(url, filename):
-    try: 
+    try:
         with requests.get(url, stream=True) as r:
             with open(filename, "wb+") as f:
                 shutil.copyfileobj(r.raw, f)

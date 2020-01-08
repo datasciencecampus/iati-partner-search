@@ -15,11 +15,15 @@ except ModuleNotFoundError:
     from constants import ELASTICSEARCH_INDEX_NAME
 
 
-def ensure_elasticsearch_keeps_malformed_fields(elasticsearch_url, elasticsearch_index_name):
+def ensure_elasticsearch_keeps_malformed_fields(
+    elasticsearch_url, elasticsearch_index_name
+):
     elasticsearch_index_url = urljoin(elasticsearch_url, elasticsearch_index_name)
     HEADERS = {"Content-Type": "application/json"}
     data = '{"settings": {"index.mapping.ignore_malformed": true}}'
-    res = requests.put(elasticsearch_index_url, headers=HEADERS, data=data, verify=False)
+    requests.put(
+        elasticsearch_index_url, headers=HEADERS, data=data, verify=False
+    )
 
 
 def document_generator(dataframe, elasticsearch_index_name):
@@ -30,11 +34,16 @@ def document_generator(dataframe, elasticsearch_index_name):
         param1: A Pandas dataframe
         param2: The name of the index on elasticsearch
     """
-    dataframe_without_nan = dataframe.fillna('')
+    dataframe_without_nan = dataframe.fillna("")
     dataframe_iterator = dataframe_without_nan.iterrows()
 
     for index, document in dataframe_iterator:
-        yield {"_index": elasticsearch_index_name, "_type": "_doc", "_id": f"{document['id']}", **document}
+        yield {
+            "_index": elasticsearch_index_name,
+            "_type": "_doc",
+            "_id": f"{document['id']}",
+            **document,
+        }
 
 
 def main(elasticsearch_url):
@@ -42,13 +51,18 @@ def main(elasticsearch_url):
     elasticsearch_instance = Elasticsearch([elasticsearch_url], timeout=30)
 
     print("Allowing malformed data")
-    ensure_elasticsearch_keeps_malformed_fields(elasticsearch_url, ELASTICSEARCH_INDEX_NAME)
+    ensure_elasticsearch_keeps_malformed_fields(
+        elasticsearch_url, ELASTICSEARCH_INDEX_NAME
+    )
 
     print("Reading dataframe")
     processed_iati_records = pd.read_csv(get_raw_data_filepath(), encoding="iso-8859-1")
 
     print("Uploading data")
-    helpers.bulk(elasticsearch_instance, document_generator(processed_iati_records, ELASTICSEARCH_INDEX_NAME))
+    helpers.bulk(
+        elasticsearch_instance,
+        document_generator(processed_iati_records, ELASTICSEARCH_INDEX_NAME),
+    )
 
 
 def delete_elasticsearch_index(elasticsearch_url, elasticsearch_index_name):
