@@ -32,9 +32,11 @@ Option 3 (doc2vec) could evenutally be the best choice and may be implemented in
 - Some IATI activity descriptions have few words, with a mean of 17 words per entry after preprocessing.
 - The suitability of the data before or after pre-processing as a word2vec or doc2vec model training set.
 
-## Information Searching - Saliha
+## Information Searching
 
-[See Saliha's code base for overview](https://github.com/salihadfid1/NLP_INTRO)
+An overview of the 3 salient approaches to Information Retrieval can be found in chapter two - Advanced Natural Language Processing course. Link below. 
+
+[Advanced course in Natural Language Processing](https://github.com/salihadfid1/NLPADVLIVE)
 
 ## Elastic Search
 * [Can do custom analysis at both index time and query time](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html)
