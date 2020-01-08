@@ -28,6 +28,7 @@ def document_generator(dataframe, elasticsearch_index_name):
 
     Args:
         param1: A Pandas dataframe
+        param2: The name of the index on elasticsearch
     """
     dataframe_without_nan = dataframe.fillna('')
     dataframe_iterator = dataframe_without_nan.iterrows()
