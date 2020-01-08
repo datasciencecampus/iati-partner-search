@@ -1,0 +1,49 @@
+name: Update ElasticSearch Instance
+
+on:
+  # schedule:
+  #   - cron: "0 */2 * * *"  # every 2 hours (for now)
+  # TODO: switch to cron job
+  push:
+    branches:
+      - 97-add-ci-for-elasticsearch
+
+jobs:
+  download_data:
+    name: Download and store data from IATI.cloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        # we pip install only the 3 packages to reduce the time the install stage takes
+        run: |
+          pip install invoke requests humanfriendly
+      - name: Download the Data From IATI.Cloud
+        run: invoke download-data
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: all_downloaded_records.csv
+
+  get_number_of_lines:
+    name: Get Number of Lines of Data
+    needs:
+      - download_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Show the Files
+        shell: bash
+        run: |
+          ls $(pwd)
+          ls data
+          wc -l data/all_downloaded_records.csv
