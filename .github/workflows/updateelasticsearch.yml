@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        run: curl http://iati.cloud/search/activity?q=*:*&fl=id,iati_identifier,reporting_org_ref,reporting_org_type_code,reporting_org_type_name,reporting_org_secondary_reporter,reporting_org_narrative,title_narrative,title_narrative_lang,title_narrative_text,description_type,description_narrative,description_narrative_text,participating_org_ref,participating_org_type,participating_org_role,participating_org_narrative,participating_org_narrative_lang,participating_org_narrative_text,description_lang&wt=csv&rows=5000000 > test_data.csv
+        run: curl https://iati.cloud/search/activity\?q\=\*:\*\&fl\=id,iati_identifier,description_\*,reporting_org_\*,participating_org_\*,title_\*\&wt\=csv\&rows\=5000000  > test_data.csv
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
@@ -22,6 +22,7 @@ jobs:
           path: test_data.csv
   get_number_of_lines:
     name: Get Number of lines of data
+    needs: download_data
     runs-on: ubuntu-latest
     steps:
       - name: Get the Artifact
