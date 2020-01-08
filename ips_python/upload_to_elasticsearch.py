@@ -29,15 +29,16 @@ def document_generator(dataframe, elasticsearch_index_name):
     Args:
         param1: A Pandas dataframe
     """
-    df_iter = dataframe.iterrows()
-    for index, document in df_iter:
-        yield {"_index": elasticsearch_index_name, "_type": "_doc", "_id": f"{document['id']}"}
-    raise StopIteration
+    dataframe_without_nan = dataframe.fillna('')
+    dataframe_iterator = dataframe_without_nan.iterrows()
+
+    for index, document in dataframe_iterator:
+        yield {"_index": elasticsearch_index_name, "_type": "_doc", "_id": f"{document['id']}", **document}
 
 
 def main(elasticsearch_url):
     print("Setting up cluster config")
-    elasticsearch_instance = Elasticsearch([elasticsearch_url])
+    elasticsearch_instance = Elasticsearch([elasticsearch_url], timeout=30)
 
     print("Allowing malformed data")
     ensure_elasticsearch_keeps_malformed_fields(elasticsearch_url, ELASTICSEARCH_INDEX_NAME)
