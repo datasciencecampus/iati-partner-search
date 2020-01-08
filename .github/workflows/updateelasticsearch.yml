@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        run: curl https://iati.cloud/search/activity\?q\=\*:\*\&fl\=id,iati_identifier,description_\*,reporting_org_\*,participating_org_\*,title_\*\&wt\=csv\&rows\=5000000  > test_data.csv
+        # run: curl https://iati.cloud/search/activity\?q\=\*:\*\&fl\=id,iati_identifier,description_\*,reporting_org_\*,participating_org_\*,title_\*\&wt\=csv\&rows\=5000000  > test_data.csv
+        run: echo "a,b\n1,2" > test_data.csv
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
@@ -31,5 +32,5 @@ jobs:
           name: the_data_from_iati
       - shell: bash
         run: |
-          ls .
-          wc -l test_data.csv
+          ls the_data_from_iati
+          wc -l the_data_from_iati/test_data.csv
