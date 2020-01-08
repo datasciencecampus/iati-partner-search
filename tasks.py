@@ -157,7 +157,8 @@ def create_new_sample_test_data(c):
 
 @task
 def update_elasticsearch(c, url=""):
+    from ips_python.upload_to_elasticsearch import main
     if not url:
-        print("provide an elasticsearch_url with flag \"--elasticsearch_url='https://foo.bar'\"")
+        print("provide an elasticsearch_url with flag \"--url='https://foo.bar'\"")
     else:
-        print("URL is:", url)
+        main(url)
