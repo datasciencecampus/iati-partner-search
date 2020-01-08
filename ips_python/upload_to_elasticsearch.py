@@ -21,9 +21,7 @@ def ensure_elasticsearch_keeps_malformed_fields(
     elasticsearch_index_url = urljoin(elasticsearch_url, elasticsearch_index_name)
     HEADERS = {"Content-Type": "application/json"}
     data = '{"settings": {"index.mapping.ignore_malformed": true}}'
-    requests.put(
-        elasticsearch_index_url, headers=HEADERS, data=data, verify=False
-    )
+    requests.put(elasticsearch_index_url, headers=HEADERS, data=data, verify=False)
 
 
 def document_generator(dataframe, elasticsearch_index_name):
