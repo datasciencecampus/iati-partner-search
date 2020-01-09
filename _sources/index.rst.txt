@@ -42,6 +42,7 @@ This documentation:
    :maxdepth: 2
    :caption: Code:
 
+   continuous_integration
    code_documentation
 
 Indices and tables
