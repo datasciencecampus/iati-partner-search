@@ -29,12 +29,3 @@ jobs:
 
       after_success:
         - codecov
-
-    - stage: test
-      python: "3.7"
-      before_install:
-        - sudo apt-get -y install pandoc
-      install:
-        - pip install invoke
-        - invoke install-dev-dependencies
-      script: invoke makedocs
