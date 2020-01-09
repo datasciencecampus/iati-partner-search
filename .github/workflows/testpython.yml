@@ -1,9 +1,28 @@
-name: Check python scripts run
+name: Test Python Code and Scripts
 
 on: [pull_request]
 
 jobs:
-  build:
+  test_python_code:
+    name: Lint and Test Python Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install and Set Up Data
+      - name: Lint and Format Code
+        run: |
+          invoke check-format
+          invoke lint
+      - name: Test Python Code
+        run: invoke test
+      # TODO: add codecov step once we have a token: https://github.com/codecov/codecov-action
+
+  test_script_runs:
+    name: Test Python Scripts Run
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
