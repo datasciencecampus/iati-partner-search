@@ -24,7 +24,6 @@ This documentation:
 
    overview
    challenges
-   continuous_integration
 
 .. toctree::
    :maxdepth: 2
@@ -43,6 +42,7 @@ This documentation:
    :maxdepth: 2
    :caption: Code:
 
+   continuous_integration
    code_documentation
 
 Indices and tables
