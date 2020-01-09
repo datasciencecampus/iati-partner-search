@@ -2,22 +2,32 @@ import os
 import time
 import shutil
 from pathlib import Path
+from ssl import SSLCertVerificationError
 
 import requests
 from humanfriendly import format_size
 
 try:
     from ips_python.utils import get_raw_data_filepath
+    from ips_python.constants import IATI_FIELDS
 except ModuleNotFoundError:
     from utils import get_raw_data_filepath
+    from constants import IATI_FIELDS
 
-DOWNLOAD_URL = "https://iati.cloud/search/activity?q=*:*&fl=id,iati_identifier,description_*,reporting_org_*,participating_org_*,title_*&wt=csv&rows=5000000"  # noqa: W605
+
+def get_download_url():
+    return f"http://iati.cloud/search/activity?q=*:*&fl={','.join(IATI_FIELDS)}&wt=csv&rows=5000000"
 
 
 def get_and_write_csv_from_url(url, filename):
-    with requests.get(url, stream=True) as r:
-        with open(filename, "wb+") as f:
-            shutil.copyfileobj(r.raw, f)
+    try:
+        with requests.get(url, stream=True) as r:
+            with open(filename, "wb+") as f:
+                shutil.copyfileobj(r.raw, f)
+    except SSLCertVerificationError:
+        with requests.get(url, stream=True, verify=False) as r:
+            with open(filename, "wb+") as f:
+                shutil.copyfileobj(r.raw, f)
     print("Download Complete: {}".format(format_size(os.path.getsize(filename))))
 
 
@@ -25,7 +35,7 @@ def download_data():
     """
     Downloads the data from the new IATI datastore API
     """
-    download_url = DOWNLOAD_URL
+    download_url = get_download_url()
     # check if the file already exists
     raw_data_filepath = get_raw_data_filepath()
     if Path(raw_data_filepath).is_file():

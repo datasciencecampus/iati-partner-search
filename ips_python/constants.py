@@ -20,3 +20,27 @@ DESCRIPTION_COLUMN_NAME = "description_narrative_text"
 TITLE_COLUMN_NAME = "title_narrative_text"
 IATI_IDENTIFIER_COLUMN_NAME = "iati_identifier"
 ORG_ID_COLUMN_NAME = "reporting_org_ref"
+
+IATI_FIELDS = [
+    "id",
+    IATI_IDENTIFIER_COLUMN_NAME,
+    ORG_ID_COLUMN_NAME,
+    "reporting_org_type_code",
+    "reporting_org_type_name",
+    "reporting_org_secondary_reporter",
+    "reporting_org_narrative",
+    "title_narrative",
+    "title_narrative_lang",
+    "title_narrative_text",
+    "description_type",
+    "description_narrative",
+    "description_narrative_text",
+    "participating_org_ref",
+    "participating_org_type",
+    "participating_org_role",
+    "participating_org_narrative",
+    "participating_org_narrative_lang",
+    "participating_org_narrative_text",
+    "description_lang",
+]
+ELASTICSEARCH_INDEX_NAME = "iati"
