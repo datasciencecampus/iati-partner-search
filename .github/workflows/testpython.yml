@@ -13,6 +13,10 @@ jobs:
         with:
           python-version: 3.7
       - name: Install and Set Up Data
+        run: |
+          pip install invoke
+          invoke install-all
+          invoke download-nltk-data
       - name: Lint and Format Code
         run: |
           invoke check-format
