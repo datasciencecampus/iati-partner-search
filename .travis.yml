@@ -22,7 +22,6 @@ jobs:
         - invoke download-nltk-data
 
       script:
-        - echo "$DOCKER_PASSWORD" | docker login docker.io -u "$DOCKER_USERNAME" --password-stdin
         - echo "Running CI scripts"
         - invoke check-format
         - invoke lint
@@ -39,12 +38,3 @@ jobs:
         - pip install invoke
         - invoke install-dev-dependencies
       script: invoke makedocs
-
-    - stage: deploy
-      python: "3.7"
-      services: docker
-      install:
-        - pip install invoke
-      script: invoke build-and-deploy-flask-docker
-      on:
-        branch: master
