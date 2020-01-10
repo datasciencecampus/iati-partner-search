@@ -9,151 +9,151 @@ env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
 
 jobs:
-  create_new_dataset_and_upload:
-    name: Create new dataset and upload to Artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Install and Set Up Data
-        run: |
-          pip install invoke
-          invoke install-all
-          invoke download-nltk-data
-          cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
-      - name: Upload IATI Data to Github Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: data
-          path: data/all_downloaded_records.csv
+  # create_new_dataset_and_upload:
+  #   name: Create new dataset and upload to Artifacts
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Set up Python 3.7
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.7
+  #     - name: Install and Set Up Data
+  #       run: |
+  #         pip install invoke
+  #         invoke install-all
+  #         invoke download-nltk-data
+  #         cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
+  #     - name: Upload IATI Data to Github Artifacts
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: data
+  #         path: data/all_downloaded_records.csv
 
-  preprocess_data:
-    name: Run the preprocessing code on the downloaded data
-    needs: create_new_dataset_and_upload
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the Code
-        uses: actions/checkout@v1
-      - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: data
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Install Packages
-        run: |
-          pip install invoke
-          invoke install-dependencies
-          invoke download-nltk-data
+  # preprocess_data:
+  #   name: Run the preprocessing code on the downloaded data
+  #   needs: create_new_dataset_and_upload
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get the Code
+  #       uses: actions/checkout@v1
+  #     - name: Get the Data From Github Artifacts
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: data
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.7
+  #     - name: Install Packages
+  #       run: |
+  #         pip install invoke
+  #         invoke install-dependencies
+  #         invoke download-nltk-data
 
-      - name: Preprocessing
-        run: python ips_python/preprocessing.py
+  #     - name: Preprocessing
+  #       run: python ips_python/preprocessing.py
 
-      - name: Upload preprocessed data to Github Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: data
-          path: data/processed_records.csv
+  #     - name: Upload preprocessed data to Github Artifacts
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: data
+  #         path: data/processed_records.csv
 
-  train_word2vec:
-    name: Train Word2Vec Models
-    needs: preprocess_data
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the Code
-        uses: actions/checkout@v1
-      - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: data
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Install Packages
-        run: |
-          pip install invoke
-          invoke install-dependencies
-          invoke download-nltk-data
+  # train_word2vec:
+  #   name: Train Word2Vec Models
+  #   needs: preprocess_data
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get the Code
+  #       uses: actions/checkout@v1
+  #     - name: Get the Data From Github Artifacts
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: data
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.7
+  #     - name: Install Packages
+  #       run: |
+  #         pip install invoke
+  #         invoke install-dependencies
+  #         invoke download-nltk-data
 
-      - name: Word2Vec Model
-        run: python ips_python/word2vecmodel.py
+  #     - name: Word2Vec Model
+  #       run: python ips_python/word2vecmodel.py
 
-      - name: Word2Vec Average
-        run: python ips_python/word2vecaverage.py
+  #     - name: Word2Vec Average
+  #       run: python ips_python/word2vecaverage.py
 
-      - name: Upload word2vec model to Github Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: data
-          path: data/word2vec.model
+  #     - name: Upload word2vec model to Github Artifacts
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: data
+  #         path: data/word2vec.model
 
-      - name: Upload word2vec average model to Github Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: data
-          path: data/word2vecdocavg.pkl
+  #     - name: Upload word2vec average model to Github Artifacts
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: data
+  #         path: data/word2vecdocavg.pkl
 
-  train_cosine:
-    name: Train Cosine similarity Model
-    needs: preprocess_data
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the Code
-        uses: actions/checkout@v1
-      - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: data
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Install Packages
-        run: |
-          pip install invoke
-          invoke install-dependencies
-          invoke download-nltk-data
+  # train_cosine:
+  #   name: Train Cosine similarity Model
+  #   needs: preprocess_data
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get the Code
+  #       uses: actions/checkout@v1
+  #     - name: Get the Data From Github Artifacts
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: data
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.7
+  #     - name: Install Packages
+  #       run: |
+  #         pip install invoke
+  #         invoke install-dependencies
+  #         invoke download-nltk-data
 
-      - name: Cosine similarity Model
-        run: python ips_python/vectorize.py
+  #     - name: Cosine similarity Model
+  #       run: python ips_python/vectorize.py
 
-      - name: Upload cosinge similarity model to Github Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: data
-          path: data/vectorizer.pkl
+  #     - name: Upload cosinge similarity model to Github Artifacts
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: data
+  #         path: data/vectorizer.pkl
 
   build_docker:
     name: Build the docker
-    needs:
-      - train_cosine
-      - train_word2vec
+    # needs:
+    #   - train_cosine
+    #   - train_word2vec
     runs-on: ubuntu-latest
     steps:
-      - name: Get the Code
-        uses: actions/checkout@v1
-      - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: data
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Install Packages
-        run: |
-          pip install invoke
-          invoke install-dependencies
-          invoke download-nltk-data
+      # - name: Get the Code
+      #   uses: actions/checkout@v1
+      # - name: Get the Data From Github Artifacts
+      #   uses: actions/download-artifact@v1
+      #   with:
+      #     name: data
+      # - name: Setup Python
+      #   uses: actions/setup-python@v1
+      #   with:
+      #     python-version: 3.7
+      # - name: Install Packages
+      #   run: |
+      #     pip install invoke
+      #     invoke install-dependencies
+      #     invoke download-nltk-data
 
       - name: Log into registry
-        run: echo ${{ secrets.DOCKER_PASSWORD}} | docker login docker.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD}}" | docker login docker.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Push image
-        run: invoke build-and-deploy-docker
+      # - name: Push image
+      #   run: invoke build-and-deploy-docker
