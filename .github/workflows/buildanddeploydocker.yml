@@ -29,7 +29,7 @@ jobs:
         with:
           name: data
           path: data/all_downloaded_records.csv
-  
+
   preprocess_data:
     name: Run the preprocessing code on the downloaded data
     needs: test_script_runs
@@ -169,5 +169,5 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
