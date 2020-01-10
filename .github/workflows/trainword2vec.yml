@@ -29,7 +29,7 @@ jobs:
           path: data/all_downloaded_records.csv
 
   train_word2vec:
-    name: Refresh Data on Elasticsearch Instance
+    name: Train Word2Vec Models
     needs: download_data
     runs-on: ubuntu-latest
     steps:
@@ -47,9 +47,16 @@ jobs:
         run: |
           pip install invoke
           invoke install-dependencies
-      - name: Train Word2Vec Model
-        run: |
-          python ips_python/preprocessing.py
-          python ips_python/word2vecmodel.py
-          python ips_python/word2vecaverage.py
-          ls data
+          invoke download-nltk-data
+
+      - name: Preprocessing
+        run: python ips_python/preprocessing.py
+
+      - name: Word2Vec Model
+        run: python ips_python/word2vecmodel.py
+
+      - name: Word2Vec Average
+        run: python ips_python/word2vecaverage.py
+
+      - name: List Data Created
+        run: ls data
