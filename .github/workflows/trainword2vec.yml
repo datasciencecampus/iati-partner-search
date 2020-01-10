@@ -129,6 +129,9 @@ jobs:
 
   output_data:
     name: output data
+    needs: 
+      - train_cosine
+      - train_word2vec
     runs-on: ubuntu-latest
     steps:
       - name: Get the Data From Github Artifacts
