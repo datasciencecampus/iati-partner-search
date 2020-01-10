@@ -45,9 +45,9 @@ def build_dev_docker(c):
 
 
 @task
-def build_docker(c, tag="latest"):
+def build_docker(c):
     c.run(
-        f"docker build -t datasciencecampus/iati-partner-search-app:{tag} -f app.Dockerfile ."
+        f"docker build -t datasciencecampus/iati-partner-search-app -f app.Dockerfile ."
     )
 
 
@@ -68,7 +68,7 @@ def push_docker(c, tag="latest"):
 @task
 def build_and_deploy_docker(c):
     tag = str(round(time.time()))
-    build_docker(c, tag=tag)
+    build_docker(c)
     push_docker(c, tag=tag)
 
 

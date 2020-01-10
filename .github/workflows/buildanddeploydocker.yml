@@ -157,3 +157,7 @@ jobs:
 
       - name: Push image
         run: invoke build-and-deploy-docker
+      
+      # Need to push again to update the `latest` tag
+      - name: Update latest
+        run: invoke push-docker
