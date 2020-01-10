@@ -1,4 +1,4 @@
-name: Build and Deploy Docker
+name: Train Models, Build and Deploy Docker
 
 on:
   push:
@@ -9,21 +9,22 @@ env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
 
 jobs:
-  create_new_dataset_and_upload:
-    name: Create new dataset and upload to Artifacts
+  download_data:
+    name: Download and store data from IATI.cloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python 3.7
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - name: Install and Set Up Data
+      - name: Install Packages
+        # we pip install only the 3 packages to reduce the time the install stage takes
         run: |
-          pip install invoke
-          invoke install-all
-          invoke download-nltk-data
-          cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
+          pip install invoke requests humanfriendly
+      - name: Download the Data From IATI.Cloud
+        run: invoke download-data
       - name: Upload IATI Data to Github Artifacts
         uses: actions/upload-artifact@v1
         with:
@@ -157,7 +158,7 @@ jobs:
 
       - name: Push image
         run: invoke build-and-deploy-docker
-      
+
       # Need to push again to update the `latest` tag
       - name: Update latest
         run: invoke push-docker
