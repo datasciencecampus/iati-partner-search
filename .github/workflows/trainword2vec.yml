@@ -54,9 +54,9 @@ jobs:
 
       - name: Upload preprocessed data to Github Artifacts
         uses: actions/upload-artifact@v1
-          with:
-            name: data
-            path: data/processed_records.csv
+        with:
+          name: data
+          path: data/processed_records.csv
 
   train_word2vec:
     name: Train Word2Vec Models
