@@ -87,9 +87,9 @@ jobs:
       
       - name: Upload word2vec model to Github Artifacts
         uses: actions/upload-artifact@v1
-          with:
-            name: data
-            path: data/word2vec.model
+        with:
+          name: data
+          path: data/word2vec.model
       
       - name: Upload word2vec average model to Github Artifacts
         uses: actions/upload-artifact@v1
@@ -123,14 +123,19 @@ jobs:
 
       - name: Upload cosinge similarity model to Github Artifacts
         uses: actions/upload-artifact@v1
-          with:
-            name: data
-            path: data/vectorizer.pkl
+        with:
+          name: data
+          path: data/vectorizer.pkl
 
   output_data:
     name: output data
     runs-on: ubuntu-latest
     steps:
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+
       - name: List Data Created
         run: ls data
   
