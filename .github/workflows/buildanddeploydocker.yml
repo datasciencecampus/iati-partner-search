@@ -1,4 +1,4 @@
-name: Test Python Code and Scripts
+name: Build and Deploy Docker
 
 on:
   push:
@@ -9,8 +9,8 @@ env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
 
 jobs:
-  test_script_runs:
-    name: Test Python Scripts Run
+  create_new_dataset_and_upload:
+    name: Create new dataset and upload to Artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -32,7 +32,7 @@ jobs:
 
   preprocess_data:
     name: Run the preprocessing code on the downloaded data
-    needs: test_script_runs
+    needs: create_new_dataset_and_upload
     runs-on: ubuntu-latest
     steps:
       - name: Get the Code
