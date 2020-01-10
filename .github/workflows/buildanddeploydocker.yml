@@ -1,0 +1,143 @@
+name: Test Python Code and Scripts
+
+on:
+  push:
+    branches:
+      - add-docker-build-to-github-actions
+
+env:
+  IMAGE_NAME: iati-search
+
+jobs:
+  test_script_runs:
+    name: Test Python Scripts Run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install and Set Up Data
+        run: |
+          pip install invoke
+          invoke install-all
+          invoke download-nltk-data
+          cp ips_python/tests/test_data/sample_test_data.csv data/all_downloaded_records.csv
+      - name: Upload IATI Data to Github Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: data/all_downloaded_records.csv
+
+  train_word2vec:
+    name: Train Word2Vec Models
+    needs: preprocess_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+          invoke download-nltk-data
+
+      - name: Word2Vec Model
+        run: python ips_python/word2vecmodel.py
+
+      - name: Word2Vec Average
+        run: python ips_python/word2vecaverage.py
+
+      - name: Upload word2vec model to Github Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: data/word2vec.model
+
+      - name: Upload word2vec average model to Github Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: data/word2vecdocavg.pkl
+
+  train_cosine:
+    name: Train Cosine similarity Model
+    needs: preprocess_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+          invoke download-nltk-data
+
+      - name: Cosine similarity Model
+        run: python ips_python/vectorize.py
+
+      - name: Upload cosinge similarity model to Github Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: data/vectorizer.pkl
+
+  build_docker:
+    name: Build the docker
+    needs:
+      - train_cosine
+      - train_word2vec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+          invoke download-nltk-data
+
+      - name: Build image
+        run: docker build -t $IMAGE_NAME -f app.Dockerfile .
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag image $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
