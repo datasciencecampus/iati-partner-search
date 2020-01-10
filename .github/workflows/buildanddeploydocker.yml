@@ -32,7 +32,7 @@ jobs:
   
   preprocess_data:
     name: Run the preprocessing code on the downloaded data
-    needs: download_data
+    needs: test_script_runs
     runs-on: ubuntu-latest
     steps:
       - name: Get the Code
