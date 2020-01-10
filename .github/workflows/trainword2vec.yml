@@ -93,9 +93,9 @@ jobs:
       
       - name: Upload word2vec average model to Github Artifacts
         uses: actions/upload-artifact@v1
-          with:
-            name: data
-            path: data/word2vecdocavg.pkl
+        with:
+          name: data
+          path: data/word2vecdocavg.pkl
   
   train_cosine:
     name: Train Cosine similarity Model
