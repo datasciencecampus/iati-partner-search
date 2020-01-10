@@ -33,7 +33,7 @@ jobs:
 
   preprocess_data:
     name: Run the preprocessing code on the downloaded data
-    needs: create_new_dataset_and_upload
+    needs: download_data
     runs-on: ubuntu-latest
     steps:
       - name: Get the Code
