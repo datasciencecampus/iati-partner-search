@@ -2,8 +2,8 @@ name: Train Word2Vec model
 
 on:
   push:
-      branches:
-        - try-word2vec-model-with-GH-actions
+    branches:
+      - 49-add-embeddings-option
 
 jobs:
   download_data:
@@ -28,8 +28,8 @@ jobs:
           name: data
           path: data/all_downloaded_records.csv
 
-  train_word2vec:
-    name: Train Word2Vec Models
+  preprocess_data:
+    name: Run the preprocessing code on the downloaded data
     needs: download_data
     runs-on: ubuntu-latest
     steps:
@@ -52,11 +52,85 @@ jobs:
       - name: Preprocessing
         run: python ips_python/preprocessing.py
 
+      - name: Upload preprocessed data to Github Artifacts
+        uses: actions/upload-artifact@v1
+          with:
+            name: data
+            path: data/processed_records.csv
+
+  train_word2vec:
+    name: Train Word2Vec Models
+    needs: preprocess_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+          invoke download-nltk-data
+
       - name: Word2Vec Model
         run: python ips_python/word2vecmodel.py
 
       - name: Word2Vec Average
         run: python ips_python/word2vecaverage.py
+      
+      - name: Upload word2vec model to Github Artifacts
+        uses: actions/upload-artifact@v1
+          with:
+            name: data
+            path: data/word2vec.model
+      
+      - name: Upload word2vec average model to Github Artifacts
+        uses: actions/upload-artifact@v1
+          with:
+            name: data
+            path: data/word2vecdocavg.pkl
+  
+  train_cosine:
+    name: Train Cosine similarity Model
+    needs: preprocess_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+          invoke download-nltk-data
 
+      - name: Cosine similarity Model
+        run: python ips_python/vectorize.py
+
+      - name: Upload cosinge similarity model to Github Artifacts
+        uses: actions/upload-artifact@v1
+          with:
+            name: data
+            path: data/vectorizer.pkl
+
+  output_data:
+    name: output data
+    runs-on: ubuntu-latest
+    steps:
       - name: List Data Created
         run: ls data
+  
