@@ -1,9 +1,8 @@
-name: Train Models, Build and Deploy Docker
+name: Train Models, Build and Deploy
 
 on:
-  push:
-    branches:
-      - add-docker-build-to-github-actions
+  schedule:
+    - cron: "0 1 * * *"  # every day at 1am
 
 env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
@@ -30,6 +29,28 @@ jobs:
         with:
           name: data
           path: data/all_downloaded_records.csv
+
+  refresh_data_on_elasticsearch:
+    name: Refresh Data on Elasticsearch Instance
+    needs: download_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the Code
+        uses: actions/checkout@v1
+      - name: Get the Data From Github Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: data
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Packages
+        run: |
+          pip install invoke
+          invoke install-dependencies
+      - name: Upload New Data to Elasticsearch Instance
+        run: invoke update-elasticsearch --url=${{ secrets.ELASTICSEARCH_URL }}
 
   preprocess_data:
     name: Run the preprocessing code on the downloaded data
