@@ -12,7 +12,7 @@ from ips_python.constants import (
     INPUT_DATA_FILENAME,
     WORD2VECMODEL_FILENAME,
     WORD2VECAVG_FILENAME,
-    ELASTICSEARCH_INDEX_NAME
+    ELASTICSEARCH_INDEX_NAME,
 )
 import pickle
 from os.path import join, dirname
@@ -89,7 +89,9 @@ def get_elasticsearch_results(query):
         }
     }
 
-    response = elasticsearch_instance.search(index=ELASTICSEARCH_INDEX_NAME, body=json.dumps(payload))
+    response = elasticsearch_instance.search(
+        index=ELASTICSEARCH_INDEX_NAME, body=json.dumps(payload)
+    )
     return response["hits"]["hits"]
 
 
