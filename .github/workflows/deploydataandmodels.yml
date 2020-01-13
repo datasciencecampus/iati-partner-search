@@ -155,14 +155,14 @@ jobs:
           name: data
           path: data/vectorizer.pkl
 
-      - name: Upload word2vec model to Github Artifacts
+      - name: Upload Term Document Matrix to Github Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: data
           path: data/term_document_matrix.pkl
 
   build_docker:
-    name: Build the docker
+    name: Build the docker image
     needs:
       - train_cosine
       - train_word2vec
@@ -181,8 +181,6 @@ jobs:
       - name: Install Packages
         run: |
           pip install invoke
-          invoke install-dependencies
-          invoke download-nltk-data
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_PASSWORD}}" | docker login docker.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
