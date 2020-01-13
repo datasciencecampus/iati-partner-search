@@ -13,6 +13,8 @@ from ips_python.constants import (
     WORD2VECMODEL_FILENAME,
     WORD2VECAVG_FILENAME,
     ELASTICSEARCH_INDEX_NAME,
+    TITLE_COLUMN_NAME,
+    DESCRIPTION_COLUMN_NAME,
 )
 import pickle
 from os.path import join, dirname
@@ -81,7 +83,7 @@ def get_elasticsearch_results(query):
     payload = {
         "query": {
             "more_like_this": {
-                "fields": ["title_narrative", "description_narrative"],
+                "fields": [TITLE_COLUMN_NAME, DESCRIPTION_COLUMN_NAME],
                 "like": query,
                 "min_term_freq": 1,
                 "max_query_terms": 30,
