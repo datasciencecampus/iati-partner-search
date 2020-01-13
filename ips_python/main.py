@@ -1,13 +1,9 @@
-import sys
-
-sys.path.append("./ips_python/")
-
 import os
 import json
 import random
 import string
 
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template
 from ips_python.script import process_query, process_query_embeddings
 from ips_python.constants import (
     VECTORIZER_FILENAME,
