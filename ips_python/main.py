@@ -18,7 +18,6 @@ import pickle
 from os.path import join, dirname
 from ips_python.utils import get_data_path
 import pandas as pd
-import requests
 from dotenv import load_dotenv
 
 from flask_wtf import FlaskForm
@@ -82,14 +81,14 @@ def get_elasticsearch_results(query):
     payload = {
         "query": {
             "more_like_this": {
-                "fields" : ["title_narrative", "description_narrative"],
+                "fields": ["title_narrative", "description_narrative"],
                 "like": query,
                 "min_term_freq": 1,
                 "max_query_terms": 30,
             }
         }
     }
-    
+
     response = elasticsearch_instance.search(index=ELASTICSEARCH_INDEX_NAME, body=json.dumps(payload))
     return response["hits"]["hits"]
 
