@@ -63,9 +63,7 @@ def push_docker(c, tag="latest"):
     c.run(
         f"docker tag datasciencecampus/iati-partner-search-app datasciencecampus/iati-partner-search-app:{tag}"
     )
-    c.run(
-        f"docker push datasciencecampus/iati-partner-search-app:{tag}"
-    )
+    c.run(f"docker push datasciencecampus/iati-partner-search-app:{tag}")
 
 
 @task

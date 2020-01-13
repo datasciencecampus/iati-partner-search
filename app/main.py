@@ -64,7 +64,11 @@ full_iati_records = pd.read_csv(
 class SearchForm(FlaskForm):
     search_method = RadioField(
         "Search method: ",
-        choices=[("cosine", "Cosine Similarity"), ("elastic", "Elasticsearch"), ("embeddings", "Embeddings")],
+        choices=[
+            ("cosine", "Cosine Similarity"),
+            ("elastic", "Elasticsearch"),
+            ("embeddings", "Embeddings"),
+        ],
         default="cosine",
     )
     search = TextAreaField("Query:", validators=[DataRequired()])
