@@ -1,11 +1,12 @@
 name: Train Models, Build and Deploy
 
 on:
-  # schedule:
-  #   - cron: "0 1 * * *"  # every day at 1am
+  schedule:
+    - cron: "0 1 * * *"  # every day at 1am
   push:
-    branches:
-      - add-docker-build-to-github-actions
+      branches:
+        - master
+
 env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
 
