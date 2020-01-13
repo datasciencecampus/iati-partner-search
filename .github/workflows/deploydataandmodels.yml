@@ -1,9 +1,11 @@
 name: Train Models, Build and Deploy
 
 on:
-  schedule:
-    - cron: "0 1 * * *"  # every day at 1am
-
+  # schedule:
+  #   - cron: "0 1 * * *"  # every day at 1am
+  push:
+    branches:
+      - add-docker-build-to-github-actions
 env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
 
@@ -143,13 +145,21 @@ jobs:
           invoke download-nltk-data
 
       - name: Cosine similarity Model
-        run: python ips_python/vectorize.py
+        run: |
+          python ips_python/vectorize.py
+          ls data
 
       - name: Upload cosinge similarity model to Github Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: data
           path: data/vectorizer.pkl
+
+      - name: Upload word2vec model to Github Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: data
+          path: data/term_document_matrix.pkl
 
   build_docker:
     name: Build the docker
