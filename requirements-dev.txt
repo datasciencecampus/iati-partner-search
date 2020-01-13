@@ -4,6 +4,7 @@ ipython
 m2r
 nbsphinx
 pandoc
+pre-commit
 pytest
 pytest-cov
 recommonmark

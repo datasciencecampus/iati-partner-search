@@ -24,6 +24,16 @@ invoke install-all
 ```
 This will install all of the development and testing packages as well
 
+### Pre-Commit
+[Pre-commit](https://pre-commit.com) is a helpful tool that will catch file errors when you try to commit work.
+This is helpful so that small bugs and typos aren't pushed to Github, and we don't have to wait for out automated tests to find them.
+
+This is optional, but to initialize pre-commit, run the following:
+
+```shell
+pre-commit install
+```
+
 ## Testing
 To run tests:
 
