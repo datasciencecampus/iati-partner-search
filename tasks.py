@@ -1,5 +1,6 @@
 import os
 from os.path import isfile, join
+import time
 import shutil
 
 from invoke import task
@@ -45,13 +46,8 @@ def build_dev_docker(c):
 
 @task
 def build_docker(c):
-    tag = (
-        os.environ["TRAVIS_BUILD_NUMBER"]
-        if "TRAVIS_BUILD_NUMBER" in os.environ
-        else "latest"
-    )
     c.run(
-        f"docker build -t datasciencecampus/iati-partner-search-app:{tag} -f app.Dockerfile ."
+        f"docker build -t datasciencecampus/iati-partner-search-app -f app.Dockerfile ."
     )
 
 
@@ -63,17 +59,18 @@ def run_docker(c):
 
 
 @task
-def push_docker(c):
-    travis_build_number = os.environ["TRAVIS_BUILD_NUMBER"]
+def push_docker(c, tag="latest"):
     c.run(
-        f"docker push datasciencecampus/iati-partner-search-app:{travis_build_number}"
+        f"docker tag datasciencecampus/iati-partner-search-app datasciencecampus/iati-partner-search-app:{tag}"
     )
+    c.run(f"docker push datasciencecampus/iati-partner-search-app:{tag}")
 
 
 @task
-def build_and_deploy_flask_docker(c):
+def build_and_deploy_docker(c):
+    tag = str(round(time.time()))
     build_docker(c)
-    push_docker(c)
+    push_docker(c, tag=tag)
 
 
 @task

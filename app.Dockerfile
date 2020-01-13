@@ -9,7 +9,7 @@ RUN pip install --upgrade pip && \
     invoke install-dependencies && \
     invoke download-nltk-data
 
-ENV FLASK_APP app/main.py
+ENV FLASK_APP ips_python/main.py
 
 EXPOSE 5000
 

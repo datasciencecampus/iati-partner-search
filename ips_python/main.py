@@ -1,19 +1,17 @@
-import sys
-
-sys.path.append("./python/")
-
 import os
 import json
 import random
 import string
 
-from flask import Flask, request, render_template, jsonify
-from ips_python.script import process_query
+from flask import Flask, request, render_template
+from ips_python.script import process_query, process_query_embeddings
 from ips_python.constants import (
     VECTORIZER_FILENAME,
     TERM_DOCUMENT_MATRIX_FILENAME,
     PROCESSED_RECORDS_FILENAME,
     INPUT_DATA_FILENAME,
+    WORD2VECMODEL_FILENAME,
+    WORD2VECAVG_FILENAME,
 )
 import pickle
 from os.path import join, dirname
@@ -44,6 +42,12 @@ with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
 with open(join(get_data_path(), TERM_DOCUMENT_MATRIX_FILENAME), "rb") as _file:
     term_document_matrix = pickle.load(_file)
 
+with open(join(get_data_path(), WORD2VECMODEL_FILENAME), "rb") as _file:
+    word_to_vec_model = pickle.load(_file)
+
+with open(join(get_data_path(), WORD2VECAVG_FILENAME), "rb") as _file:
+    word_to_vec_document_average = pickle.load(_file)
+
 processed_iati_records = pd.read_csv(
     join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
 )
@@ -56,7 +60,11 @@ full_iati_records = pd.read_csv(
 class SearchForm(FlaskForm):
     search_method = RadioField(
         "Search method: ",
-        choices=[("cosine", "Cosine Similarity"), ("elastic", "Elasticsearch")],
+        choices=[
+            ("cosine", "Cosine Similarity"),
+            ("elastic", "Elasticsearch"),
+            ("embeddings", "Embeddings"),
+        ],
         default="cosine",
     )
     search = TextAreaField("Query:", validators=[DataRequired()])
@@ -94,6 +102,16 @@ def get_cosine_results(query):
     ).to_dict("records")
 
 
+def get_embeddings_results(query):
+    return process_query_embeddings(
+        query,
+        word_to_vec_model,
+        word_to_vec_document_average,
+        processed_iati_records,
+        full_iati_records,
+    ).to_dict("records")
+
+
 @app.route("/", methods=["POST", "GET"])
 # @app.route("/search")
 def home():
@@ -104,6 +122,8 @@ def home():
             search_type = form.data["search_method"]
             if search_type == "cosine":
                 results = get_cosine_results(form.data["search"])
+            elif search_type == "embeddings":
+                results = get_embeddings_results(form.data["search"])
             else:
                 results = get_elasticsearch_results(form.data["search"])
             return render_template(
