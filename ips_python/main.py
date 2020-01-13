@@ -12,6 +12,7 @@ from ips_python.constants import (
     INPUT_DATA_FILENAME,
     WORD2VECMODEL_FILENAME,
     WORD2VECAVG_FILENAME,
+    ELASTICSEARCH_INDEX_NAME
 )
 import pickle
 from os.path import join, dirname
@@ -23,6 +24,7 @@ from dotenv import load_dotenv
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, RadioField, SubmitField
 from wtforms.validators import DataRequired
+from elasticsearch import Elasticsearch
 
 
 dotenv_path = join(dirname(dirname(__file__)), ".env")
@@ -75,20 +77,20 @@ class SearchForm(FlaskForm):
 
 
 def get_elasticsearch_results(query):
-    url = os.getenv("ELASTICSEARCH_URL") + "/_search"
+    elasticsearch_url = os.getenv("ELASTICSEARCH_URL")
+    elasticsearch_instance = Elasticsearch([elasticsearch_url])
     payload = {
         "query": {
             "more_like_this": {
-                "fields": ["title", "description"],
+                "fields" : ["title_narrative", "description_narrative"],
                 "like": query,
                 "min_term_freq": 1,
                 "max_query_terms": 30,
             }
         }
     }
-    headers = {"Content-Type": "application/json"}
-
-    response = requests.get(url, data=json.dumps(payload), headers=headers).json()
+    
+    response = elasticsearch_instance.search(index=ELASTICSEARCH_INDEX_NAME, body=json.dumps(payload))
     return response["hits"]["hits"]
 
 
