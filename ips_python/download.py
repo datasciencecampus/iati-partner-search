@@ -24,7 +24,8 @@ def get_and_write_csv_from_url(url, filename):
         with requests.get(url, stream=True) as r:
             with open(filename, "wb+") as f:
                 shutil.copyfileobj(r.raw, f)
-    except SSLCertVerificationError:
+    except (SSLCertVerificationError, requests.exceptions.SSLError) as e:
+        print(f"Exception: {e}")
         with requests.get(url, stream=True, verify=False) as r:
             with open(filename, "wb+") as f:
                 shutil.copyfileobj(r.raw, f)
