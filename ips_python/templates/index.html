@@ -43,10 +43,10 @@
     <a href="/">Search again</a>
     {% for result in results %}
     <div>
-      <h2>{{ result['_source']['reportingOrg'] }}</h2>
+      <h2>{{ result['_source']['reporting_org_narrative'] }}</h2>
       <p>
-        <em>{{ result['_source']['title'] }}</em><br />
-        {{ result['_source']['description']}}
+        <em>{{ result['_source']['title_narrative_text'] }}</em><br />
+        {{ result['_source']['description_narrative_text']}}
       </p>
     </div>
     {% endfor %}
