@@ -7,7 +7,7 @@ on:
       branches:
         - master
         # TODO: remove this!
-        # - temporarily-add-model-files-to-s3-bucket
+        - temporarily-add-model-files-to-s3-bucket
 
 env:
   IMAGE_NAME: datasciencecampus/iati-partner-search-app
