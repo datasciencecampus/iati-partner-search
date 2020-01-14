@@ -237,12 +237,16 @@ jobs:
         with:
           name: data
       - name: install and auth AWS CLI
+        env:
+          AWS_ACCESS_KEY_ID: ${{  AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ AWS_SECRET_ACCESS_KEY }}
         run: |
           curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
-          export AWS_ACCESS_KEY_ID="${{  AWS_ACCESS_KEY_ID }}"
-          export AWS_SECRET_ACCESS_KEY="${{ AWS_SECRET_ACCESS_KEY }}"
           aws configure --region eu-west-1 --output json
       - name: upload the data to S3 bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{  AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ AWS_SECRET_ACCESS_KEY }}
         run: aws s3 cp data/* s3://${{ secrets.S3_BUCKET_NAME }}/
