@@ -2,8 +2,13 @@ import os
 import json
 import random
 import string
+import datetime
 
 from flask import Flask, request, render_template
+from flask.views import MethodView
+from flask_smorest import Api, Blueprint
+from ips_python.schemas import IATIQuery, IATIQueryResponse, IATIResult
+
 from ips_python.script import process_query, process_query_embeddings
 from ips_python.constants import (
     VECTORIZER_FILENAME,
@@ -34,10 +39,19 @@ load_dotenv(dotenv_path)
 environment = os.getenv("FLASK_ENV", "development").lower()
 
 app = Flask(__name__)
+app.config["OPENAPI_URL_PREFIX"] = "/openapi"
+app.config["OPENAPI_JSON_PATH"] = "openapi.json"
+app.config["OPENAPI_REDOC_PATH"] = "/doc/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger/"
+app.config["OPENAPI_SWAGGER_UI_VERSION"] = "3.23.11"
+app.config["OPENAPI_VERSION"] = "3.0.2"
+openapi = Api(app)
+
 if environment == "production":
     app.secret_key = os.getenv("APP_SECRET_KEY")
 else:
     app.secret_key = "".join(random.choice(string.ascii_lowercase) for i in range(10))
+
 
 with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
     vectorizer = pickle.load(_file)
@@ -136,6 +150,67 @@ def home():
             )
     return render_template("index.html", form=form)
 
+
+# ------------------------------------- Start: OpenAPI Set Up -------------------------------------
+# Set up the OpenAPI access
+api_blueprint = Blueprint("api", "api", url_prefix="/api", description="IATI Search")
+
+example_query = {
+    "search_method": "cosine",
+    "query": "Delivery of vaccinations to eradicate rabies.",
+}
+
+example_response = {
+    **example_query,
+    "timestamp": datetime.datetime.utcnow().timestamp(),
+    "version": "0.1.0",
+    "processed_query": "deliveri erad rabi",
+    "results": [
+        {
+            "iati_identifier": "XI-IATI-EC_NEAR-2010/22518/17",
+            "reporting_org": "XI-IATI-EC_NEAR",
+            "title": "Oral Vaccination against Rabies",
+            "description": "National programme for Turkey under the IPA - Transition Assistance and Institution Building Component for the year 2010.To support the EU pre-accession strategy for Turkey under 4 priority axes: Copenhagen political criteria, acquis communautaire, EU-Turkey Civil Society Dialogue and supporting activities.Oral Vaccination against Rabies",
+            "processed_description": "turkey transit institut build year eu strategi turkey prioriti axe polit criteria civil societi dialogu support vaccin rabi",
+        },
+        {
+            "iati_identifier": "XI-IATI-EC_NEAR-2010/22518/17",
+            "reporting_org": "XI-IATI-EC_NEAR",
+            "title": "Oral Vaccination against Rabies",
+            "description": "National programme for Turkey under the IPA - Transition Assistance and Institution Building Component for the year 2010.To support the EU pre-accession strategy for Turkey under 4 priority axes: Copenhagen political criteria, acquis communautaire, EU-Turkey Civil Society Dialogue and supporting activities.Oral Vaccination against Rabies",
+            "processed_description": "turkey transit institut build year eu strategi turkey prioriti axe polit criteria civil societi dialogu support vaccin rabi",
+        },
+    ],
+}
+
+
+@api_blueprint.route("/")
+class Search(MethodView):
+    @api_blueprint.arguments(IATIQuery, location="query")
+    @api_blueprint.response(IATIQueryResponse, example=example_response)
+    def get(self, args):
+        """Put summary here"""
+        return {
+            "timestamp": "foo",
+            "version": "foo",
+            "processed_query": "foo",
+        }
+
+    @api_blueprint.arguments(IATIQuery, example=example_query)
+    # changeme
+    @api_blueprint.response(IATIResult, example=example_response)
+    def post(self, new_data):
+        """Put summary here"""
+        return {
+            "timestamp": "foo",
+            "version": "foo",
+            "processed_query": "foo",
+        }
+
+
+openapi.register_blueprint(api_blueprint)
+
+# ------------------------------------- End: OpenAPI Set Up -------------------------------------
 
 if __name__ == "__main__":
     if environment == "development":
