@@ -227,4 +227,4 @@ jobs:
           unzip awscliv2.zip
           sudo ./aws/install
       - name: upload the data to S3 bucket
-        run: aws s3 cp data/* s3://{{secrets.S3_BUCKET_NAME}}/ --no-verify
+        run: aws s3 cp data/* s3://${{ secrets.S3_BUCKET_NAME }}/ --no-verify
