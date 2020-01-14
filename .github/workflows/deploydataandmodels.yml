@@ -248,4 +248,4 @@ jobs:
           aws configure set region eu-west-1
           aws configure set output json
       - name: upload the data to S3 bucket
-        run: aws s3 cp data/* s3://${{ secrets.S3_BUCKET_NAME }}/
+        run: aws s3 cp data/* s3://ips-models/
