@@ -1,99 +1,119 @@
 html,
 body {
-  font-family: sans-serif;
-  height: 100%;
-  margin: 0px;
+    font-family: sans-serif;
+    height: 100%;
+    margin: 0px;
 }
 
 nav {
-  background-color: #90a4ae;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  color: rgb(248, 252, 255);
-  height: 60px;
+    background-color: #455a64;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    color: rgb(248, 252, 255);
+    height: 60px;
 }
 
 .title {
-  font-size: 24px;
-  padding-left: 2rem;
+    font-size: 24px;
+    padding-left: 2rem;
 }
 
 nav span {
-  padding: 0 3rem 0 0;
+    padding: 0 3rem 0 0;
 }
 
 .index {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .results {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    max-width: 800px;
+}
+
+.result {
+    padding: 12px;
+    margin: 12px 0px;
 }
 
 .index > .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #cfd8dc;
-  padding: 24px 0px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(207, 216, 220);
+    background: linear-gradient(
+        0deg,
+        rgba(207, 216, 220, 1) 0%,
+        rgba(236, 239, 241, 1) 100%
+    );
+    padding: 24px 0px;
+    width: 100%;
 }
 
 .example {
-  max-width: 600px;
+    max-width: 600px;
 }
 
 .example > p {
-  color: #666;
+    color: #666;
 }
 
 textarea {
-  height: 175px;
-  width: 500px;
+    height: 175px;
+    width: 500px;
+}
+
+.form-container {
+    display: flex;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 form > input {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 form > p {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 input {
-  background: #fcfcfc;
-  box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
-    0px 1px 3px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-  border: none;
-  width: 150px;
-  padding: 12px;
-  margin-top: 12px;
+    background: #fcfcfc;
+    box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
+        0px 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    border: none;
+    padding: 12px;
+    margin-top: 12px;
 }
 
 textarea {
-  border: 2px solid #c4c4c4;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
-    0px 1px 3px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+    border: 2px solid #c4c4c4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11),
+        0px 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    width: 600px;
 }
 
 h2 {
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+#search-illustration {
+    width: 500px;
+    margin-right: -80px;
 }
