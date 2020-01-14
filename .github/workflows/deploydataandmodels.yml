@@ -207,7 +207,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: data
-          path: data/all_downloaded_records.csv
+          path: data/fake_data.txt
 
   upload_to_s3:
     name: Upload the Data to S3
