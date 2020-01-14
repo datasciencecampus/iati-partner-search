@@ -248,5 +248,6 @@ jobs:
           aws configure set region eu-west-1
           aws configure set output json
       - name: upload the data to S3 bucket
-          run:tar -czvf data.tar.gz data/*
+        run: |
+          tar -czvf data.tar.gz data/*
           aws s3 cp data.tar.gz s3://ips-models/
