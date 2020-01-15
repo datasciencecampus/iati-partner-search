@@ -2,7 +2,7 @@
 <div class="index">
   <div class="main">
     <h1>
-      Find organisations who can help implement your project
+      Find what you're looking for in IATI descriptions
     </h1>
     <div class="form-container">
       <img
@@ -19,7 +19,7 @@
           {% for subfield in form.search_method %} {{ subfield }} {{
           subfield.label }} {% endfor %}
         </div>
-        {{ form.search(placeholder="Enter your project description") }} {{
+        {{ form.search(placeholder="Try entering a project description to find others that are similar ...") }} {{
         form.submit }}
       </form>
     </div>
@@ -27,7 +27,7 @@
 
   {% if result_type in ["cosine", "embeddings"] %}
   <div class="results">
-    <h1>Organisations</h1>
+    <h1>Results</h1>
     <a href="/">Search again</a>
     {% for result in results %}
     <div class="result">
@@ -43,7 +43,7 @@
   {% elif result_type == "elastic" %}
 
   <div class="results">
-    <h1>Organisations</h1>
+    <h1>Results</h1>
     <a href="/">Search again</a>
     {% for result in results %}
     <div class="result">
