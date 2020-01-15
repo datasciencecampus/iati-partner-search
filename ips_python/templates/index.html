@@ -2,31 +2,35 @@
 <div class="index">
   <div class="main">
     <h1>
-      Find organisations who can help implement your project
+      Find what you're looking for in IATI descriptions
     </h1>
-    <form action="/" method="POST">
-      <p>Select search method:</p>
-      {% for error in form.errors %}
+    <div class="form-container">
+      <img
+        id="search-illustration"
+        src="static/search.svg"
+        alt="person shining a torch"
+      />
+      <form action="/" method="POST">
+        <p>Select search method:</p>
+        {% for error in form.errors %}
         <div class="invalid-feedback">{{ error }}</div>
-      {% endfor %}
-      <div>
-      {% for subfield in form.search_method %}
-        {{ subfield }}
-        {{ subfield.label }}
-      {% endfor %}
-      </div>
-      {{ form.search(placeholder="Enter your project description") }}
-      {{ form.submit }}
-    </form>
+        {% endfor %}
+        <div>
+          {% for subfield in form.search_method %} {{ subfield }} {{
+          subfield.label }} {% endfor %}
+        </div>
+        {{ form.search(placeholder="Try entering a project description to find others that are similar ...") }} {{
+        form.submit }}
+      </form>
+    </div>
   </div>
 
-
-  {% if result_type in ["cosine", "embeddings"]  %}
+  {% if result_type in ["cosine", "embeddings"] %}
   <div class="results">
-    <h1>Organisations</h1>
+    <h1>Results</h1>
     <a href="/">Search again</a>
     {% for result in results %}
-    <div>
+    <div class="result">
       <h2>{{ result['reporting_org_narrative'] }}</h2>
       <p>
         <em>{{ result['title_narrative_text'] }}</em><br />
@@ -39,10 +43,10 @@
   {% elif result_type == "elastic" %}
 
   <div class="results">
-    <h1>Organisations</h1>
+    <h1>Results</h1>
     <a href="/">Search again</a>
     {% for result in results %}
-    <div>
+    <div class="result">
       <h2>{{ result['_source']['reporting_org_narrative'] }}</h2>
       <p>
         <em>{{ result['_source']['title_narrative_text'] }}</em><br />
@@ -70,6 +74,5 @@
     </p>
   </div>
   {% endif %}
-
 </div>
 {% endblock %}
