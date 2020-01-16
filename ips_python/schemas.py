@@ -18,6 +18,7 @@ class IATIResult(Schema):
 
 class IATIQueryResponse(IATIQuery):
     timestamp = fields.String(required=True)
-    version = fields.String(required=True)
+    # TODO: implement versioning feature
+    # version = fields.String(required=True)
     processed_query = fields.String(required=False)
-    results = fields.Nested(IATIResult)
+    results = fields.List(fields.Nested(IATIResult))

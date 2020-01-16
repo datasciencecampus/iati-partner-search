@@ -7,7 +7,7 @@ import datetime
 from flask import Flask, request, render_template
 from flask.views import MethodView
 from flask_smorest import Api, Blueprint
-from ips_python.schemas import IATIQuery, IATIQueryResponse, IATIResult
+from ips_python.schemas import IATIQuery, IATIQueryResponse
 
 from ips_python.script import process_query, process_query_embeddings
 from ips_python.constants import (
@@ -20,6 +20,8 @@ from ips_python.constants import (
     ELASTICSEARCH_INDEX_NAME,
     TITLE_COLUMN_NAME,
     DESCRIPTION_COLUMN_NAME,
+    IATI_IDENTIFIER_COLUMN_NAME,
+    ORG_ID_COLUMN_NAME,
 )
 import pickle
 from os.path import join, dirname
@@ -51,7 +53,6 @@ if environment == "production":
     app.secret_key = os.getenv("APP_SECRET_KEY")
 else:
     app.secret_key = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-
 
 with open(join(get_data_path(), VECTORIZER_FILENAME), "rb") as _file:
     vectorizer = pickle.load(_file)
@@ -163,7 +164,8 @@ example_query = {
 example_response = {
     **example_query,
     "timestamp": datetime.datetime.utcnow().timestamp(),
-    "version": "0.1.0",
+    # TODO: implement versioning feature
+    # "version": "0.1.0",
     "processed_query": "deliveri erad rabi",
     "results": [
         {
@@ -184,27 +186,62 @@ example_response = {
 }
 
 
+def transform_result(result):
+    """
+    Transform a dict of an IATI result to API result
+
+    We change the mappings of the IATI.cloud column
+    names to the ones we have deinfed in our API.
+    This works for cosine and embeddings approaches
+    but it does not work for elasticsearch as we need
+    to transform the mappings from the elasticsearch API
+    """
+    return {
+        "iati_identifier": result[IATI_IDENTIFIER_COLUMN_NAME],
+        "reporting_org": result[ORG_ID_COLUMN_NAME],
+        "title": result[TITLE_COLUMN_NAME],
+        "description": result[DESCRIPTION_COLUMN_NAME],
+    }
+
+
 @api_blueprint.route("/")
 class Search(MethodView):
-    @api_blueprint.arguments(IATIQuery, location="query")
-    @api_blueprint.response(IATIQueryResponse, example=example_response)
-    def get(self, args):
-        """Put summary here"""
-        return {
-            "timestamp": "foo",
-            "version": "foo",
-            "processed_query": "foo",
-        }
-
     @api_blueprint.arguments(IATIQuery, example=example_query)
-    # changeme
-    @api_blueprint.response(IATIResult, example=example_response)
-    def post(self, new_data):
-        """Put summary here"""
+    @api_blueprint.response(IATIQueryResponse, example=example_response)
+    def post(self, query_data):
+        timestamp = datetime.datetime.utcnow().timestamp()
+
+        search_type = query_data["search_method"]
+        query = query_data["query"]
+
+        iati_results = []
+        if search_type == "cosine":
+            results = get_cosine_results(query)
+            iati_results = [transform_result(result) for result in results]
+
+        elif search_type == "embeddings":
+            results = get_embeddings_results(query)
+            iati_results = [transform_result(result) for result in results]
+
+        elif search_type == "elastic":
+            results = get_elasticsearch_results(query)
+            iati_results = [
+                {
+                    "iati_identifier": result["_source"][IATI_IDENTIFIER_COLUMN_NAME],
+                    "reporting_org": result["_source"][ORG_ID_COLUMN_NAME],
+                    "title": result["_source"][TITLE_COLUMN_NAME],
+                    "description": result["_source"][DESCRIPTION_COLUMN_NAME],
+                }
+                for result in results
+            ]
+        else:
+            raise Exception("Improper Request")  # TODO: add proper exception from Flask
+
         return {
-            "timestamp": "foo",
-            "version": "foo",
-            "processed_query": "foo",
+            "search_method": search_type,
+            "query": query,
+            "timestamp": timestamp,
+            "results": iati_results,
         }
 
 
