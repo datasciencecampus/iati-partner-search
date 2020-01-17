@@ -204,7 +204,7 @@ def transform_result(result):
     }
 
 
-@api_blueprint.route("/")
+@api_blueprint.route("/search")
 class Search(MethodView):
     @api_blueprint.arguments(IATIQuery, example=example_query)
     @api_blueprint.response(IATIQueryResponse, example=example_response)
