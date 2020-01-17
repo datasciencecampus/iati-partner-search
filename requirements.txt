@@ -8,6 +8,7 @@ pandas
 matplotlib
 Flask
 flask_wtf
+flask_smorest
 fuzzywuzzy
 invoke
 requests
