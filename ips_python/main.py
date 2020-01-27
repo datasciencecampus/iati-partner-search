@@ -136,6 +136,9 @@ def get_embeddings_results(query):
 # @app.route("/search")
 def home():
     form = SearchForm(request.form)
+    from pprint import pprint
+
+    pprint(dir(form.search))
     if request.method == "POST":
         if form.validate():
             results = None

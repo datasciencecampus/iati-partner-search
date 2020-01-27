@@ -1,13 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="static/style.css" />
-    <title>IATI Search</title>
-  </head>
-  <body>
-    <nav>
-      <div class="title">IATI Search</div>
-    </nav>
-    <div id="content">{% block content %}{% endblock %}</div>
-  </body>
+  <title>IATI Search</title>
+</head>
+<body>
+  <div class="container-fluid form-container py-3">
+    <div class="pricing-header mx-auto text-center">
+      <h1 class="display-4">IATI Search</h1>
+      <!-- <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p> -->
+    </div>
+    <div class="row">
+      <div class="col col-4 image-column my-1">
+        <img src="static/search.svg" class="img-fluid" alt="Responsive image">
+      </div>
+      <div class="col col-8 form-column">
+        <form action="/" method="POST" class="container my-1">
+
+          {% for subfield in form.search_method %}
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="{{ subfield.id }}" name="{{ subfield.name }}">
+            <label class="custom-control-label" for="{{ subfield.id }}">{{ subfield.label }}</label>
+          </div>
+          {% endfor %}
+
+          <textarea class="form-control rounded-1 my-1" id="search" rows="10" placeholder="Try entering a project description to find others that are similar ..."></textarea>
+          <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
+          <input
+            class="my-1"
+            id="{{ form.submit.id }}"
+            name="{{ form.submit.name }}"
+            type="{{ form.submit.id }}"
+            value="Search"
+          >
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<!-- START results -->
+
+<div class="results container-fluid">
+    <h1>Results</h1>
+    <ol>
+      <li class="result">
+        <h2>United States</h2>
+        <p>
+          <em>Not Applicable</em><br>
+          Award Description - The description for this item is: AFRICA REGIONAL
+        </p>
+      </li>
+
+      <li class="result">
+        <h2>United States</h2>
+        <p>
+          <em>GFMS201711720170602210816</em><br>
+          Award Description - The description for this item is: AFRICA REGIONAL
+        </p>
+      </li>
+
+      <li class="result">
+        <h2>United States</h2>
+        <p>
+          <em>GFMS201717720170818235221</em><br>
+          Award Description - The description for this item is: AFRICA REGIONAL
+        </p>
+      </li>
+
+      <li class="result">
+        <h2>International Labour Organization (ILO)</h2>
+        <p>
+          <em>2014-15 Eval &amp; Monit RBSA Africa Projects</em><br>
+          nan
+        </p>
+      </li>
+
+      <li class="result">
+        <h2>International Labour Organization (ILO)</h2>
+        <p>
+          <em>RBSA Eval &amp; Monit Africa Projects</em><br>
+          nan
+        </p>
+      </li>
+    </ol>
+
+  </div>
+
+<!-- END results -->
+
+</body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </html>
