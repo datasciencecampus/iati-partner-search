@@ -1,78 +1,72 @@
 {% extends "base.html" %} {% block content %}
-<div class="index">
-  <div class="main">
-    <h1>
-      Find what you're looking for in IATI descriptions
-    </h1>
-    <div class="form-container">
-      <img
-        id="search-illustration"
-        src="static/search.svg"
-        alt="person shining a torch"
-      />
-      <form action="/" method="POST">
-        <p>Select search method:</p>
-        {% for error in form.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
-        <div>
-          {% for subfield in form.search_method %} {{ subfield }} {{
-          subfield.label }} {% endfor %}
-        </div>
-        {{ form.search(placeholder="Try entering a project description to find others that are similar ...") }} {{
-        form.submit }}
-      </form>
-    </div>
-  </div>
 
-  {% if result_type in ["cosine", "embeddings"] %}
-  <div class="results">
-    <h1>Results</h1>
-    <a href="/">Search again</a>
-    {% for result in results %}
-    <div class="result">
-      <h2>{{ result['reporting_org_narrative'] }}</h2>
-      <p>
-        <em>{{ result['title_narrative_text'] }}</em><br />
-        {{ result['description_narrative_text']}}
-      </p>
-    </div>
-    {% endfor %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-color-custom " style="background-color: #3F3D56!important">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="https://datasciencecampus.github.io/iati-partner-search/">Docs</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link nav-link-custom" href="https://github.com/datasciencecampus/iati-partner-search">Github</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link nav-link-custom" href="./openapi/swagger/">OpenAPI</a>
+      </li>
+    </ul>
   </div>
+</nav>
 
-  {% elif result_type == "elastic" %}
-
-  <div class="results">
-    <h1>Results</h1>
-    <a href="/">Search again</a>
-    {% for result in results %}
-    <div class="result">
-      <h2>{{ result['_source']['reporting_org_narrative'] }}</h2>
-      <p>
-        <em>{{ result['_source']['title_narrative_text'] }}</em><br />
-        {{ result['_source']['description_narrative_text']}}
-      </p>
-    </div>
-    {% endfor %}
+<div class="container-fluid parent background-color-custom">
+  <div class="pricing-header mx-auto text-center ">
+    <span>
+      <h1 class="display-4">IATI Search</h1>
+      <h4>Find what you're looking for in IATI descriptions</h4>
+    </span>
   </div>
+  <div class="container-fluid py-3 background-image-custom">
+    <form action="/" method="POST" class="container my-1 form-custom">
 
-  {% else %}
-  <!-- fallback if nothing defined -->
-  <div class="example">
-    <h2>Here's an example to try out</h2>
-    <p>
-      Despite impressive improvements in Vietnam's development and health status
-      over the past decade, gains have not been equitable and significant unmet
-      health needs remain. Poor and marginalized populations continue to
-      disproportionally suffer from preventable illnesses while those in
-      wealthier socioeconomic groups continue to enjoy greater health and longer
-      life expectancy. Social Marketing for Improved Rural Health will include 3
-      main components: i) social marketing of SafeWat household water treatment
-      solution and promotion of safer hygiene behaviors; ii) Good health, Great
-      life and iii) behavior change communication to address non-supply side
-      barriers to healthier behaviors
-    </p>
+      {% for subfield in form.search_method %}
+      <div class="custom-control custom-radio custom-control-inline">
+        {{ subfield(class="custom-control-input") }}
+        {{ subfield.label(class="custom-control-label") }}
+      </div>
+      {% endfor %}
+
+      {{ form.search(placeholder="Try entering a project description to find others that are similar ...", class="form-control rounded-5 textarea-custom my-1", rows="6") }}
+      {{ form.submit(class="btn btn-custom btn-lg btn-block my-1", value="Search") }}
+    </form>
   </div>
-  {% endif %}
 </div>
+
+<!-- START results -->
+{% if results %}
+<div class="container-fluid">
+    <h1>Results</h1>
+    <ol>
+    {% for result in results %}
+    <li class="result">
+      <h3>{{ result['title'] }}</h3>
+      <p>
+        IATI Identifier: <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati_identifier'] | urlencode }}">{{ result['iati_identifier']}}</a><br />
+      </p>
+      <p>
+         Reporting Org: <a href="http://d-portal.org/ctrack.html?publisher={{ result['reporting_org'] | urlencode }}#view=main">
+          {{ result['reporting_org'] }}
+         </a>
+      </p>
+      <p>
+        {{ result['description']}}
+      </p>
+    </li>
+    {% endfor %}
+    </ol>
+
+  </div>
+{% endif %}
+<!-- END results -->
+
 {% endblock %}

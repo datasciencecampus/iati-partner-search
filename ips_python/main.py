@@ -92,6 +92,33 @@ class SearchForm(FlaskForm):
         csrf = False
 
 
+def transform_result(result):
+    """
+    Transform a dict of an IATI result to API result
+
+    We change the mappings of the IATI.cloud column
+    names to the ones we have deinfed in our API.
+    This works for cosine and embeddings approaches
+    but it does not work for elasticsearch as we need
+    to transform the mappings from the elasticsearch API
+    """
+    return {
+        "iati_identifier": result[IATI_IDENTIFIER_COLUMN_NAME],
+        "reporting_org": result[ORG_ID_COLUMN_NAME],
+        "title": result[TITLE_COLUMN_NAME],
+        "description": result[DESCRIPTION_COLUMN_NAME],
+    }
+
+
+def transform_result_elasticsearch(result):
+    return {
+        "iati_identifier": result["_source"][IATI_IDENTIFIER_COLUMN_NAME],
+        "reporting_org": result["_source"][ORG_ID_COLUMN_NAME],
+        "title": result["_source"][TITLE_COLUMN_NAME],
+        "description": result["_source"][DESCRIPTION_COLUMN_NAME],
+    }
+
+
 def get_elasticsearch_results(query):
     elasticsearch_url = os.getenv("ELASTICSEARCH_URL")
     elasticsearch_instance = Elasticsearch([elasticsearch_url])
@@ -142,12 +169,17 @@ def home():
             search_type = form.data["search_method"]
             if search_type == "cosine":
                 results = get_cosine_results(form.data["search"])
+                iati_results = [transform_result(result) for result in results]
+
             elif search_type == "embeddings":
                 results = get_embeddings_results(form.data["search"])
+                iati_results = [transform_result(result) for result in results]
+
             else:
-                results = get_elasticsearch_results(form.data["search"])
+                iati_results = get_elasticsearch_results(form.data["search"])
+
             return render_template(
-                "index.html", form=form, results=results, result_type=search_type
+                "index.html", form=form, results=iati_results, result_type=search_type
             )
     return render_template("index.html", form=form)
 
@@ -186,24 +218,6 @@ example_response = {
 }
 
 
-def transform_result(result):
-    """
-    Transform a dict of an IATI result to API result
-
-    We change the mappings of the IATI.cloud column
-    names to the ones we have deinfed in our API.
-    This works for cosine and embeddings approaches
-    but it does not work for elasticsearch as we need
-    to transform the mappings from the elasticsearch API
-    """
-    return {
-        "iati_identifier": result[IATI_IDENTIFIER_COLUMN_NAME],
-        "reporting_org": result[ORG_ID_COLUMN_NAME],
-        "title": result[TITLE_COLUMN_NAME],
-        "description": result[DESCRIPTION_COLUMN_NAME],
-    }
-
-
 @api_blueprint.route("/search")
 class Search(MethodView):
     @api_blueprint.arguments(IATIQuery, example=example_query)
@@ -226,13 +240,7 @@ class Search(MethodView):
         elif search_type == "elastic":
             results = get_elasticsearch_results(query)
             iati_results = [
-                {
-                    "iati_identifier": result["_source"][IATI_IDENTIFIER_COLUMN_NAME],
-                    "reporting_org": result["_source"][ORG_ID_COLUMN_NAME],
-                    "title": result["_source"][TITLE_COLUMN_NAME],
-                    "description": result["_source"][DESCRIPTION_COLUMN_NAME],
-                }
-                for result in results
+                transform_result_elasticsearch(result) for result in results
             ]
         else:
             raise Exception("Improper Request")  # TODO: add proper exception from Flask
