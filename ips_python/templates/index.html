@@ -1,29 +1,4 @@
 {% extends "base.html" %} {% block content %}
-  <div class="main">
-    <h1>
-      Find what you're looking for in IATI descriptions
-    </h1>
-    <div class="form-container">
-      <img
-        id="search-illustration"
-        src="static/search.svg"
-        alt="person shining a torch"
-      />
-      <form action="/" method="POST">
-        <p>Select search method:</p>
-        {% for error in form.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
-        <div>
-          {% for subfield in form.search_method %} {{ subfield }} {{
-          subfield.label }} {% endfor %}
-        </div>
-        {{ form.search(placeholder="Try entering a project description to find others that are similar ...") }} {{
-        form.submit }}
-      </form>
-    </div>
-  </div>
-
   {% if result_type in ["cosine", "embeddings"] %}
   <div class="results">
     <h1>Results</h1>

@@ -7,10 +7,29 @@
   <title>IATI Search</title>
 </head>
 <body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark .nav-color-custom " style="background-color: #3F3D56!important">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="https://datasciencecampus.github.io/iati-partner-search/">Docs</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link nav-link-custom" href="https://github.com/datasciencecampus/iati-partner-search">Github</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link nav-link-custom" href="./openapi/swagger/">OpenAPI</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
   <div class="container-fluid parent background-color-custom">
     <div class="pricing-header mx-auto text-center ">
       <h1 class="display-4">IATI Search</h1>
-      <!-- <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p> -->
     </div>
   <div class="container-fluid py-3 background-image-custom">
     <form action="/" method="POST" class="container my-1 form-custom">
@@ -43,58 +62,35 @@
 
 
 <!-- START results -->
-
-<div class="results container-fluid">
+{% if results %}
+<div class="container-fluid">
     <h1>Results</h1>
     <ol>
-      <li class="result">
-        <h2>United States</h2>
-        <p>
-          <em>Not Applicable</em><br>
-          Award Description - The description for this item is: AFRICA REGIONAL
-        </p>
-      </li>
-
-      <li class="result">
-        <h2>United States</h2>
-        <p>
-          <em>GFMS201711720170602210816</em><br>
-          Award Description - The description for this item is: AFRICA REGIONAL
-        </p>
-      </li>
-
-      <li class="result">
-        <h2>United States</h2>
-        <p>
-          <em>GFMS201717720170818235221</em><br>
-          Award Description - The description for this item is: AFRICA REGIONAL
-        </p>
-      </li>
-
-      <li class="result">
-        <h2>International Labour Organization (ILO)</h2>
-        <p>
-          <em>2014-15 Eval &amp; Monit RBSA Africa Projects</em><br>
-          nan
-        </p>
-      </li>
-
-      <li class="result">
-        <h2>International Labour Organization (ILO)</h2>
-        <p>
-          <em>RBSA Eval &amp; Monit Africa Projects</em><br>
-          nan
-        </p>
-      </li>
+    {% for result in results %}
+    <div class="result">
+      <h2>{{ result['reporting_org'] }}</h2>
+      <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati_identifier'] | urlencode }}">{{ result['iati.identifier']}}</a><br />
+      <p>
+        <em>{{ result['title'] }}</em><br />
+        {{ result['description']}}
+      </p>
+    </div>
+    {% endfor %}
     </ol>
 
   </div>
-
+{% endif %}
 <!-- END results -->
 
 </body>
+<!-- Styles -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="static/style.css" />
+
+<!-- Interactivity -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </html>
 
 <!-- color R63 G61 B86 -->
