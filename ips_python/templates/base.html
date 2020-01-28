@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark .nav-color-custom " style="background-color: #3F3D56!important">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-color-custom " style="background-color: #3F3D56!important">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -67,14 +67,20 @@
     <h1>Results</h1>
     <ol>
     {% for result in results %}
-    <div class="result">
-      <h2>{{ result['reporting_org'] }}</h2>
-      <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati_identifier'] | urlencode }}">{{ result['iati.identifier']}}</a><br />
+    <li class="result">
+      <h3>{{ result['title'] }}</h3>
       <p>
-        <em>{{ result['title'] }}</em><br />
+        IATI Identifier: <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati_identifier'] | urlencode }}">{{ result['iati_identifier']}}</a><br />
+      </p>
+      <p>
+         Reporting Org: <a href="http://d-portal.org/ctrack.html?publisher={{ result['reporting_org'] | urlencode }}#view=main">
+          {{ result['reporting_org'] }}
+         </a>
+      </p>
+      <p>
         {{ result['description']}}
       </p>
-    </div>
+    </li>
     {% endfor %}
     </ol>
 

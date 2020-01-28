@@ -176,7 +176,8 @@ def home():
                 iati_results = [transform_result(result) for result in results]
 
             else:
-                results = get_elasticsearch_results(form.data["search"])
+                iati_results = get_elasticsearch_results(form.data["search"])
+
             return render_template(
                 "index.html", form=form, results=iati_results, result_type=search_type
             )
