@@ -33,7 +33,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, RadioField, SubmitField
 from wtforms.validators import DataRequired
 from elasticsearch import Elasticsearch
-
+from healthcheck import HealthCheck
 
 dotenv_path = join(dirname(dirname(__file__)), ".env")
 load_dotenv(dotenv_path)
@@ -41,6 +41,7 @@ load_dotenv(dotenv_path)
 environment = os.getenv("FLASK_ENV", "development").lower()
 
 app = Flask(__name__)
+health = HealthCheck(app, "/healthcheck")
 app.config["OPENAPI_URL_PREFIX"] = "/openapi"
 app.config["OPENAPI_JSON_PATH"] = "openapi.json"
 app.config["OPENAPI_REDOC_PATH"] = "/doc/"
