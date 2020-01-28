@@ -1,28 +1,28 @@
 {% extends "base.html" %} {% block content %}
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-color-custom " style="background-color: #3F3D56!important">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="https://datasciencecampus.github.io/iati-partner-search/">Docs</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link nav-link-custom" href="https://github.com/datasciencecampus/iati-partner-search">Github</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link nav-link-custom" href="./openapi/swagger/">OpenAPI</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-color-custom " style="background-color: #3F3D56!important">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="https://datasciencecampus.github.io/iati-partner-search/">Docs</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link nav-link-custom" href="https://github.com/datasciencecampus/iati-partner-search">Github</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link nav-link-custom" href="./openapi/swagger/">OpenAPI</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-  <div class="container-fluid parent background-color-custom">
-    <div class="pricing-header mx-auto text-center ">
-      <h1 class="display-4">IATI Search</h1>
-    </div>
+<div class="container-fluid parent background-color-custom">
+  <div class="pricing-header mx-auto text-center ">
+    <h1 class="display-4">IATI Search</h1>
+  </div>
   <div class="container-fluid py-3 background-image-custom">
     <form action="/" method="POST" class="container my-1 form-custom">
 
@@ -32,12 +32,12 @@
         {{ subfield.label(class="custom-control-label") }}
       </div>
       {% endfor %}
+
       {{ form.search(placeholder="Try entering a project description to find others that are similar ...", class="form-control rounded-5 textarea-custom my-1", rows="6") }}
       {{ form.submit(class="btn btn-custom btn-lg btn-block my-1", value="Search") }}
     </form>
   </div>
 </div>
-
 
 <!-- START results -->
 {% if results %}
