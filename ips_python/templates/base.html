@@ -1,93 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>IATI Search</title>
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-color-custom " style="background-color: #3F3D56!important">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="https://datasciencecampus.github.io/iati-partner-search/">Docs</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link nav-link-custom" href="https://github.com/datasciencecampus/iati-partner-search">Github</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link nav-link-custom" href="./openapi/swagger/">OpenAPI</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="container-fluid parent background-color-custom">
-    <div class="pricing-header mx-auto text-center ">
-      <h1 class="display-4">IATI Search</h1>
-    </div>
-  <div class="container-fluid py-3 background-image-custom">
-    <form action="/" method="POST" class="container my-1 form-custom">
-
-      {% for subfield in form.search_method %}
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="{{ subfield.id }}" name="{{ subfield.name }}">
-        <label class="custom-control-label" for="{{ subfield.id }}">{{ subfield.label }}</label>
-      </div>
-      {% endfor %}
-
-      <textarea
-        class="form-control rounded-5 textarea-custom my-1"
-        id="{{ form.search.id }}"
-        rows="6"
-        placeholder="Try entering a project description to find others that are similar ..."
-      >{% if True %}{{form.data["search"]}}{% endif %}</textarea>
-      <!-- <input class="btn btn-primary" type="submit" value="Submit"> -->
-      <input
-        class="btn btn-custom btn-lg btn-block my-1"
-        id="{{ form.submit.id }}"
-        name="{{ form.submit.name }}"
-        type="{{ form.submit.id }}"
-        value="Search"
-      >
-
-    </form>
-  </div>
-</div>
-
-
-<!-- START results -->
-{% if results %}
-<div class="container-fluid">
-    <h1>Results</h1>
-    <ol>
-    {% for result in results %}
-    <li class="result">
-      <h3>{{ result['title'] }}</h3>
-      <p>
-        IATI Identifier: <a href="http://d-portal.org/ctrack.html#view=act&aid={{ result['iati_identifier'] | urlencode }}">{{ result['iati_identifier']}}</a><br />
-      </p>
-      <p>
-         Reporting Org: <a href="http://d-portal.org/ctrack.html?publisher={{ result['reporting_org'] | urlencode }}#view=main">
-          {{ result['reporting_org'] }}
-         </a>
-      </p>
-      <p>
-        {{ result['description']}}
-      </p>
-    </li>
-    {% endfor %}
-    </ol>
-
-  </div>
-{% endif %}
-<!-- END results -->
-
+  {% block content %}{% endblock %}
 </body>
 <!-- Styles -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
