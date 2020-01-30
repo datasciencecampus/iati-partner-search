@@ -44,7 +44,7 @@ if __name__ == "__main__":
     model = Word2Vec.load(join(get_data_path(), WORD2VECMODEL_FILENAME))
 
     iati_records = pd.read_csv(
-        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
     )
 
     query_df = preprocess_query_text(query)
@@ -62,5 +62,5 @@ if __name__ == "__main__":
         out_df = get_cosine_similarity(query_average, full_arr, iati_records)
 
         out_df.to_csv(
-            join(get_data_path(), COSINE_FILENAME), index=False, encoding="iso-8859-1"
+            join(get_data_path(), COSINE_FILENAME), index=False, encoding="utf-8"
         )

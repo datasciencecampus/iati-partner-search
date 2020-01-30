@@ -81,7 +81,7 @@ if __name__ == "__main__":
             term_document_matrix = pickle.load(_file)
 
         iati_records = pd.read_csv(
-            join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+            join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
         )
 
         iati_records = iati_records[[IATI_IDENTIFIER_COLUMN_NAME]]
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         # cosine_similar("tdm.pkl", "vec.pkl", "iati_records", "")
 
         outDF.to_csv(
-            join(get_data_path(), COSINE_FILENAME), index=False, encoding="iso-8859-1"
+            join(get_data_path(), COSINE_FILENAME), index=False, encoding="utf-8"
         )
     else:
         print("no words exist after pre-processing")

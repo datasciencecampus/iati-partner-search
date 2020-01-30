@@ -51,9 +51,7 @@ def write_tfidf_term_document_matrix_to_file(
     term_document_matrix_filename,
     vectorizer_filename,
 ):
-    df1 = pd.read_csv(
-        join(get_data_path(), preprocessed_file_name), encoding="iso-8859-1"
-    )
+    df1 = pd.read_csv(join(get_data_path(), preprocessed_file_name), encoding="utf-8")
     df1 = df1[[IATI_IDENTIFIER_COLUMN_NAME, DESCRIPTION_COLUMN_NAME]]
 
     vectorizer, term_document_matrix, word_list = create_tfidf_term_document_matrix(df1)

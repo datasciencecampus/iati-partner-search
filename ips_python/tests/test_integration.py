@@ -30,7 +30,7 @@ class TestPipeline(TestCase):
         These are all used at 'runtime' to process a user query
         """
         raw_data = pd.read_csv(
-            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="utf-8"
         )
 
         # preprocessing
@@ -51,7 +51,7 @@ class TestPipeline(TestCase):
     def test_runtime_basic(self):
         # setup
         raw_data = pd.read_csv(
-            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="utf-8"
         )
         processed_df = preprocess_pipeline(raw_data)
         vectorizer, term_document_matrix, word_list = create_tfidf_term_document_matrix(
@@ -81,7 +81,7 @@ class TestPipeline(TestCase):
 
     def test_runtime_w2vmodel(self):
         raw_data = pd.read_csv(
-            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="utf-8"
         )
         processed_df = preprocess_pipeline(raw_data)
 
@@ -93,7 +93,7 @@ class TestPipeline(TestCase):
 
     def test_runtime_w2vavg(self):
         raw_data = pd.read_csv(
-            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+            join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="utf-8"
         )
         processed_df = preprocess_pipeline(raw_data)
 

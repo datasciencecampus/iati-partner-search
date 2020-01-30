@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     # get clean data for embeddings
     clean_df = pd.read_csv(
-        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+        join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
     )
     # preprocessing on both query and raw IATI description data
     query_df = preprocess_query_text(query)

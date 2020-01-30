@@ -54,7 +54,7 @@ def main(elasticsearch_url):
     )
 
     print("Reading dataframe")
-    processed_iati_records = pd.read_csv(get_raw_data_filepath(), encoding="iso-8859-1")
+    processed_iati_records = pd.read_csv(get_raw_data_filepath(), encoding="utf-8")
 
     print("Uploading data")
     helpers.bulk(
