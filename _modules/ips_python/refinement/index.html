@@ -285,12 +285,10 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="n">full_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">INPUT_DATA_FILENAME</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;iso-8859-1&quot;</span>
-    <span class="p">)</span>
+    <span class="n">full_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">INPUT_DATA_FILENAME</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 
     <span class="n">cosine_res_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">COSINE_FILENAME</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;iso-8859-1&quot;</span>
+        <span class="n">join</span><span class="p">(</span><span class="n">get_data_path</span><span class="p">(),</span> <span class="n">COSINE_FILENAME</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
     <span class="p">)</span>
 
     <span class="n">refined_res</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">cosine_res_df</span><span class="p">,</span> <span class="n">full_df</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
