@@ -112,12 +112,7 @@ def transform_result(result):
 
 
 def transform_result_elasticsearch(result):
-    return {
-        "iati_identifier": result["_source"][IATI_IDENTIFIER_COLUMN_NAME],
-        "reporting_org": result["_source"][ORG_ID_COLUMN_NAME],
-        "title": result["_source"][TITLE_COLUMN_NAME],
-        "description": result["_source"][DESCRIPTION_COLUMN_NAME],
-    }
+    return transform_result(result["_source"])
 
 
 def get_elasticsearch_results(query):
@@ -177,7 +172,10 @@ def home():
                 iati_results = [transform_result(result) for result in results]
 
             else:
-                iati_results = get_elasticsearch_results(form.data["search"])
+                results = get_elasticsearch_results(form.data["search"])
+                iati_results = [
+                    transform_result_elasticsearch(result) for result in results
+                ]
 
             return render_template(
                 "index.html", form=form, results=iati_results, result_type=search_type
