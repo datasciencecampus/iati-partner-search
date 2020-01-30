@@ -68,11 +68,11 @@ with open(join(get_data_path(), WORD2VECAVG_FILENAME), "rb") as _file:
     word_to_vec_document_average = pickle.load(_file)
 
 processed_iati_records = pd.read_csv(
-    join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="iso-8859-1"
+    join(get_data_path(), PROCESSED_RECORDS_FILENAME), encoding="utf-8"
 )
 
 full_iati_records = pd.read_csv(
-    join(get_data_path(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+    join(get_data_path(), INPUT_DATA_FILENAME), encoding="utf-8"
 )
 
 

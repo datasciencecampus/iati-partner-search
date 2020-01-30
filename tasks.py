@@ -147,9 +147,9 @@ def create_new_sample_test_data(c):
         INPUT_DATA_FILENAME,
     )
 
-    data = pd.read_csv(get_raw_data_filepath(), low_memory=False, encoding="iso-8859-1")
+    data = pd.read_csv(get_raw_data_filepath(), low_memory=False, encoding="utf-8")
     data.sample(n=5000).to_csv(
-        join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="iso-8859-1"
+        join(get_test_data_file(), INPUT_DATA_FILENAME), encoding="utf-8"
     )
 
 

@@ -19,7 +19,7 @@ words_df = pd.read_csv(os.path.join(wd, "wordsListStemEngDict.csv"), names=["wor
 words = words_df["word"].tolist()
 
 # 3 Get the iati records used for this pre-processing set
-clusters_df = pd.read_csv(os.path.join(wd, "iati30Clusters.csv"), encoding="iso-8859-1")
+clusters_df = pd.read_csv(os.path.join(wd, "iati30Clusters.csv"), encoding="utf-8")
 
 # 4 Get index of highest tf-idf per IATI record
 
