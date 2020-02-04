@@ -1,0 +1,911 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Check the CSV Encoding with IATI.Cloud &mdash; IATI Partner Search  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Continuous Integration" href="../continuous_integration/" />
+    <link rel="prev" title="Data Source Comparison" href="../data_download_comparison/" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../" class="icon icon-home"> IATI Partner Search
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Introduction:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme/">IATI Partner Search</a></li>
+</ul>
+<p class="caption"><span class="caption-text">An Overview of IATI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/">IATI Tooling Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../challenges/">Challenges of working with IATI Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Search and NLP Approaches</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../IATI_methods/">IATI Approaches Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis and Progress Reports</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../count_words/">Word Count Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_download_comparison/">Data Source Comparison</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Check the CSV Encoding with IATI.Cloud</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#What-does-the-decription-look-like-when-we-ask-for-JSON?">What does the decription look like when we ask for JSON?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Character-Encoding">Character Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Writing-and-Reading-our-CSV-File">Writing and Reading our CSV File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Checking-on-\n-and-\,-characters-when-reading-and-writing-CSVs">Checking on <code class="docutils literal notranslate"><span class="pre">\n</span></code> and <code class="docutils literal notranslate"><span class="pre">\,</span></code> characters when reading and writing CSVs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Code:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../continuous_integration/">Continuous Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/#module-ips_python.vectorize">Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/#module-ips_python.refinement">Results Refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/#module-ips_python.script">Runtime Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_documentation/#module-ips_python.utils">Package Utilities</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">IATI Partner Search</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../">Docs</a> &raquo;</li>
+        
+      <li>Check the CSV Encoding with IATI.Cloud</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/check_iati_encoding.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Check-the-CSV-Encoding-with-IATI.Cloud">
+<h1>Check the CSV Encoding with IATI.Cloud<a class="headerlink" href="#Check-the-CSV-Encoding-with-IATI.Cloud" title="Permalink to this headline">¶</a></h1>
+<p>There are issues with the CSV encoding, which are described <a class="reference external" href="https://github.com/datasciencecampus/iati-partner-search/issues/113">here</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">remove</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">EXAMPLE_1_ID</span> <span class="o">=</span> <span class="s2">&quot;SE-0-SE-6-5504005318-ZAF-99810&quot;</span>
+<span class="n">EXAMPLE_2_ID</span> <span class="o">=</span> <span class="s2">&quot;NL-KVK-27248417-3818-L15068&quot;</span>
+
+<span class="n">ENCODING_EXAMPLE_1</span> <span class="o">=</span> <span class="s2">&quot;KR-GOV-051-2016140000008&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">print_gap</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;http://iati.cloud/search/activity?q=(iati_identifier:</span><span class="se">\&quot;</span><span class="si">{iati_id}</span><span class="se">\&quot;</span><span class="s2">)&amp;&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;fl=id,iati_identifier,title_narrative_text,description_narrative_text&amp;&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;wt=</span><span class="si">{format}</span><span class="s2">&amp;rows=</span><span class="si">{number_of_results}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">dataframe</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;description_narrative_text&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_description_from_csv</span><span class="p">(</span><span class="n">iati_id</span><span class="p">):</span>
+    <span class="n">info_url</span> <span class="o">=</span> <span class="n">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">info_url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">get_description_from_csv</span><span class="p">(</span><span class="n">EXAMPLE_1_ID</span><span class="p">))</span>
+<span class="n">print_gap</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">get_description_from_csv</span><span class="p">(</span><span class="n">EXAMPLE_2_ID</span><span class="p">)[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s2">&quot;.....&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Program development fund - project preparaations\, meetings and audits,Program development fund - project preparaations\, meetings and audits
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+Especialy woman and children are our target groups\, because most of the time they have to fetch water now in small creeks with polluted water\, far away from home.\nThe whole community is involved by digging the boreholes.,When the boreholes are completed\, these are accessable for the whole community.\nSo clean drinking water is near (less risk on diseases) and the people can start farming (generate an income\, upgrade their living).,Fianancial: \nIf a pump need any repair (most of the time a minor problem\, like replacing a small rubber ring) they can call Peter Gichuki for assistance. Paying for his transport is the only thing the community has to pay.  He will provide the pump with the part\, which we have in stock.\nIf the borehole has to be deepen\, the community has to do this (same like digging the borehole).\n\nInstitutional:\nStichting Namelok is involved by tracing the place to dig a borehole and to support the community by digging. Stichting Namelok will provide the materi .....
+</pre></div></div>
+</div>
+<p>Okay, so here we clearly have one kind of encoding, where we have a double <code class="docutils literal notranslate"><span class="pre">\\</span></code> to escape the comma and newline characters.</p>
+<div class="section" id="What-does-the-decription-look-like-when-we-ask-for-JSON?">
+<h2>What does the decription look like when we ask for JSON?<a class="headerlink" href="#What-does-the-decription-look-like-when-we-ask-for-JSON?" title="Permalink to this headline">¶</a></h2>
+<p>Below are two functions that help us extract the data from the JSON response from IATI.cloud. The response looks like this:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>{&#39;response&#39;:
+    {&#39;docs&#39;: [
+        {&#39;description_narrative_text&#39;: [
+            &quot;STRING WE WANT&quot;,
+            &quot;ANOTHER STRING WE WANT
+          ]
+         ...
+        }
+    ...
+    }
+ ...
+}
+</pre></div>
+</div>
+<p>Note that in this case, the description returns a <strong>list</strong> of strings, whereas we get one long concatenated string from the CSV.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">get_json_for_activity</span><span class="p">(</span><span class="n">iati_id</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">get_description_from_json</span><span class="p">(</span><span class="n">json_data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;docs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;description_narrative_text&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_json_description_type_and_instance</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">):</span>
+    <span class="n">json_data</span> <span class="o">=</span> <span class="n">get_json_for_activity</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">)</span>
+    <span class="n">description_narrative_text</span> <span class="o">=</span> <span class="n">get_description_from_json</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TYPE:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">description_narrative_text</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LENGTH:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">description_narrative_text</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">description_narrative_text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pprint</span><span class="p">(</span><span class="n">get_json_description_type_and_instance</span><span class="p">(</span><span class="n">EXAMPLE_1_ID</span><span class="p">))</span>
+<span class="n">print_gap</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">get_json_description_type_and_instance</span><span class="p">(</span><span class="n">EXAMPLE_2_ID</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TYPE: &lt;class &#39;list&#39;&gt;
+LENGTH: 2
+
+[&#39;Program development fund - project preparaations, meetings and audits&#39;,
+ &#39;Program development fund - project preparaations, meetings and audits&#39;]
+None
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+TYPE: &lt;class &#39;list&#39;&gt;
+LENGTH: 8
+
+[&#39;Especialy woman and children are our target groups, because most of the time &#39;
+ &#39;they have to fetch water now in small creeks with polluted water, far away &#39;
+ &#39;from home.\n&#39;
+ &#39;The whole community is involved by digging the boreholes.&#39;,
+ &#39;When the boreholes are completed, these are accessable for the whole &#39;
+ &#39;community.\n&#39;
+ &#39;So clean drinking water is near (less risk on diseases) and the people can &#39;
+ &#39;start farming (generate an income, upgrade their living).&#39;,
+ &#39;Fianancial: \n&#39;
+ &#39;If a pump need any repair (most of the time a minor problem, like replacing &#39;
+ &#39;a small rubber ring) they can call Peter Gichuki for assistance. Paying for &#39;
+ &#39;his transport is the only thing the community has to pay.  He will provide &#39;
+ &#39;the pump with the part, which we have in stock.\n&#39;
+ &#39;If the borehole has to be deepen, the community has to do this (same like &#39;
+ &#39;digging the borehole).\n&#39;
+ &#39;\n&#39;
+ &#39;Institutional:\n&#39;
+ &#39;Stichting Namelok is involved by tracing the place to dig a borehole and to &#39;
+ &#39;support the community by digging. Stichting Namelok will provide the &#39;
+ &#39;materials for the foundation and waterpump.\n&#39;
+ &#39;The community is responsable for the borehole and pump.\n&#39;
+ &#39;Peter Gichuky is member of stichting Namelok and the Ruai Committee and &#39;
+ &#39;lives in Kenya.\n&#39;
+ &#34;If we are not around and there are problems the community&#39;s can contact him, &#34;
+ &#39;so he can help the people.\n&#39;
+ &#39;\n&#39;
+ &#39;Environmental:\n&#39;
+ &#39;Irrigation is possible when there is water (borehole). The community can &#39;
+ &#39;start farming. That means a green environment and less erosion. If the &#39;
+ &#39;waterlevel is going down the community has to dig the borehole deeper.\n&#39;
+ &#39;\n&#39;
+ &#39;Technical:\n&#39;
+ &#39;The community is digging the boreholes by hand.\n&#39;
+ &#39;If this is finished we (stichting Namelok) will help them with constructing &#39;
+ &#39;the foundation/cover for this borehole.\n&#39;
+ &#39;After that we put a handpump on this cover.\n&#39;
+ &#39;The materials for the foundation/cover we buy local.\n&#39;
+ &#39;The handpump we buy in Nairobi with the company Davis &amp; Shirtliff.\n&#39;
+ &#39;THe mark of the handpump is AFRIDEV.\n&#39;
+ &#39;The handpump is very easy to maintain, the only part that needs replacing &#39;
+ &#39;after about 2 years is a rubber. We have this in stock and Peter is able to &#39;
+ &#39;replace this. Transport for Peter has te be paid by the community (about  € &#39;
+ &#34;5). With the income of framing this shouldn&#39;t be a problem.\n&#34;
+ &#39;\n&#39;
+ &#39;Social:\n&#39;
+ &#39;The waterproject in Isiolo is a great help for women and children.\n&#39;
+ &#39;The water sources are not that far anymore. So they spend less time in &#39;
+ &#39;fetching water.\n&#39;
+ &#39;The children can go to school, the women have extra time to start farming.\n&#39;
+ &#39;With farming they will get income, so the living standard will grow.&#39;,
+ &#34;All these areas are very dry, there&#39;s a shortage of drinking- and irrigation &#34;
+ &#39;water. \n&#39;
+ &#34;The local community has to dig there own boreholes, we&#39;ll suply them with &#34;
+ &#39;materials.\n&#39;
+ &#34;End 2016 and begin 2017 we&#39;ll realize these boreholes. And we want to repair &#34;
+ &#39;at least 5 pumps.&#39;,
+ &#34;The community&#39;s dig their own borehole.\n&#34;
+ &#39;If they reach the waterlevel they contact us.\n&#39;
+ &#39;We gonna built the foundation and put a handpump.\n&#39;
+ &#39;In total we want to realize 12 (Afridev) handpumps with foundation and &#39;
+ &#39;repair 5 pumps.&#39;,
+ &#39;We visited these areas serveral times. During these visits we saw that there &#39;
+ &#39;is a lack of clean water for domestic use. \n&#39;
+ &#39;After measuring we told them where to dig their boreholes.\n&#39;,
+ &#34;Some community&#39;s in Isiolo (Meru district) are digging their boreholes at &#34;
+ &#39;this moment.\n&#39;
+ &#39;If the waterlevel is reached they contact us and then stichting Namelok will &#39;
+ &#39;suply them with materials for the foundation/cover (sand, stones, cement and &#39;
+ &#39;wood) and a  Afridev waterpump. There are a few Afrdiv pumps (installed long &#39;
+ &#39;time ago) by on known organisations out of order. We want to repair these &#39;
+ &#39;pumps.&#39;,
+ &#39;Stichting Namelok&#39;]
+None
+</pre></div></div>
+</div>
+<p>Okay, so it’s clear that the JSON response also gives us these awkward <code class="docutils literal notranslate"><span class="pre">\n</span></code> characters in places, but we <em>don’t</em> get the <code class="docutils literal notranslate"><span class="pre">\,</span></code> issues, where commas are escaped. This points to some of the harder points of IATI data, where the structure means that we cannot be certain about the structure of the data and so we need to deal with multiple descriptions, and we struggle with joining them together and consistently delivering them accross different format types.</p>
+</div>
+<div class="section" id="Character-Encoding">
+<h2>Character Encoding<a class="headerlink" href="#Character-Encoding" title="Permalink to this headline">¶</a></h2>
+<p>Not only do we need to deal with issues of how descriptions might have been joined together, we also need to consider that we might not be handling the full spectrum of unicode directly.</p>
+<p>We can see where characters give us issues with <code class="docutils literal notranslate"><span class="pre">KR-GOV-051-2016140000008</span></code> which we’ve stored as variable <code class="docutils literal notranslate"><span class="pre">ENCODING_EXAMPLE_1</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">get_description_from_csv</span><span class="p">(</span><span class="n">ENCODING_EXAMPLE_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;2개 마을 지역주민 2\\,943명의 지속적이고 안전한 급수위생시설 이용과 보건위생 행동양식 습득/2개 마을 주민 2\\,943명의 지속적이고 안전한 급수위생시설 접근성 향상과 보건위생 인식 개선,To provide water and sanitation facilities within the community\\, to establish water management committees\\, to provide health and sanitation education to teachers and students.&#39;
+</pre></div></div>
+</div>
+<p>So here we clearly have an example where the characters are being rendered somewhat correctly.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">get_json_description_type_and_instance</span><span class="p">(</span><span class="n">ENCODING_EXAMPLE_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TYPE: &lt;class &#39;list&#39;&gt;
+LENGTH: 2
+
+[&#39;2개 마을 지역주민 2,943명의 지속적이고 안전한 급수위생시설 이용과 보건위생 행동양식 습득/2개 마을 주민 2,943명의 지속적이고 &#39;
+ &#39;안전한 급수위생시설 접근성 향상과 보건위생 인식 개선&#39;,
+ &#39;To provide water and sanitation facilities within the community, to &#39;
+ &#39;establish water management committees, to provide health and sanitation &#39;
+ &#39;education to teachers and students.&#39;]
+</pre></div></div>
+</div>
+<p>This seems to be consistent accross our formats and it’s rendering correctly. This leads me to believe that it’s how we’re storing our CSV file that’s the issue</p>
+</div>
+<div class="section" id="Writing-and-Reading-our-CSV-File">
+<h2>Writing and Reading our CSV File<a class="headerlink" href="#Writing-and-Reading-our-CSV-File" title="Permalink to this headline">¶</a></h2>
+<p>We need to consider that we are not reading the entire response from the IATI.cloud endpoint in to a pandas data frame. In order to keep memory use low, we request the data in chunks and write to the file bit by bit. Let’s do that now with a much smaller request and then have a look at the code that we’re using to see if changing the encodings would help when we read in the file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># A very slightly changed version of the function that we use to download the data</span>
+
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">ssl</span> <span class="kn">import</span> <span class="n">SSLCertVerificationError</span>
+
+<span class="k">def</span> <span class="nf">get_and_write_csv_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">SSLCertVerificationError</span><span class="p">,</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">SSLError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{e}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Download Complete&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># a helper function</span>
+<span class="k">def</span> <span class="nf">create_csv_filename</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;testfile_</span><span class="si">{iati_identifier}</span><span class="s2">.csv&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Great! We have our csv, which we’ve written to be alongside our current Python notebook. Let’s use the 2 different encodings and see what changes …</p>
+<div class="section" id="Checking-on-\n-and-\,-characters-when-reading-and-writing-CSVs">
+<h3>Checking on <code class="docutils literal notranslate"><span class="pre">\n</span></code> and <code class="docutils literal notranslate"><span class="pre">\,</span></code> characters when reading and writing CSVs<a class="headerlink" href="#Checking-on-\n-and-\,-characters-when-reading-and-writing-CSVs" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">compare_csv_encodings</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">,</span> <span class="n">start_slice</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_slice</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">FILENAME</span> <span class="o">=</span> <span class="n">create_csv_filename</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">)</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="n">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading CSV for </span><span class="si">{iati_identifier}</span><span class="s2"> to </span><span class="si">{FILENAME}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">get_and_write_csv_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">FILENAME</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Reading our Example straight from the API into Pandas:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Reading our Example from file using ISO encoding&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Reading our Example from file using UTF8 encoding&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="c1"># Straight from API into pandas dataframe (no reading or writing to file)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">get_description_from_csv</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">)[</span><span class="n">start_slice</span><span class="p">:</span><span class="n">end_slice</span><span class="p">])</span>
+
+    <span class="c1"># ISO Encoding</span>
+
+    <span class="n">iso_encoded_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">iso_encoded_dataframe</span><span class="p">)[</span><span class="n">start_slice</span><span class="p">:</span><span class="n">end_slice</span><span class="p">])</span>
+
+    <span class="c1"># UTF-8 Encoding</span>
+
+    <span class="n">utf8_encoded_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">utf8_encoded_dataframe</span><span class="p">)[</span><span class="n">start_slice</span><span class="p">:</span><span class="n">end_slice</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tidying up and removing </span><span class="si">{FILENAME}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">remove</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">)</span>
+
+<span class="n">compare_csv_encodings</span><span class="p">(</span><span class="n">EXAMPLE_1_ID</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading CSV for SE-0-SE-6-5504005318-ZAF-99810 to testfile_SE-0-SE-6-5504005318-ZAF-99810.csv
+Download Complete
+
+
+1 Reading our Example straight from the API into Pandas:
+2 Reading our Example from file using ISO encoding
+3 Reading our Example from file using UTF8 encoding
+
+1 Program development fund - project preparaations\, meetings and audits,Program development fund - project preparaations\, meetings and audit
+2 Program development fund - project preparaations\, meetings and audits,Program development fund - project preparaations\, meetings and audit
+3 Program development fund - project preparaations\, meetings and audits,Program development fund - project preparaations\, meetings and audit
+
+
+tidying up and removing testfile_SE-0-SE-6-5504005318-ZAF-99810.csv
+</pre></div></div>
+</div>
+<p>Hmmmmmm. Okay. So it looks like the <code class="docutils literal notranslate"><span class="pre">\,</span></code> issue is not solved with the encoding.</p>
+<p>We can confirm this with the second example, but we’ll cut the descriptions so it’s easier to compare</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># write the new CSV</span>
+<span class="c1"># 800:900 gives us a good example of the string</span>
+<span class="n">compare_csv_encodings</span><span class="p">(</span><span class="n">EXAMPLE_2_ID</span><span class="p">,</span> <span class="n">start_slice</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">end_slice</span><span class="o">=</span><span class="mi">900</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading CSV for NL-KVK-27248417-3818-L15068 to testfile_NL-KVK-27248417-3818-L15068.csv
+Download Complete
+
+
+1 Reading our Example straight from the API into Pandas:
+2 Reading our Example from file using ISO encoding
+3 Reading our Example from file using UTF8 encoding
+
+1 e like digging the borehole).\n\nInstitutional:\nStichting Namelok is involved by tracing the place
+2 e like digging the borehole).\n\nInstitutional:\nStichting Namelok is involved by tracing the place
+3 e like digging the borehole).\n\nInstitutional:\nStichting Namelok is involved by tracing the place
+
+
+tidying up and removing testfile_NL-KVK-27248417-3818-L15068.csv
+</pre></div></div>
+</div>
+<p>Again, there is no change. BUT we do have to consider foreign characters! Let’s try with our 3rd example:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">compare_csv_encodings</span><span class="p">(</span><span class="n">ENCODING_EXAMPLE_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading CSV for KR-GOV-051-2016140000008 to testfile_KR-GOV-051-2016140000008.csv
+Download Complete
+
+
+1 Reading our Example straight from the API into Pandas:
+2 Reading our Example from file using ISO encoding
+3 Reading our Example from file using UTF8 encoding
+
+1 2개 마을 지역주민 2\,943명의 지속적이고 안전한 급수위생시설 이용과 보건위생 행동양식 습득/2개 마을 주민 2\,943명의 지속적이고 안전한 급수위생시설 접근성 향상과 보건위생 인식 개선,To provide water and sanitation facilities within the community\, to establish water management committees\, to provide health and sanitation education to teachers and students
+2 2ê° ë§ì ì§ì­ì£¼ë¯¼ 2\,943ëªì ì§ìì ì´ê³  ìì í ê¸ììììì¤ ì´ì©ê³¼ ë³´ê±´ìì íëìì ìµë/2ê° ë§ì ì£¼ë¯¼ 2\,943ëªì ì§ìì ì´ê³  ìì í ê¸ììììì¤ ì ê·¼ì± í¥ìê³¼ ë³´ê±´ìì ì¸ì ê°ì ,To provide water and sanitation facilities within the community\, to establish water management committees\, to provide health and sanitation education to teachers and students
+3 2개 마을 지역주민 2\,943명의 지속적이고 안전한 급수위생시설 이용과 보건위생 행동양식 습득/2개 마을 주민 2\,943명의 지속적이고 안전한 급수위생시설 접근성 향상과 보건위생 인식 개선,To provide water and sanitation facilities within the community\, to establish water management committees\, to provide health and sanitation education to teachers and students
+
+
+tidying up and removing testfile_KR-GOV-051-2016140000008.csv
+</pre></div></div>
+</div>
+<p>Aha! We have some success here! Note that when we do <code class="docutils literal notranslate"><span class="pre">iso</span></code> encoding, we get garbled characters back. This means that we can change the encoding to UTF-8 and we should get back more sensible results.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../continuous_integration/" class="btn btn-neutral float-right" title="Continuous Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../data_download_comparison/" class="btn btn-neutral float-left" title="Data Source Comparison" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Department for International Development
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
