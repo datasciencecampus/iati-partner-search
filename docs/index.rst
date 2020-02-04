@@ -37,6 +37,7 @@ This documentation:
 
    count_words
    data_download_comparison
+   check_iati_encoding
 
 .. toctree::
    :maxdepth: 2
