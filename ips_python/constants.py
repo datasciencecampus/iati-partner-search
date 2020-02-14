@@ -44,3 +44,4 @@ IATI_FIELDS = [
     "description_lang",
 ]
 ELASTICSEARCH_INDEX_NAME = "iati"
+ELASTICSEARCH_LOGGING_INDEX_NAME = "logs"
