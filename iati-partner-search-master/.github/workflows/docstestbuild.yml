@@ -1,0 +1,25 @@
+name: Test Documentation Builds
+
+on:
+  pull_request:
+      branches:
+        - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Install Dependencies
+        run: |
+          pip install invoke
+          sudo apt-get -y install pandoc
+          invoke install-dev-dependencies
+
+      - name: Test Building Documentation
+        run: invoke makedocs
