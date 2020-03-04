@@ -1,0 +1,12 @@
+black
+flake8
+ipython
+m2r
+nbsphinx
+pandoc
+pre-commit
+pytest
+pytest-cov
+recommonmark
+sphinx
+sphinx-rtd-theme
