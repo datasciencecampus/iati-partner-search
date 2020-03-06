@@ -9,6 +9,9 @@ from flask.views import MethodView
 from flask_smorest import Api, Blueprint
 from ips_python.schemas import IATIQuery, IATIQueryResponse
 
+
+
+
 from ips_python.script import process_query, process_query_embeddings
 from ips_python.constants import (
     VECTORIZER_FILENAME,
