@@ -1,14 +1,7 @@
 # IATI Partner Search
 [![Build Passing/Failing on TravisCI.com](https://travis-ci.com/datasciencecampus/iati-partner-search.svg?branch=master)](https://travis-ci.com/datasciencecampus/iati-partner-search/)
-
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fdatasciencecampus%2Fiati-partner-search%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/datasciencecampus/iati-partner-search/goto?ref=master)
-
 [![Docker Automated build](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)](https://hub.docker.com/r/datasciencecampus/iati-partner-search-app/tags)
-
 [![Code Coverage](https://codecov.io/gh/datasciencecampus/iati-partner-search/branch/master/graph/badge.svg)](https://codecov.io/gh/datasciencecampus/iati-partner-search)
-
-[![https://readthedocs.org/projects/iati-partner-search/badge/?version=latest]](https://datasciencecampus.github.io/iati-partner-search/)
-
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A tool using NLP technology to match aid funders with potential implementers.
