@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -242,7 +242,7 @@ In this case, missing values that were interpreted as <code class="docutils lite
 <span class="k">def</span> <span class="nf">create_dataframe_iteratable</span><span class="p">(</span><span class="n">dataframe_iterator</span><span class="p">):</span>
     <span class="n">dataframe</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">dataframe_iterator</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="p">{</span><span class="s2">&quot;_index&quot;</span><span class="p">:</span> <span class="n">elasticsearch_index_name</span><span class="p">,</span> <span class="s2">&quot;_type&quot;</span><span class="p">:</span> <span class="s2">&quot;_doc&quot;</span><span class="p">,</span> <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{document[&#39;id&#39;]}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">document</span><span class="p">}</span>
+        <span class="k">yield</span> <span class="p">{</span><span class="s2">&quot;_index&quot;</span><span class="p">:</span> <span class="n">elasticsearch_index_name</span><span class="p">,</span> <span class="s2">&quot;_type&quot;</span><span class="p">:</span> <span class="s2">&quot;_doc&quot;</span><span class="p">,</span> <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">document</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">document</span><span class="p">}</span>
 
 <span class="n">elasticsearch_instance</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">(</span>
     <span class="p">[</span>

@@ -8,25 +8,14 @@ IATI Partner Search
    :alt: Build Passing/Failing on TravisCI.com
 
 
-
-.. image:: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fdatasciencecampus%2Fiati-partner-search%2Fbadge%3Fref%3Dmaster&style=flat
-   :target: https://actions-badge.atrox.dev/datasciencecampus/iati-partner-search/goto?ref=master
-   :alt: Build Status
-
-
-
 .. image:: https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg
    :target: https://hub.docker.com/r/datasciencecampus/iati-partner-search-app/tags
    :alt: Docker Automated build
 
 
-
 .. image:: https://codecov.io/gh/datasciencecampus/iati-partner-search/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/datasciencecampus/iati-partner-search
    :alt: Code Coverage
-
-
-`![https://readthedocs.org/projects/iati-partner-search/badge/?version=latest] <https://datasciencecampus.github.io/iati-partner-search/>`_
 
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg

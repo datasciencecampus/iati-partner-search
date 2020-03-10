@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -459,9 +459,9 @@ div.rendered_html tbody tr:hover {
 
 <span class="k">def</span> <span class="nf">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;http://iati.cloud/search/activity?q=(iati_identifier:</span><span class="se">\&quot;</span><span class="si">{iati_id}</span><span class="se">\&quot;</span><span class="s2">)&amp;&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;http://iati.cloud/search/activity?q=(iati_identifier:</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">iati_id</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">)&amp;&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;fl=id,iati_identifier,title_narrative_text,description_narrative_text&amp;&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;wt=</span><span class="si">{format}</span><span class="s2">&amp;rows=</span><span class="si">{number_of_results}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;wt=</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&amp;rows=</span><span class="si">{</span><span class="n">number_of_results</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">dataframe</span><span class="p">):</span>
@@ -712,7 +712,7 @@ LENGTH: 2
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">SSLCertVerificationError</span><span class="p">,</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">SSLError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{e}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -721,7 +721,7 @@ LENGTH: 2
 
 <span class="c1"># a helper function</span>
 <span class="k">def</span> <span class="nf">create_csv_filename</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;testfile_</span><span class="si">{iati_identifier}</span><span class="s2">.csv&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;testfile_</span><span class="si">{</span><span class="n">iati_identifier</span><span class="si">}</span><span class="s2">.csv&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -737,7 +737,7 @@ LENGTH: 2
     <span class="n">FILENAME</span> <span class="o">=</span> <span class="n">create_csv_filename</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">)</span>
 
     <span class="n">url</span> <span class="o">=</span> <span class="n">get_iaticloud_data_url_from_activity_id</span><span class="p">(</span><span class="n">iati_identifier</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">number_of_results</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading CSV for </span><span class="si">{iati_identifier}</span><span class="s2"> to </span><span class="si">{FILENAME}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading CSV for </span><span class="si">{</span><span class="n">iati_identifier</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">FILENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">get_and_write_csv_from_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">FILENAME</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -761,7 +761,7 @@ LENGTH: 2
     <span class="nb">print</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">get_first_description_from_dataframe</span><span class="p">(</span><span class="n">utf8_encoded_dataframe</span><span class="p">)[</span><span class="n">start_slice</span><span class="p">:</span><span class="n">end_slice</span><span class="p">])</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tidying up and removing </span><span class="si">{FILENAME}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tidying up and removing </span><span class="si">{</span><span class="n">FILENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">remove</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">)</span>
 
 <span class="n">compare_csv_encodings</span><span class="p">(</span><span class="n">EXAMPLE_1_ID</span><span class="p">)</span>
