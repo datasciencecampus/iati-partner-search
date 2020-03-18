@@ -215,7 +215,7 @@
     <span class="n">processed_query_dataframe</span> <span class="o">=</span> <span class="n">preprocess_query_text</span><span class="p">(</span><span class="n">query_text</span><span class="p">)</span>
 
     <span class="n">query_average</span> <span class="o">=</span> <span class="n">average_per_doc</span><span class="p">(</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">processed_query_dataframe</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">]),</span> <span class="n">w2v_model</span><span class="p">,</span> <span class="mi">300</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">processed_query_dataframe</span><span class="p">[</span><span class="n">DESCRIPTION_COLUMN_NAME</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">w2v_model</span><span class="p">,</span> <span class="mi">300</span>
     <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">df_result</span> <span class="o">=</span> <span class="n">get_cosine_similarity</span><span class="p">(</span><span class="n">query_average</span><span class="p">,</span> <span class="n">w2v_avg</span><span class="p">,</span> <span class="n">processed_iati_records</span><span class="p">)</span>
