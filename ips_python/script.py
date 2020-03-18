@@ -44,7 +44,7 @@ def process_query_embeddings(
     processed_query_dataframe = preprocess_query_text(query_text)
 
     query_average = average_per_doc(
-        str(processed_query_dataframe[DESCRIPTION_COLUMN_NAME]), w2v_model, 300
+        str(processed_query_dataframe[DESCRIPTION_COLUMN_NAME][0]), w2v_model, 300
     ).reshape(1, -1)
 
     df_result = get_cosine_similarity(query_average, w2v_avg, processed_iati_records)
