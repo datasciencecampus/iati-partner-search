@@ -1,0 +1,11 @@
+- log in to AWS
+- got to elastsearch service
+- set up new domain
+- select whichever environment is appropraite
+- select latest versino of elasticsearch
+- pick a name that will suit your instance
+- instance type will be small if you are testing and larger if necessary
+- for Encryption, you may need to disable HTTPS because if you don't have
+- Network configuration, we set it to public so that it can be open
+- Set the access policy to Open (despite warnings) to get off the ground quickly. When you switch to prod, do something better. Ya filthy animal
+-
