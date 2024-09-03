@@ -41,7 +41,7 @@ jobs:
       - name: Get the Code
         uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: data
       - name: Setup Python
@@ -63,7 +63,7 @@ jobs:
       - name: Get the Code
         uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: data
       - name: Setup Python
@@ -93,7 +93,7 @@ jobs:
       - name: Get the Code
         uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: data
       - name: Setup Python
@@ -132,7 +132,7 @@ jobs:
       - name: Get the Code
         uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: data
       - name: Setup Python
@@ -172,7 +172,7 @@ jobs:
       - name: Get the Code
         uses: actions/checkout@v1
       - name: Get the Data From Github Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: data
       - name: Setup Python
